@@ -87,11 +87,11 @@ function MageCard({ charges, form, ref }) {
 
     return (
         <div style={cardWrapperStyle} ref={ref}>
-            <img src={`/mages/${charges} charge mage.png`} style={imageStyle}/>
-            <img src={`/mages/breach-${form.breach0}.png`} style={innerImageStyle(form.breach0Top ?? 6.5, form.breach0Left ?? 7)} width="4%" />
-            <img src={`/mages/breach-${form.breach1}.png`} style={innerImageStyle(form.breach1Top ?? 6.5, form.breach1Left ?? 30)} width="4%" />
-            <img src={`/mages/breach-${form.breach2}.png`} style={innerImageStyle(form.breach2Top ?? 6.5, form.breach2Left ?? 72)} width="4%" />
-            <img src={`/mages/breach-${form.breach3}.png`} style={innerImageStyle(form.breach3Top ?? 6.5, form.breach3Left ?? 97)} width="4%" />
+            <img src={`${process.env.PUBLIC_URL}/mages/${charges} charge mage.png`} style={imageStyle}/>
+            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach0}.png`} style={innerImageStyle(form.breach0Top ?? 6.5, form.breach0Left ?? 7)} width="4%" />
+            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach1}.png`} style={innerImageStyle(form.breach1Top ?? 6.5, form.breach1Left ?? 30)} width="4%" />
+            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach2}.png`} style={innerImageStyle(form.breach2Top ?? 6.5, form.breach2Left ?? 72)} width="4%" />
+            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach3}.png`} style={innerImageStyle(form.breach3Top ?? 6.5, form.breach3Left ?? 97)} width="4%" />
             <div style={textStyle(form.nameTop ?? 12, form.nameLeft ?? 71)}>{form.name}</div>
             <div style={textStyleGold(form.titleTop ?? 17, form.titleLeft ?? 71)}>{form.title}</div>
             <div style={textStyleStarting(form.handTop ?? 42.5, form.handLeft ?? 71)}>{form.startingHand}</div>
