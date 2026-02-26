@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import './App.css';
 import Mage from './pages/Mage'
 import Supply from './pages/Supply';
@@ -11,7 +11,7 @@ import Navbar from './components/Navbar';
 function App() {
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="app-container">
         <Navbar />
 
@@ -27,7 +27,7 @@ function App() {
           </Routes>
         </main>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
