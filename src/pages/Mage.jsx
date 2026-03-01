@@ -1,25 +1,62 @@
-import {useState, useRef} from 'react';
-import html2canvas from 'html2canvas';
+import {useEffect, useState} from 'react';
 import Tooltip from '../components/Tooltip';
+import useCreator from '../common/useCreator';
+import useImageUpload from '../common/useImageUpload';
+import enrichText from '../common/enriches'
+import { useLocalStorage } from "@uidotdev/usehooks";
+
+// TODO - lore page, additional rules, changes of the font sizes
 
 export default function Mage() {
 
     const [charges, setCharges] = useState(5)
-    const [form, setForm] = useState({})
 
-    const ref = useRef()
+    const [mageForm, saveMageForm] = useLocalStorage("mage", {})
 
-    const handleCapture = () => {
-        const element = ref.current
+    const {form, setForm, captureRef, handleCapture} = useCreator({
+        name: "Ganelon",
+        title: "Knower of The Unknown",
+        artImageUrl: "https://i.pinimg.com/1200x/05/e4/f5/05e4f5328d221bbddb6a10fb9523895b.jpg",
+        startingDeck: "4x Crystal, 1x Spark",
+        startingHand: "1x Nameless Knowledge, 3x Crystal, 1x Spark",
+        abilityName: "Last-Ditch Effort",
+        abilityUsage: "Activate During Your Main Phase",
+        abilityDesc: "Deal 4 damage...",
+        artWidth: '30%',
+        breach0: 'open',
+        breach1: 'left',
+        breach2: 'bottom',
+        breach3: 'right',
+        nameTop: null,
+        nameLeft: null,
+        titleTop: null,
+        titleLeft: null,
+        artTop: null,
+        artLeft: null,
+        handTop: null,
+        handLeft: null,
+        deckTop: null,
+        deckLeft: null,
+        abilityNameTop: null,
+        abilityNameLeft: null,
+        abilityUsageTop: null,
+        abilityUsageLeft: null,
+        abilityDescTop: null,
+        abilityDescLeft: null,
+        breach0Top: null,
+        breach0Left: null,
+        breach1Top: null,
+        breach1Left: null,
+        breach2Top: null,
+        breach2Left: null,
+        breach3Top: null,
+        breach3Left: null,
+        ...mageForm
+    })
 
-        html2canvas(element, { useCORS: true, allowTaint: false }).then(canvas => {
-            const imgData = canvas.toDataURL("image/png")
-
-            const link = document.createElement("a")
-            link.href = imgData
-            link.download = `${form.name}.png`
-            link.click();
-        })
+    const handleSetForm = (form) => {
+        setForm(form)
+        saveMageForm(form)
     }
 
     return (
@@ -37,11 +74,11 @@ export default function Mage() {
             </div>
             <div style={{display: "flex", flexDirection: "row", gap: "2em"}}>
                 <div style={{ flex: "0 0 60%" }}>
-                    <MageCard charges={charges} form={form} ref={ref} />
+                    <MageCard charges={charges} form={form} ref={captureRef} />
                 </div>
 
                 <div style={{ flex: "1" }}>
-                    <MageForm baseForm={form} onSubmit={setForm} />
+                    <MageForm form={form} onSubmit={handleSetForm} />
                 </div>
             </div>
         </div>
@@ -72,6 +109,7 @@ function MageCard({ charges, form, ref }) {
         transform: "translate(-50%, -50%)",
         fontSize,
         color: "white",
+        fontFamily: 'kefa',
         ...additional
     })
 
@@ -82,8 +120,8 @@ function MageCard({ charges, form, ref }) {
         transform: "translate(-50%, -50%)",
     })
 
-    const textStyleGold = (top, left) => textStyle(top, left, { color: 'gold' })
-    const textStyleStarting = (top, left) => textStyle(top, left, {}, "clamp(12px, 1.5vw, 14px)")
+    const textStyleGold = (top, left, additional = {}) => textStyle(top, left, { color: 'gold', ...additional })
+    const textStyleStarting = (top, left) => textStyle(top, left, {}, "0.75vw")
 
     return (
         <div style={cardWrapperStyle} ref={ref}>
@@ -92,70 +130,48 @@ function MageCard({ charges, form, ref }) {
             <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach1}.png`} style={innerImageStyle(form.breach1Top ?? 6.5, form.breach1Left ?? 30)} width="4%" />
             <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach2}.png`} style={innerImageStyle(form.breach2Top ?? 6.5, form.breach2Left ?? 72)} width="4%" />
             <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach3}.png`} style={innerImageStyle(form.breach3Top ?? 6.5, form.breach3Left ?? 97)} width="4%" />
-            <div style={textStyle(form.nameTop ?? 12, form.nameLeft ?? 71)}>{form.name}</div>
-            <div style={textStyleGold(form.titleTop ?? 17, form.titleLeft ?? 71)}>{form.title}</div>
-            <div style={textStyleStarting(form.handTop ?? 42.5, form.handLeft ?? 71)}>{form.startingHand}</div>
-            <div style={textStyleStarting(form.deckTop ?? 49, form.deckLeft ?? 71)}>{form.startingDeck}</div>
-            <div style={textStyleGold(form.abilityNameTop ?? 54, form.abilityNameLeft ?? 71)}>{form.abilityName}</div>
-            <div style={textStyle(form.abilityUsageTop ?? 59, form.abilityUsageLeft ?? 71, {fontWeight: "bold"}, "clamp(12px, 100%, 18px)")}>{form.abilityUsage}</div>
-            <div style={textStyle(form.abilityDescTop ?? 73, form.abilityDescLeft ?? 71, {}, "clamp(12px, 100%, 18px)")}>{form.abilityDesc}</div>
+            <div style={textStyle(form.nameTop ?? 12, form.nameLeft ?? 71, {fontWeight: 'bold'})}>{enrichText(form.name ?? '')}</div>
+            <div style={textStyleGold(form.titleTop ?? 17, form.titleLeft ?? 71, {fontWeight: 'bold'})}>{enrichText(form.title ?? '')}</div>
+            <div style={textStyleStarting(form.handTop ?? 42.5, form.handLeft ?? 71)}>{enrichText(form.startingHand ?? '')}</div>
+            <div style={textStyleStarting(form.deckTop ?? 49, form.deckLeft ?? 71)}>{enrichText(form.startingDeck ?? '')}</div>
+            <div style={textStyleGold(form.abilityNameTop ?? 54, form.abilityNameLeft ?? 71, { fontWeight: 'bold' })}>{enrichText(form.abilityName ?? '')}</div>
+            <div style={textStyle(form.abilityUsageTop ?? 59, form.abilityUsageLeft ?? 71, {fontWeight: "bold"}, "clamp(12px, 100%, 18px)")}>{enrichText(form.abilityUsage ?? '')}</div>
+            <div style={textStyle(form.abilityDescTop ?? 73, form.abilityDescLeft ?? 71, {}, "clamp(12px, 100%, 18px)")}>{enrichText(form.abilityDesc ?? '')}</div>
             <img style={innerImageStyle(form.artTop ?? 60, form.artLeft ?? 23)} width={form.artWidth} src={form.artImageUrl} />
         </div>
     )
 }
 
 function MageForm({
+    form,
     onSubmit
 }) {
 
     const [advancedSettings, toggleAdvancedSettings] = useState(false)
 
-    const [form, setForm] = useState({
-        name: "Ganelon",
-        title: "Knower of The Unknown",
-        artImageUrl: "https://i.pinimg.com/1200x/05/e4/f5/05e4f5328d221bbddb6a10fb9523895b.jpg",
-        startingDeck: "4x Crystal, 1x Spark",
-        startingHand: "1x Nameless Knowledge, 3x Crystal, 1x Spark",
-        abilityName: "Last-Ditch Effort",
-        abilityUsage: "Activate During Your Main Phase",
-        abilityDesc: "Deal 4 damage...",
-        artWidth: '30%',
-        breach0: 'open',
-        breach1: 'open',
-        breach2: 'open',
-        breach3: 'open',
-        nameTop: null,
-        nameLeft: null,
-        titleTop: null,
-        titleLeft: null,
-        artTop: null,
-        artLeft: null,
-        handTop: null,
-        handLeft: null,
-        deckTop: null,
-        deckLeft: null,
-        abilityNameTop: null,
-        abilityNameLeft: null,
-        abilityUsageTop: null,
-        abilityUsageLeft: null,
-        abilityDescTop: null,
-        abilityDescLeft: null,
-        breach0Top: null,
-        breach0Left: null,
-        breach1Top: null,
-        breach1Left: null,
-        breach2Top: null,
-        breach2Left: null,
-        breach3Top: null,
-        breach3Left: null,
-    });
+    useEffect(() => {
+        onSubmit?.(form)
+    }, [])
+
+    const { handleFileUpload } = useImageUpload()
+
+    const handleSetForm = (name, value) => {
+        onSubmit?.(({
+            ...form,
+            [name]: value,
+        }))
+    }
 
     function handleChange(e) {
         const { name, value } = e.target;
-        setForm(prev => ({
-            ...prev,
-            [name]: value,
-        }));
+        handleSetForm(name, value)
+    }
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+        const base64 = await handleFileUpload(file)
+        handleSetForm(e.target.name, base64)
     }
 
     function handleSubmit(e) {
@@ -173,9 +189,11 @@ function MageForm({
                 onChange={handleChange}
             >
                 <option value="open">Opened</option>
-                <option value="right">Right</option>
-                <option value="bottom">Bottom</option>
+                <option value="no">No Breach</option>
+                <option value="top">Top</option>
                 <option value="left">Left</option>
+                <option value="bottom">Bottom</option>
+                <option value="right">Right</option>
             </select>
         </div>
     )
@@ -197,6 +215,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Top</label>
                         <input
+                        type="number"
                         name="nameTop"
                         value={form.nameTop}
                         onChange={handleChange}
@@ -206,6 +225,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Left</label>
                         <input
+                        type="number"
                         name="nameLeft"
                         value={form.nameLeft}
                         onChange={handleChange}
@@ -235,6 +255,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Top</label>
                         <input
+                        type="number"
                         name="titleTop"
                         value={form.titleTop}
                         onChange={handleChange}
@@ -244,6 +265,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Left</label>
                         <input
+                        type="number"
                         name="titleLeft"
                         value={form.titleLeft}
                         onChange={handleChange}
@@ -259,15 +281,13 @@ function MageForm({
     const mageArt = () => {
         const input = (
             <div>
-                <Tooltip text="Some images might not work when pasted from URL. Use base64 image encoder like: https://www.base64-image.de/" />
                 <div className="form-grid">
                     <div className="form-row">
-                        <label>Art Url</label>
+                        <label>Art</label>
                         <input
+                        type="file"
                         name="artImageUrl"
-                        value={form.artImageUrl}
-                        onChange={handleChange}
-                        placeholder="https://i.pinimg.com/1200x/05/e4/f5/05e4f5328d221bbddb6a10fb9523895b.jpg"
+                        onChange={handleFileChange}
                         />
                     </div>
 
@@ -291,6 +311,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Top</label>
                         <input
+                        type="number"
                         name="artTop"
                         value={form.artTop}
                         onChange={handleChange}
@@ -300,6 +321,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Left</label>
                         <input
+                        type="number"
                         name="artLeft"
                         value={form.artLeft}
                         onChange={handleChange}
@@ -329,6 +351,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Top</label>
                         <input
+                        type="number"
                         name="handTop"
                         value={form.handTop}
                         onChange={handleChange}
@@ -338,6 +361,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Left</label>
                         <input
+                        type="number"
                         name="handLeft"
                         value={form.handLeft}
                         onChange={handleChange}
@@ -367,6 +391,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Top</label>
                         <input
+                        type="number"
                         name="deckTop"
                         value={form.deckTop}
                         onChange={handleChange}
@@ -376,6 +401,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Left</label>
                         <input
+                        type="number"
                         name="deckLeft"
                         value={form.deckLeft}
                         onChange={handleChange}
@@ -405,6 +431,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Top</label>
                         <input
+                        type="number"
                         name="abilityNameTop"
                         value={form.abilityNameTop}
                         onChange={handleChange}
@@ -414,6 +441,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Left</label>
                         <input
+                        type="number"
                         name="abilityNameLeft"
                         value={form.abilityNameLeft}
                         onChange={handleChange}
@@ -443,6 +471,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Top</label>
                         <input
+                        type="number"
                         name="abilityUsageTop"
                         value={form.abilityUsageTop}
                         onChange={handleChange}
@@ -452,6 +481,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Left</label>
                         <input
+                        type="number"
                         name="abilityUsageLeft"
                         value={form.abilityUsageLeft}
                         onChange={handleChange}
@@ -481,6 +511,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Top</label>
                         <input
+                        type="number"
                         name="abilityDescTop"
                         value={form.abilityDescTop}
                         onChange={handleChange}
@@ -490,6 +521,7 @@ function MageForm({
                     <div className="form-row">
                         <label>Left</label>
                         <input
+                        type="number"
                         name="abilityDescLeft"
                         value={form.abilityDescLeft}
                         onChange={handleChange}
@@ -520,6 +552,7 @@ function MageForm({
                                     <div className="form-row">
                                         <label>Top</label>
                                         <input
+                                        type="number"
                                         name={`breach${it}Top`}
                                         value={form[`breach${it}Top`]}
                                         onChange={handleChange}
@@ -529,6 +562,7 @@ function MageForm({
                                     <div className="form-row">
                                         <label>Left</label>
                                         <input
+                                        type="number"
                                         name={`breach${it}Left`}
                                         value={form[`breach${it}Left`]}
                                         onChange={handleChange}
@@ -567,10 +601,7 @@ function MageForm({
             {abilityDesc()}
 
             <div style={{display: 'flex', justifyContent: "space-between"}}>
-                <button type="submit" className="primary-btn">
-                    Update Mage
-                </button>
-                <div className="secondary-btn" onClick={() => toggleAdvancedSettings(!advancedSettings)}>Advanced Settings</div>
+                <div className={advancedSettings ? "primary-btn" : "secondary-btn"} onClick={() => toggleAdvancedSettings(!advancedSettings)}>Advanced Settings</div>
             </div>
         </form>
     )
