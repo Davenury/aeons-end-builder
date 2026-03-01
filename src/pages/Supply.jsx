@@ -379,8 +379,10 @@ function SupplyForm({ cardType, form, onSubmit }) {
             {cardArt()}
             {cardLore()}
 
-            <div style={{display: 'flex', justifyContent: "space-between"}}>
-                <div className={advancedSettings ? "primary-btn" : "secondary-btn"} onClick={() => toggleAdvancedSettings(!advancedSettings)}>Advanced Settings</div>
+            <div class="switch-wrapper">
+                <input type="checkbox" id="advancedSwitch" class="switch-input" onClick={() => toggleAdvancedSettings(!advancedSettings)} />
+                <label for="advancedSwitch" class="switch" />
+                <span class="switch-text">Advanced Settings</span>
             </div>
         </form>
     )

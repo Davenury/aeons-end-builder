@@ -381,3 +381,53 @@ input[type="file"]::file-selector-button:hover {
   color: #ffe7a3;
   display: inline-block;
 }
+
+.switch-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.switch-input {
+  display: none;
+}
+
+.switch {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  background: rgba(255, 215, 140, 0.2);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border: 1px solid rgba(255, 215, 140, 0.4);
+}
+
+/* Circle */
+.switch::before {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 2px;
+  left: 3px;
+  background: #ffe7a3;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 6px rgba(255, 215, 140, 0.6);
+}
+
+/* Checked state */
+.switch-input:checked + .switch {
+  background: rgba(255, 215, 140, 0.6);
+}
+
+.switch-input:checked + .switch::before {
+  transform: translateX(24px);
+}
+
+.switch-text {
+  color: #e6d9b8;
+  font-size: 0.95rem;
+}
