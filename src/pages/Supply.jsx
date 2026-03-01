@@ -106,7 +106,7 @@ function SupplyCard({ cardType, form, ref }) {
         <div style={cardWrapperStyle} ref={ref}>
             <img style={innerImageStyle(form.artTop ?? 0, form.artLeft ?? 50, {zIndex: -1})} src={form.artImageUrl} />
             <img src={`${process.env.PUBLIC_URL}/supply/${cardType}.png`} style={imageStyle} />
-            <div style={textStyleBlack(form.nameTop ?? 63, form.nameLeft ?? 50, {fontWeight: 'bold', fontSize: '1.7vw'})}>{enrichText(form.name ?? '')}</div>
+            <div style={textStyleBlack(form.nameTop ?? 63, form.nameLeft ?? 50, {fontWeight: 'bold', fontSize: '1.7vw', whiteSpace: 'nowrap'})}>{enrichText(form.name ?? '')}</div>
             <div style={textStyleBlack(form.textTop ?? 77, form.textLeft ?? 50, {display: "flex", flexDirection: 'column', fontSize: '1.3vw'})}>
                 <div>{enrichText(form.text ?? '')}</div>
                 {cardType === 'spell' && <div><span style={{fontWeight: 'bold'}}>Cast: </span>{enrichText(form.cast ?? '')}</div>}

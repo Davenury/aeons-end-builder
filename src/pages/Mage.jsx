@@ -100,10 +100,11 @@ function MageCard({ charges, form, ref }) {
         height: "100%",
     };
 
-    const textStyle = (top, left, additional = {}, fontSize = "clamp(12px, 1.5vw, 26px)") => ({
+    const textStyle = (top, left, additional = {}, fontSize = "clamp(1px, 1.5vw, 26px)") => ({
         position: "absolute",
         textAlign: "center",
         width: "40%",
+        maxWidth: "40%",
         top: `${top}%`,
         left: `${left}%`,
         transform: "translate(-50%, -50%)",
@@ -131,11 +132,11 @@ function MageCard({ charges, form, ref }) {
             <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach2}.png`} style={innerImageStyle(form.breach2Top ?? 6.5, form.breach2Left ?? 72)} width="4%" />
             <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach3}.png`} style={innerImageStyle(form.breach3Top ?? 6.5, form.breach3Left ?? 97)} width="4%" />
             <div style={textStyle(form.nameTop ?? 12, form.nameLeft ?? 71, {fontWeight: 'bold'})}>{enrichText(form.name ?? '')}</div>
-            <div style={textStyleGold(form.titleTop ?? 17, form.titleLeft ?? 71, {fontWeight: 'bold'})}>{enrichText(form.title ?? '')}</div>
-            <div style={textStyleStarting(form.handTop ?? 42.5, form.handLeft ?? 71)}>{enrichText(form.startingHand ?? '')}</div>
-            <div style={textStyleStarting(form.deckTop ?? 49, form.deckLeft ?? 71)}>{enrichText(form.startingDeck ?? '')}</div>
-            <div style={textStyleGold(form.abilityNameTop ?? 54, form.abilityNameLeft ?? 71, { fontWeight: 'bold' })}>{enrichText(form.abilityName ?? '')}</div>
-            <div style={textStyle(form.abilityUsageTop ?? 59, form.abilityUsageLeft ?? 71, {fontWeight: "bold"}, "clamp(12px, 100%, 18px)")}>{enrichText(form.abilityUsage ?? '')}</div>
+            <div style={textStyleGold(form.titleTop ?? 17, form.titleLeft ?? 71, {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.title ?? '')}</div>
+            <div style={textStyleStarting(form.handTop ?? 42.5, form.handLeft ?? 71, {whiteSpace: 'nowrap'})}>{enrichText(form.startingHand ?? '')}</div>
+            <div style={textStyleStarting(form.deckTop ?? 49, form.deckLeft ?? 71, {whiteSpace: 'nowrap'})}>{enrichText(form.startingDeck ?? '')}</div>
+            <div style={textStyleGold(form.abilityNameTop ?? 54, form.abilityNameLeft ?? 71, { fontWeight: 'bold', whiteSpace: 'nowrap' })}>{enrichText(form.abilityName ?? '')}</div>
+            <div style={textStyle(form.abilityUsageTop ?? 59, form.abilityUsageLeft ?? 71, {fontWeight: "bold", whiteSpace: 'nowrap'}, "clamp(12px, 100%, 18px)")}>{enrichText(form.abilityUsage ?? '')}</div>
             <div style={textStyle(form.abilityDescTop ?? 73, form.abilityDescLeft ?? 71, {}, "clamp(12px, 100%, 18px)")}>{enrichText(form.abilityDesc ?? '')}</div>
             <img style={innerImageStyle(form.artTop ?? 60, form.artLeft ?? 23)} width={form.artWidth} src={form.artImageUrl} />
         </div>
