@@ -422,6 +422,16 @@ function MageForm({
                 <div className='form-grid-5'>
                     {input}
                     {advancedSettingsComponents("additionalRules", "80", "20", form, handleChange)}
+                    <div className="form-row">
+                        <label>Character Limit</label>
+                        <input
+                            type="number"
+                            name="additionalRulesCharLimit"
+                            value={form.additionalRulesCharLimit}
+                            onChange={handleChange}
+                            placeholder="200"
+                        />
+                    </div>
                 </div>
             )
         }
