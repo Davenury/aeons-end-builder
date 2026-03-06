@@ -52,6 +52,7 @@ export default function Mage() {
         abilityDescLeft: null,
         abilityDescFontSize: null,
         abilityDescCharLimit: null,
+        additionalRules: null,
         breach0Top: null,
         breach0Left: null,
         breach1Top: null,
@@ -148,6 +149,7 @@ function MageCard({ charges, form, ref }) {
             <div style={textStyle(form.abilityUsageTop || 59, form.abilityUsageLeft || 71, form.abilityUsageFontSize || "clamp(12px, 100%, 18px)", {fontWeight: "bold", whiteSpace: 'nowrap'})}>{enrichText(form.abilityUsage || '')}</div>
             <div style={textStyle(form.abilityDescTop || 73, form.abilityDescLeft || 71, form.abilityDescFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.abilityDesc || '')}</div>
             <img style={innerImageStyle(form.artTop || 60, form.artLeft || 23)} width={form.artWidth} src={form.artImageUrl} />
+            <div style={textStyle(form.additionalRulesTop || 80, form.additionalRulesLeft || 20, form.additionalRulesFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.additionalRules || '')}</div>
         </div>
     )
 }
@@ -404,6 +406,28 @@ function MageForm({
         return input
     }
 
+    const additionalRules = () => {
+        const input = (<div className="form-row">
+                <label>Additional Rules</label>
+                <textarea
+                maxLength={form.additionalRulesCharLimit || "200"}
+                name="additionalRules"
+                value={form.additionalRules}
+                onChange={handleChange}
+                rows={4}
+                />
+            </div>)
+        if (advancedSettings) {
+            return (
+                <div className='form-grid-5'>
+                    {input}
+                    {advancedSettingsComponents("additionalRules", "80", "20", form, handleChange)}
+                </div>
+            )
+        }
+        return input
+    }
+
     const breaches = () => {
         const input = (
             <div className="form-grid-4">
@@ -470,6 +494,8 @@ function MageForm({
             {abilityUsage()}
 
             {abilityDesc()}
+
+            {additionalRules()}
 
             <div class="switch-wrapper">
                 <input type="checkbox" id="advancedSwitch" class="switch-input" onClick={() => toggleAdvancedSettings(!advancedSettings)} />
