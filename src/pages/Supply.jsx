@@ -3,6 +3,7 @@ import useCreator from '../common/useCreator';
 import useImageUpload from '../common/useImageUpload';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
+import advancedSettingsComponents from '../common/advancedSettingsComponents';
 
 export default function Supply() {
     const [cardForm, saveCardForm] = useLocalStorage("supplyCard", {})
@@ -65,7 +66,7 @@ function SupplyCard({ cardType, form, ref }) {
         marginBottom: "-1%"
     };
 
-    const textStyle = (top, left, additional = {}, fontSize = "clamp(12px, 1.5vw, 26px)") => ({
+    const textStyle = (top, left, fontSize, additional = {}) => ({
         position: "absolute",
         textAlign: "center",
         width: "85%",
@@ -88,32 +89,32 @@ function SupplyCard({ cardType, form, ref }) {
         ...additional,
     })
 
-    const costStyle = (top, left, additional = {}) => ({
+    const costStyle = (top, left, fontSize, additional = {}) => ({
         position: "absolute",
         transform: "translate(-100%)",
         top: `${top}%`,
         left: `${left}%`,
         width: "80%",
-        fontSize: "2vw",
+        fontSize,
         ...additional,
     })
 
-    const textStyleBlack = (top, left, additional = {}) => textStyle(top, left, { color: 'black', ...additional })
-    const textStyleWhite = (top, left, additional = {}) => textStyle(top, left, { color: 'white', ...additional })
-    const textStyleLore = (top, left) => textStyle(top, left, {}, "0.8vw")
+    const textStyleBlack = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'black', ...additional })
+    const textStyleWhite = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'white', ...additional })
+    const textStyleLore = (top, left, fontSize) => textStyle(top, left, fontSize, {})
 
     return (
         <div style={cardWrapperStyle} ref={ref}>
-            <img style={innerImageStyle(form.artTop ?? 0, form.artLeft ?? 50, {zIndex: -1})} src={form.artImageUrl} />
+            <img style={innerImageStyle(form.artTop || 0, form.artLeft || 50, {zIndex: -1})} src={form.artImageUrl} />
             <img src={`${process.env.PUBLIC_URL}/supply/${cardType}.png`} style={imageStyle} />
-            <div style={textStyleBlack(form.nameTop ?? 63, form.nameLeft ?? 50, {fontWeight: 'bold', fontSize: '1.7vw', whiteSpace: 'nowrap'})}>{enrichText(form.name ?? '')}</div>
-            <div style={textStyleBlack(form.textTop ?? 77, form.textLeft ?? 50, {display: "flex", flexDirection: 'column', fontSize: '1.3vw'})}>
-                <div>{enrichText(form.text ?? '')}</div>
-                {cardType === 'spell' && <div><span style={{fontWeight: 'bold'}}>Cast: </span>{enrichText(form.cast ?? '')}</div>}
+            <div style={textStyleBlack(form.nameTop || 63, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.name || '')}</div>
+            <div style={textStyleBlack(form.textTop || 77, form.textLeft || 50, form.textFontSize || "1.3vw", {display: "flex", flexDirection: 'column'})}>
+                <div>{enrichText(form.text || '')}</div>
+                {cardType === 'spell' && <div><span style={{fontWeight: 'bold'}}>Cast: </span>{enrichText(form.cast || '')}</div>}
             </div>
-            <div style={textStyleLore(form.loreTop ?? 96, form.loreLeft ?? 50)}>{form.lore}</div>
+            <div style={textStyleLore(form.loreTop || 96, form.loreLeft || 50, form.loreFontSize || "0.8vw")}>{form.lore}</div>
             <img style={costStyle(0, 100)} src={`${process.env.PUBLIC_URL}/supply/cost.png`}/>
-            <div style={textStyleWhite(form.costTop ?? 6.5, form.costLeft ?? 91.5, { fontSize: '1.5vw' })}>{form.cost}</div>
+            <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw")}>{form.cost}</div>
         </div>
     )
 }
@@ -163,28 +164,9 @@ function SupplyForm({ cardType, form, onSubmit }) {
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-4'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="nameTop"
-                        value={form.nameTop}
-                        onChange={handleChange}
-                        placeholder="63"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="nameLeft"
-                        value={form.nameLeft}
-                        onChange={handleChange}
-                        placeholder="50"
-                        />
-                    </div>
+                    {advancedSettingsComponents("name", "63", "50", form, handleChange)}
                 </div>
             )
         }
@@ -203,28 +185,9 @@ function SupplyForm({ cardType, form, onSubmit }) {
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-4'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="textTop"
-                        value={form.textTop}
-                        onChange={handleChange}
-                        placeholder="77"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        name="textLeft"
-                        type="number"
-                        value={form.textLeft}
-                        onChange={handleChange}
-                        placeholder="50"
-                        />
-                    </div>
+                    {advancedSettingsComponents("text", "77", "50", form, handleChange)}
                 </div>
             )
         }
@@ -257,28 +220,9 @@ function SupplyForm({ cardType, form, onSubmit }) {
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-4'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="costTop"
-                        value={form.costTop}
-                        onChange={handleChange}
-                        placeholder="6.5"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="costLeft"
-                        value={form.costLeft}
-                        onChange={handleChange}
-                        placeholder="91.5"
-                        />
-                    </div>
+                    {advancedSettingsComponents("cost", "6.5", "91.5", form, handleChange)}
                 </div>
             )
         }
@@ -303,26 +247,7 @@ function SupplyForm({ cardType, form, onSubmit }) {
             return (
                 <div className='form-grid-3'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="artTop"
-                        value={form.artTop}
-                        onChange={handleChange}
-                        placeholder="0"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="artLeft"
-                        value={form.artLeft}
-                        onChange={handleChange}
-                        placeholder="50"
-                        />
-                    </div>
+                    {advancedSettingsComponents("art", "0", "50", form, handleChange)}
                 </div>
             )
         }
@@ -341,28 +266,9 @@ function SupplyForm({ cardType, form, onSubmit }) {
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-4'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="loreTop"
-                        value={form.loreTop}
-                        onChange={handleChange}
-                        placeholder="96"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="loreLeft"
-                        value={form.loreLeft}
-                        onChange={handleChange}
-                        placeholder="50"
-                        />
-                    </div>
+                    {advancedSettingsComponents("lore", "96", "50", form, handleChange)}
                 </div>
             )
         }
