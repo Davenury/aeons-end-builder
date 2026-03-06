@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import Tooltip from '../components/Tooltip';
 import useCreator from '../common/useCreator';
 import useImageUpload from '../common/useImageUpload';
+import advancedSettingsComponents from '../common/advancedSettingsComponents';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 
@@ -29,20 +30,28 @@ export default function Mage() {
         breach3: 'right',
         nameTop: null,
         nameLeft: null,
+        nameFontSize: null,
         titleTop: null,
         titleLeft: null,
+        titleFontSize: null,
         artTop: null,
         artLeft: null,
         handTop: null,
         handLeft: null,
+        handFontSize: null,
         deckTop: null,
         deckLeft: null,
+        deckFontSize: null,
         abilityNameTop: null,
         abilityNameLeft: null,
+        abilityNameFontSize: null,
         abilityUsageTop: null,
         abilityUsageLeft: null,
+        abilityUsageFontSize: null,
         abilityDescTop: null,
         abilityDescLeft: null,
+        abilityDescFontSize: null,
+        abilityDescCharLimit: null,
         breach0Top: null,
         breach0Left: null,
         breach1Top: null,
@@ -100,7 +109,7 @@ function MageCard({ charges, form, ref }) {
         height: "100%",
     };
 
-    const textStyle = (top, left, additional = {}, fontSize = "clamp(1px, 1.5vw, 26px)") => ({
+    const textStyle = (top, left, fontSize, additional = {}) => ({
         position: "absolute",
         textAlign: "center",
         width: "40%",
@@ -121,24 +130,24 @@ function MageCard({ charges, form, ref }) {
         transform: "translate(-50%, -50%)",
     })
 
-    const textStyleGold = (top, left, additional = {}) => textStyle(top, left, { color: 'gold', ...additional })
-    const textStyleStarting = (top, left) => textStyle(top, left, {}, "0.75vw")
+    const textStyleGold = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'gold', ...additional })
+    const textStyleStarting = (top, left, fontSize) => textStyle(top, left, fontSize)
 
     return (
         <div style={cardWrapperStyle} ref={ref}>
             <img src={`${process.env.PUBLIC_URL}/mages/${charges} charge mage.png`} style={imageStyle}/>
-            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach0}.png`} style={innerImageStyle(form.breach0Top ?? 6.5, form.breach0Left ?? 7)} width="4%" />
-            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach1}.png`} style={innerImageStyle(form.breach1Top ?? 6.5, form.breach1Left ?? 30)} width="4%" />
-            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach2}.png`} style={innerImageStyle(form.breach2Top ?? 6.5, form.breach2Left ?? 72)} width="4%" />
-            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach3}.png`} style={innerImageStyle(form.breach3Top ?? 6.5, form.breach3Left ?? 97)} width="4%" />
-            <div style={textStyle(form.nameTop ?? 12, form.nameLeft ?? 71, {fontWeight: 'bold'})}>{enrichText(form.name ?? '')}</div>
-            <div style={textStyleGold(form.titleTop ?? 17, form.titleLeft ?? 71, {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.title ?? '')}</div>
-            <div style={textStyleStarting(form.handTop ?? 42.5, form.handLeft ?? 71, {whiteSpace: 'nowrap'})}>{enrichText(form.startingHand ?? '')}</div>
-            <div style={textStyleStarting(form.deckTop ?? 49, form.deckLeft ?? 71, {whiteSpace: 'nowrap'})}>{enrichText(form.startingDeck ?? '')}</div>
-            <div style={textStyleGold(form.abilityNameTop ?? 54, form.abilityNameLeft ?? 71, { fontWeight: 'bold', whiteSpace: 'nowrap' })}>{enrichText(form.abilityName ?? '')}</div>
-            <div style={textStyle(form.abilityUsageTop ?? 59, form.abilityUsageLeft ?? 71, {fontWeight: "bold", whiteSpace: 'nowrap'}, "clamp(12px, 100%, 18px)")}>{enrichText(form.abilityUsage ?? '')}</div>
-            <div style={textStyle(form.abilityDescTop ?? 73, form.abilityDescLeft ?? 71, {}, "clamp(12px, 100%, 18px)")}>{enrichText(form.abilityDesc ?? '')}</div>
-            <img style={innerImageStyle(form.artTop ?? 60, form.artLeft ?? 23)} width={form.artWidth} src={form.artImageUrl} />
+            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach0}.png`} style={innerImageStyle(form.breach0Top || 6.5, form.breach0Left || 7)} width="4%" />
+            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach1}.png`} style={innerImageStyle(form.breach1Top || 6.5, form.breach1Left || 30)} width="4%" />
+            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach2}.png`} style={innerImageStyle(form.breach2Top || 6.5, form.breach2Left || 72)} width="4%" />
+            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach3}.png`} style={innerImageStyle(form.breach3Top || 6.5, form.breach3Left || 97)} width="4%" />
+            <div style={textStyle(form.nameTop || 12, form.nameLeft || 71, form.nameFontSize || "1.5vw", {fontWeight: 'bold'})}>{enrichText(form.name || '')}</div>
+            <div style={textStyleGold(form.titleTop || 17, form.titleLeft || 71, form.titleFontSize || "1.5vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.title || '')}</div>
+            <div style={textStyleStarting(form.handTop || 42.5, form.handLeft || 71, form.handFontSize || "0.75vw", {whiteSpace: 'nowrap'})}>{enrichText(form.startingHand || '')}</div>
+            <div style={textStyleStarting(form.deckTop || 49, form.deckLeft || 71, form.deckFontSize || "0.75vw", {whiteSpace: 'nowrap'})}>{enrichText(form.startingDeck || '')}</div>
+            <div style={textStyleGold(form.abilityNameTop || 54, form.abilityNameLeft || 71, form.abilityNameFontSize || "1.5vw", { fontWeight: 'bold', whiteSpace: 'nowrap' })}>{enrichText(form.abilityName || '')}</div>
+            <div style={textStyle(form.abilityUsageTop || 59, form.abilityUsageLeft || 71, form.abilityUsageFontSize || "clamp(12px, 100%, 18px)", {fontWeight: "bold", whiteSpace: 'nowrap'})}>{enrichText(form.abilityUsage || '')}</div>
+            <div style={textStyle(form.abilityDescTop || 73, form.abilityDescLeft || 71, form.abilityDescFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.abilityDesc || '')}</div>
+            <img style={innerImageStyle(form.artTop || 60, form.artLeft || 23)} width={form.artWidth} src={form.artImageUrl} />
         </div>
     )
 }
@@ -165,6 +174,7 @@ function MageForm({
 
     function handleChange(e) {
         const { name, value } = e.target;
+        console.log(name, value)
         handleSetForm(name, value)
     }
 
@@ -211,28 +221,9 @@ function MageForm({
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-4'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="nameTop"
-                        value={form.nameTop}
-                        onChange={handleChange}
-                        placeholder="12"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="nameLeft"
-                        value={form.nameLeft}
-                        onChange={handleChange}
-                        placeholder="71"
-                        />
-                    </div>
+                    {advancedSettingsComponents("name", "12", "71", form, handleChange)}
                 </div>
             )
         }
@@ -251,28 +242,9 @@ function MageForm({
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-4'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="titleTop"
-                        value={form.titleTop}
-                        onChange={handleChange}
-                        placeholder="17"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="titleLeft"
-                        value={form.titleLeft}
-                        onChange={handleChange}
-                        placeholder="71"
-                        />
-                    </div>
+                    {advancedSettingsComponents("title", "17", "71", form, handleChange)}
                 </div>
             )
         }
@@ -307,28 +279,9 @@ function MageForm({
 
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-4'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="artTop"
-                        value={form.artTop}
-                        onChange={handleChange}
-                        placeholder="60"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="artLeft"
-                        value={form.artLeft}
-                        onChange={handleChange}
-                        placeholder="23"
-                        />
-                    </div>
+                    {advancedSettingsComponents("art", "60", "23", form, handleChange)}
                 </div>
             )
         }
@@ -347,28 +300,9 @@ function MageForm({
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-4'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="handTop"
-                        value={form.handTop}
-                        onChange={handleChange}
-                        placeholder="42.5"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="handLeft"
-                        value={form.handLeft}
-                        onChange={handleChange}
-                        placeholder="71"
-                        />
-                    </div>
+                    {advancedSettingsComponents("hand", "42.5", "71", form, handleChange)}
                 </div>
             )
         }
@@ -387,28 +321,9 @@ function MageForm({
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-4'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="deckTop"
-                        value={form.deckTop}
-                        onChange={handleChange}
-                        placeholder="49"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="deckLeft"
-                        value={form.deckLeft}
-                        onChange={handleChange}
-                        placeholder="71"
-                        />
-                    </div>
+                    {advancedSettingsComponents("deck", "49", "71", form, handleChange)}
                 </div>
             )
         }
@@ -427,28 +342,9 @@ function MageForm({
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-5'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="abilityNameTop"
-                        value={form.abilityNameTop}
-                        onChange={handleChange}
-                        placeholder="54"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="abilityNameLeft"
-                        value={form.abilityNameLeft}
-                        onChange={handleChange}
-                        placeholder="71"
-                        />
-                    </div>
+                    {advancedSettingsComponents("abilityName", "54", "71", form, handleChange)}
                 </div>
             )
         }
@@ -467,28 +363,9 @@ function MageForm({
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-4'>
                     {input}
-                    <div className="form-row">
-                        <label>Top</label>
-                        <input
-                        type="number"
-                        name="abilityUsageTop"
-                        value={form.abilityUsageTop}
-                        onChange={handleChange}
-                        placeholder="54"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="abilityUsageLeft"
-                        value={form.abilityUsageLeft}
-                        onChange={handleChange}
-                        placeholder="71"
-                        />
-                    </div>
+                    {advancedSettingsComponents("abilityUsage", "54", "71", form, handleChange)}
                 </div>
             )
         }
@@ -499,7 +376,7 @@ function MageForm({
         const input = (<div className="form-row">
                 <label>Ability Description</label>
                 <textarea
-                maxLength="200"
+                maxLength={form.abilityDescCharLimit || "200"}
                 name="abilityDesc"
                 value={form.abilityDesc}
                 onChange={handleChange}
@@ -508,26 +385,17 @@ function MageForm({
             </div>)
         if (advancedSettings) {
             return (
-                <div className='form-grid-3'>
+                <div className='form-grid-5'>
                     {input}
+                    {advancedSettingsComponents("abilityDesc", "73", "71", form, handleChange)}
                     <div className="form-row">
-                        <label>Top</label>
+                        <label>Character Limit</label>
                         <input
-                        type="number"
-                        name="abilityDescTop"
-                        value={form.abilityDescTop}
-                        onChange={handleChange}
-                        placeholder="73"
-                        />
-                    </div>
-                    <div className="form-row">
-                        <label>Left</label>
-                        <input
-                        type="number"
-                        name="abilityDescLeft"
-                        value={form.abilityDescLeft}
-                        onChange={handleChange}
-                        placeholder="71"
+                            type="number"
+                            name="abilityDescCharLimit"
+                            value={form.abilityDescCharLimit}
+                            onChange={handleChange}
+                            placeholder="200"
                         />
                     </div>
                 </div>

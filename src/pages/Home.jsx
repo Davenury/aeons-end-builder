@@ -95,6 +95,15 @@ export default function Home() {
 
         <div>
           <div class="storage-info">
+            <h3>Noticed any bugs?</h3>
+            
+            <p>
+              If you've noticed any bugs or have features that we're not planning on doing, feel free to reach out and create a <a href="https://github.com/Davenury/aeons-end-builder/issues/new">Github Issue</a>, where you'll describe
+              what didn't work for you or what you'd like to be added here.
+            </p>
+          </div>
+
+          <div class="storage-info">
             <h3>Your Progress Is Saved!</h3>
             
             <p>
