@@ -31,8 +31,8 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/mage" element={<Mage />}></Route>
             <Route path="/supply" element={<Supply />}></Route>
-            {/* <Route path="/nemesis" element={<Nemesis />}></Route>
-            <Route path="/nemesis-cards" element={<NemesisCards />}></Route> */}
+            {/* <Route path="/nemesis" element={<Nemesis />}></Route> */}
+            <Route path="/nemesis-cards" element={<NemesisCards />}></Route>
           </Routes>
         </main>
       </div>
