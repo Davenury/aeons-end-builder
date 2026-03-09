@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/aeons-end-builder/static/css/main.f73a76d7.css",
-    "main.js": "/aeons-end-builder/static/js/main.7c9929c2.js",
+    "main.js": "/aeons-end-builder/static/js/main.d18c89db.js",
     "static/js/453.76052532.chunk.js": "/aeons-end-builder/static/js/453.76052532.chunk.js",
     "static/media/logo.svg": "/aeons-end-builder/static/media/logo.5690052c113ecc415bb91feff8d8d9c3.svg",
     "static/media/Kefa-Regular.TTF": "/aeons-end-builder/static/media/Kefa-Regular.b056e2ae836c503e2a49.TTF",
     "static/media/kefa-bold.ttf": "/aeons-end-builder/static/media/kefa-bold.c8ae7962fd7684169f45.ttf",
     "index.html": "/aeons-end-builder/index.html",
     "main.f73a76d7.css.map": "/aeons-end-builder/static/css/main.f73a76d7.css.map",
-    "main.7c9929c2.js.map": "/aeons-end-builder/static/js/main.7c9929c2.js.map",
+    "main.d18c89db.js.map": "/aeons-end-builder/static/js/main.d18c89db.js.map",
     "453.76052532.chunk.js.map": "/aeons-end-builder/static/js/453.76052532.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f73a76d7.css",
-    "static/js/main.7c9929c2.js"
+    "static/js/main.d18c89db.js"
   ]
 }
