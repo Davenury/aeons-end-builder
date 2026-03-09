@@ -132,7 +132,7 @@ export default function Home() {
             <p>
               <ul>
                 <li>Adding possbiility to change font sizes of all elements</li>
-                <li>Nemesis mats and cards</li>
+                <li>Nemesis mats</li>
                 <li>Treasures</li>
               </ul>
             </p>
