@@ -9,7 +9,7 @@ export default function useCreator(defaultForm = {}) {
     const handleCapture = () => {
         const element = ref.current
 
-        html2canvas(element, { useCORS: true, allowTaint: false }).then(canvas => {
+        html2canvas(element, { useCORS: true, allowTaint: false, backgroundColor: null }).then(canvas => {
             const imgData = canvas.toDataURL("image/png")
 
             const link = document.createElement("a")

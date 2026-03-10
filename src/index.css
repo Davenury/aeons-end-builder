@@ -10,6 +10,20 @@
   font-weight: normal;
 }
 
+@font-face {
+  font-family: 'kefa';
+  src: url('./assets/fonts/kefa-bold-italic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'kefa';
+  src: url('./assets/fonts/kefa-italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
 body {
   margin: 0;
   font-family: "Kefa";
@@ -194,7 +208,7 @@ nav a:hover {
 .secondary-btn {
   display: inline-block;
   padding: 12px 22px;
-  margin-right: 16px;
+  margin: auto;
   border-radius: 6px;
   font-weight: 600;
 }
@@ -253,6 +267,18 @@ input[type="file"] {
   padding: 6px;
 }
 
+.reset-button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #6b5a2b;
+  background: #1a1a2b;
+  color: #f5e6c8;
+  cursor: pointer;
+  font-family: inherit;
+  margin-right: 12px;
+  transition: 0.2s ease;
+}
+
 input[type="file"]::file-selector-button {
   padding: 8px 12px;
   border-radius: 6px;
@@ -273,6 +299,12 @@ input[type="file"]::file-selector-button:hover {
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-grid-image {
+  display: grid;
+  grid-template-columns: 6fr 4fr;
   gap: 16px;
 }
 
@@ -436,4 +468,85 @@ input[type="file"]::file-selector-button:hover {
 .switch-text {
   color: #e6d9b8;
   font-size: 0.95rem;
+}
+
+.field-settings {
+  position: relative;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  display: flex;
+  gap: 16px;
+}
+
+.gear-btn {
+  background: transparent;
+  border: 1px solid #6b5a2b;
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+  color: #f0d78c;
+  font-size: 14px;
+  max-width: 30px;
+}
+
+.gear-btn:hover {
+  border-color: #d4af37;
+}
+
+.settings-panel {
+  position: absolute;
+  left: 5%;
+  top: 0;
+  width: 70%;
+
+  padding: 14px;
+  border-radius: 10px;
+
+  background: #1a1a2b;
+  border: 1px solid rgba(255,215,140,0.3);
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  z-index: 20;
+}
+
+.settings-panel-bottom {
+  position: absolute;
+  left: -100%;
+  top: 100%;
+  width: 200%;
+
+  padding: 14px;
+  border-radius: 10px;
+
+  background: #1a1a2b;
+  border: 1px solid rgba(255,215,140,0.3);
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  z-index: 20;
+}
+
+.gear-btn.active {
+  border-color: #ffd86b;
+  background: rgba(255,216,107,0.08);
+}
+
+.slider-input {
+  margin-bottom: 12px;
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-row input[type="range"] {
+  flex: 1;
+  accent-color: #d4af37;
+  cursor: pointer;
+}
+
+.slider-number {
+  width: 60px;
 }

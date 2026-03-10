@@ -3,7 +3,7 @@ import useCreator from '../common/useCreator';
 import useImageUpload from '../common/useImageUpload';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
-import advancedSettingsComponents from '../common/advancedSettingsComponents';
+import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 
 export default function Supply() {
     const [cardForm, saveCardForm] = useLocalStorage("supplyCard", {})
@@ -162,15 +162,9 @@ function SupplyForm({ cardType, form, onSubmit }) {
                 placeholder="Nameless Knowledge"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("name", "63", "50", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"name"} topPlaceholder={"63"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
     }
 
     const cardText = () => {
@@ -183,15 +177,9 @@ function SupplyForm({ cardType, form, onSubmit }) {
                 placeholder="Nameless Knowledge"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("text", "77", "50", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"text"} topPlaceholder={"77"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
     }
 
     const spellCast = () => {
@@ -218,15 +206,9 @@ function SupplyForm({ cardType, form, onSubmit }) {
                 placeholder="0"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("cost", "6.5", "91.5", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"cost"} topPlaceholder={"6.5"} leftPlaceholder={"91.5"} form={form} handleChange={handleChange} />
+        )
     }
 
     const cardArt = () => {
@@ -243,15 +225,9 @@ function SupplyForm({ cardType, form, onSubmit }) {
             </div>
         )
 
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-3'>
-                    {input}
-                    {advancedSettingsComponents("art", "0", "50", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"art"} topPlaceholder={"0"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
     }
 
     const cardLore = () => {
@@ -264,15 +240,9 @@ function SupplyForm({ cardType, form, onSubmit }) {
                 placeholder="Nameless Knowledge"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("lore", "96", "50", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"lore"} topPlaceholder={"96"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
     }
 
 
@@ -284,12 +254,6 @@ function SupplyForm({ cardType, form, onSubmit }) {
             {cardCost()}
             {cardArt()}
             {cardLore()}
-
-            <div class="switch-wrapper">
-                <input type="checkbox" id="advancedSwitch" class="switch-input" onClick={() => toggleAdvancedSettings(!advancedSettings)} />
-                <label for="advancedSwitch" class="switch" />
-                <span class="switch-text">Advanced Settings</span>
-            </div>
         </form>
     )
 }

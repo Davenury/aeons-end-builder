@@ -1,12 +1,9 @@
 import {useEffect, useState} from 'react';
-import Tooltip from '../components/Tooltip';
 import useCreator from '../common/useCreator';
 import useImageUpload from '../common/useImageUpload';
-import advancedSettingsComponents from '../common/advancedSettingsComponents';
+import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
-
-// TODO - lore page, additional rules, changes of the font sizes
 
 export default function Mage() {
 
@@ -28,39 +25,6 @@ export default function Mage() {
         breach1: 'left',
         breach2: 'bottom',
         breach3: 'right',
-        nameTop: null,
-        nameLeft: null,
-        nameFontSize: null,
-        titleTop: null,
-        titleLeft: null,
-        titleFontSize: null,
-        artTop: null,
-        artLeft: null,
-        handTop: null,
-        handLeft: null,
-        handFontSize: null,
-        deckTop: null,
-        deckLeft: null,
-        deckFontSize: null,
-        abilityNameTop: null,
-        abilityNameLeft: null,
-        abilityNameFontSize: null,
-        abilityUsageTop: null,
-        abilityUsageLeft: null,
-        abilityUsageFontSize: null,
-        abilityDescTop: null,
-        abilityDescLeft: null,
-        abilityDescFontSize: null,
-        abilityDescCharLimit: null,
-        additionalRules: null,
-        breach0Top: null,
-        breach0Left: null,
-        breach1Top: null,
-        breach1Left: null,
-        breach2Top: null,
-        breach2Left: null,
-        breach3Top: null,
-        breach3Left: null,
         ...mageForm
     })
 
@@ -108,6 +72,8 @@ function MageCard({ charges, form, ref }) {
     const imageStyle = {
         width: "100%",
         height: "100%",
+        aspectRatio: "49/37",
+        objectFit: 'cover'
     };
 
     const textStyle = (top, left, fontSize, additional = {}) => ({
@@ -134,22 +100,74 @@ function MageCard({ charges, form, ref }) {
     const textStyleGold = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'gold', ...additional })
     const textStyleStarting = (top, left, fontSize) => textStyle(top, left, fontSize)
 
+    const customBackgroundStyle = (additional) => ({...imageStyle, ...additional})
+
+    const backgroundFront = () => {
+        if (!form.customBackground) {
+            return (
+                <>
+                    <img src={`${process.env.PUBLIC_URL}/mages/${charges} charge mage.png`} style={imageStyle}/>
+                </>
+            )
+        }
+        return (
+            <>
+                <img src={form.customBackground} style={customBackgroundStyle(sanitizeCustomBackgroundStyle())}/>
+                <img src={`${process.env.PUBLIC_URL}/mages/empty-layout-${charges}-charges.png`} style={{...imageStyle, position: 'absolute', top: 0, left: 0, objectFit: 'fill'}} />
+            </>
+        )
+    }
+
+    const sanitizeCustomBackgroundStyle = () => {
+        console.log(form.customBackgroundStyle)
+        try {
+            return JSON.parse(form.customBackgroundStyle)
+        } catch(e) {
+            console.log(e)
+            return {}
+        }
+    }
+
+    const backgroundBack = () => {
+        if (!form.customBackground) {
+            return (
+                <img src={`${process.env.PUBLIC_URL}/mages/mage-back.png`} style={imageStyle}/>
+            )
+        }
+        return (
+            <>
+                <img src={form.customBackground} style={customBackgroundStyle(sanitizeCustomBackgroundStyle())}/>
+            </>
+        )
+    }
+
     return (
-        <div style={cardWrapperStyle} ref={ref}>
-            <img src={`${process.env.PUBLIC_URL}/mages/${charges} charge mage.png`} style={imageStyle}/>
-            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach0}.png`} style={innerImageStyle(form.breach0Top || 6.5, form.breach0Left || 7)} width="4%" />
-            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach1}.png`} style={innerImageStyle(form.breach1Top || 6.5, form.breach1Left || 30)} width="4%" />
-            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach2}.png`} style={innerImageStyle(form.breach2Top || 6.5, form.breach2Left || 72)} width="4%" />
-            <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach3}.png`} style={innerImageStyle(form.breach3Top || 6.5, form.breach3Left || 97)} width="4%" />
-            <div style={textStyle(form.nameTop || 12, form.nameLeft || 71, form.nameFontSize || "1.5vw", {fontWeight: 'bold'})}>{enrichText(form.name || '')}</div>
-            <div style={textStyleGold(form.titleTop || 17, form.titleLeft || 71, form.titleFontSize || "1.5vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.title || '')}</div>
-            <div style={textStyleStarting(form.handTop || 42.5, form.handLeft || 71, form.handFontSize || "0.75vw", {whiteSpace: 'nowrap'})}>{enrichText(form.startingHand || '')}</div>
-            <div style={textStyleStarting(form.deckTop || 49, form.deckLeft || 71, form.deckFontSize || "0.75vw", {whiteSpace: 'nowrap'})}>{enrichText(form.startingDeck || '')}</div>
-            <div style={textStyleGold(form.abilityNameTop || 54, form.abilityNameLeft || 71, form.abilityNameFontSize || "1.5vw", { fontWeight: 'bold', whiteSpace: 'nowrap' })}>{enrichText(form.abilityName || '')}</div>
-            <div style={textStyle(form.abilityUsageTop || 59, form.abilityUsageLeft || 71, form.abilityUsageFontSize || "clamp(12px, 100%, 18px)", {fontWeight: "bold", whiteSpace: 'nowrap'})}>{enrichText(form.abilityUsage || '')}</div>
-            <div style={textStyle(form.abilityDescTop || 73, form.abilityDescLeft || 71, form.abilityDescFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.abilityDesc || '')}</div>
-            <img style={innerImageStyle(form.artTop || 60, form.artLeft || 23)} width={form.artWidth} src={form.artImageUrl} />
-            <div style={textStyle(form.additionalRulesTop || 80, form.additionalRulesLeft || 20, form.additionalRulesFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.additionalRules || '')}</div>
+        <div ref={ref}>
+            {/*front*/}
+            <div style={cardWrapperStyle}>
+                {/* <img src={`${process.env.PUBLIC_URL}/mages/${charges} charge mage.png`} style={imageStyle}/> */}
+                {backgroundFront()}
+                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach0}.png`} style={innerImageStyle(form.breach0Top || 6.5, form.breach0Left || 7)} width="4%" />
+                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach1}.png`} style={innerImageStyle(form.breach1Top || 6.5, form.breach1Left || 30)} width="4%" />
+                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach2}.png`} style={innerImageStyle(form.breach2Top || 6.5, form.breach2Left || 72)} width="4%" />
+                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach3}.png`} style={innerImageStyle(form.breach3Top || 6.5, form.breach3Left || 97)} width="4%" />
+                <div style={textStyle(form.nameTop || 12, form.nameLeft || 71, form.nameFontSize || "1.5vw", {fontWeight: 'bold'})}>{enrichText(form.name || '')}</div>
+                <div style={textStyleGold(form.titleTop || 17, form.titleLeft || 71, form.titleFontSize || "1.5vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.title || '')}</div>
+                <div style={textStyleStarting(form.handTop || 42.5, form.handLeft || 71, form.handFontSize || "0.75vw", {whiteSpace: 'nowrap'})}>{enrichText(form.startingHand || '')}</div>
+                <div style={textStyleStarting(form.deckTop || 49, form.deckLeft || 71, form.deckFontSize || "0.75vw", {whiteSpace: 'nowrap'})}>{enrichText(form.startingDeck || '')}</div>
+                <div style={textStyleGold(form.abilityNameTop || 54, form.abilityNameLeft || 71, form.abilityNameFontSize || "1.5vw", { fontWeight: 'bold', whiteSpace: 'nowrap' })}>{enrichText(form.abilityName || '')}</div>
+                <div style={textStyle(form.abilityUsageTop || 59, form.abilityUsageLeft || 71, form.abilityUsageFontSize || "clamp(12px, 100%, 18px)", {fontWeight: "bold", whiteSpace: 'nowrap'})}>{enrichText(form.abilityUsage || '')}</div>
+                <div style={textStyle(form.abilityDescTop || 73, form.abilityDescLeft || 71, form.abilityDescFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.abilityDesc || '')}</div>
+                <img style={innerImageStyle(form.artTop || 60, form.artLeft || 23)} width={form.artWidth} src={form.artImageUrl} />
+                <div style={textStyle(form.additionalRulesTop || 80, form.additionalRulesLeft || 20, form.additionalRulesFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.additionalRules || '')}</div>
+            </div>
+
+            {/*back*/}
+            <div style={cardWrapperStyle}>
+                {backgroundBack()}
+                <img style={innerImageStyle(form.artTop || 60, form.artLeft || 23)} width={form.artWidth} src={form.artImageUrl} />
+                <div style={textStyle(form.loreTop || 59, form.loreLeft || 71, form.loreFontSize || "clamp(12px, 100%, 18px)")}>{enrichText(form.lore || '')}</div>
+            </div>
         </div>
     )
 }
@@ -158,8 +176,6 @@ function MageForm({
     form,
     onSubmit
 }) {
-
-    const [advancedSettings, toggleAdvancedSettings] = useState(false)
 
     useEffect(() => {
         onSubmit?.(form)
@@ -176,7 +192,6 @@ function MageForm({
 
     function handleChange(e) {
         const { name, value } = e.target;
-        console.log(name, value)
         handleSetForm(name, value)
     }
 
@@ -221,15 +236,9 @@ function MageForm({
                 placeholder="Ganelon"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("name", "12", "71", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"name"} topPlaceholder={"12"} leftPlaceholder={"71"} form={form} handleChange={handleChange} />
+        )   
     }
 
     const mageTitle = () => {
@@ -242,15 +251,9 @@ function MageForm({
                 placeholder="Knower of The Unknown"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("title", "17", "71", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"title"} topPlaceholder={"17"} leftPlaceholder={"71"} form={form} handleChange={handleChange} />
+        )
     }
 
     const mageArt = () => {
@@ -279,15 +282,9 @@ function MageForm({
             </div>
         )
 
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("art", "60", "23", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"art"} topPlaceholder={"68"} leftPlaceholder={"23"} form={form} handleChange={handleChange} />
+        )
     }
 
     const startingHand = () => {
@@ -300,15 +297,9 @@ function MageForm({
                 placeholder="1x Nameless Knowledge, 3x Crystal, 1x Spark"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("hand", "42.5", "71", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"hand"} topPlaceholder={"42.5"} leftPlaceholder={"71"} form={form} handleChange={handleChange} />
+        )
     }
 
     const startingDeck = () => {
@@ -321,15 +312,9 @@ function MageForm({
                 placeholder="4x Crystal, 1x Spark"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("deck", "49", "71", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"deck"} topPlaceholder={"49"} leftPlaceholder={"71"} form={form} handleChange={handleChange} />
+        )
     }
 
     const abilityName = () => {
@@ -342,15 +327,9 @@ function MageForm({
                 placeholder="Last-Ditch Effort"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-5'>
-                    {input}
-                    {advancedSettingsComponents("abilityName", "54", "71", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"abilityName"} topPlaceholder={"54"} leftPlaceholder={"71"} form={form} handleChange={handleChange} />
+        )
     }
 
     const abilityUsage = () => {
@@ -363,15 +342,9 @@ function MageForm({
                 placeholder="Activate During Your Main Phase"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("abilityUsage", "54", "71", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"abilityUsage"} topPlaceholder={"54"} leftPlaceholder={"71"} form={form} handleChange={handleChange} />
+        )
     }
 
     const abilityDesc = () => {
@@ -385,57 +358,41 @@ function MageForm({
                 rows={4}
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-5'>
-                    {input}
-                    {advancedSettingsComponents("abilityDesc", "73", "71", form, handleChange)}
-                    <div className="form-row">
-                        <label>Character Limit</label>
-                        <input
-                            type="number"
-                            name="abilityDescCharLimit"
-                            value={form.abilityDescCharLimit}
-                            onChange={handleChange}
-                            placeholder="200"
-                        />
-                    </div>
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"abilityDesc"} topPlaceholder={"73"} leftPlaceholder={"71"} form={form} handleChange={handleChange} />
+        )
     }
 
     const additionalRules = () => {
         const input = (<div className="form-row">
                 <label>Additional Rules</label>
                 <textarea
-                maxLength={form.additionalRulesCharLimit || "200"}
-                name="additionalRules"
-                value={form.additionalRules}
+                    maxLength={form.additionalRulesCharLimit || "200"}
+                    name="additionalRules"
+                    value={form.additionalRules}
+                    onChange={handleChange}
+                    rows={4}
+                />
+            </div>)
+        return (
+            <AdvancedSettingsComponent input={input} name={"additionalRules"} topPlaceholder={"80"} leftPlaceholder={"20"} form={form} handleChange={handleChange} />
+        )
+    }
+
+    const lore = () => {
+        const input = (<div className="form-row">
+                <label>Lore</label>
+                <textarea
+                maxLength={form.loreCharLimit || "200"}
+                name="lore"
+                value={form.lore}
                 onChange={handleChange}
                 rows={4}
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-5'>
-                    {input}
-                    {advancedSettingsComponents("additionalRules", "80", "20", form, handleChange)}
-                    <div className="form-row">
-                        <label>Character Limit</label>
-                        <input
-                            type="number"
-                            name="additionalRulesCharLimit"
-                            value={form.additionalRulesCharLimit}
-                            onChange={handleChange}
-                            placeholder="200"
-                        />
-                    </div>
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"lore"} topPlaceholder={"80"} leftPlaceholder={"20"} form={form} handleChange={handleChange} />
+        )
     }
 
     const breaches = () => {
@@ -445,43 +402,45 @@ function MageForm({
             </div>
         )
 
-        if (advancedSettings) {
-            return (
-                <div style={{display: "flex", flexDirection: "column"}}>
-                    {input}
-                    <div className="form-grid-4">
-                        {
-                            [...Array(4).keys()].map(it => (
-                                <div style={{width: "90%"}}>
-                                    <div className="form-row">
-                                        <label>Top</label>
-                                        <input
-                                        type="number"
-                                        name={`breach${it}Top`}
-                                        value={form[`breach${it}Top`]}
-                                        onChange={handleChange}
-                                        placeholder="73"
-                                        />
-                                    </div>
-                                    <div className="form-row">
-                                        <label>Left</label>
-                                        <input
-                                        type="number"
-                                        name={`breach${it}Left`}
-                                        value={form[`breach${it}Left`]}
-                                        onChange={handleChange}
-                                        placeholder="71"
-                                        />
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div>
-            )
-        }
+        return (
+            <div className="form-grid-4">
+                {
+                    [...Array(4).keys()].map(it => (
+                        <AdvancedSettingsComponent type={"breach"} input={breachOption(it)} name={`breach${it}`} topPlaceholder={"73"} leftPlaceholder={"71"} form={form} handleChange={handleChange} />
+                    ))
+                }
+            </div>
+        )
+    }
 
-        return input
+    const customBackground = () => {
+        const input = (
+            <div>
+                <div className="form-grid-image">
+                    <div className="form-row">
+                        <label>Custom Background</label>
+                        <input
+                        type="file"
+                        name="customBackground"
+                        onChange={handleFileChange}
+                        />
+                    </div>
+
+                    <div className="form-row" style={{marginTop: 'calc(0.9rem + 12px)'}}>
+                        <div className="secondary-btn" onClick={() => handleChange({target: {name: "customBackground", value: null}})}>
+                            Reset Background
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        )
+
+        // return input
+
+        return (
+            <AdvancedSettingsComponent input={input} name={"customBackground"} type={"customBackground"} form={form} handleChange={handleChange} />
+        )
     }
 
     return (
@@ -507,11 +466,9 @@ function MageForm({
 
             {additionalRules()}
 
-            <div class="switch-wrapper">
-                <input type="checkbox" id="advancedSwitch" class="switch-input" onClick={() => toggleAdvancedSettings(!advancedSettings)} />
-                <label for="advancedSwitch" class="switch" />
-                <span class="switch-text">Advanced Settings</span>
-            </div>
+            {lore()}
+
+            {customBackground()}
         </form>
     )
 }

@@ -15,8 +15,11 @@ const enriches = {
     "bold": {
         style: {fontWeight: 'bold'}
     },
-    "red": {
-        style: {backgroundColor: 'red'}
+    "italic": {
+        style: {fontStyle: 'italic'}
+    },
+    "color": {
+        callStyle: (color) => ({color: `${color}`})
     }
 }
 
@@ -41,6 +44,14 @@ const getHTML = (enrich, key) => {
     }
 }
 
+const parseColor = (colorModifier) => {
+    const parts = colorModifier.split(":")
+    if (parts.length < 2) {
+        return 'black'
+    }
+    return parts[1]
+}
+
 export default function enrichText (text) {
   const parts = text.split(/\$\{(.*?)\}/g);
 
@@ -55,8 +66,18 @@ export default function enrichText (text) {
     }
     const text = textWithModifiers.shift()
     const styles = textWithModifiers.reduce((acc, curr) => {
+        if (curr.includes('color:')) {
+            const color = parseColor(curr)
+            return {
+                ...acc,
+                ...enriches['color'].callStyle(color)
+            }
+        }
         if (enriches[curr]) {
-            return {...acc, ...(enriches[curr]?.style ?? {}) }
+            return {
+                ...acc,
+                ...(enriches[curr]?.style ?? {}) 
+            }
         }
         return acc
     }, {})

@@ -78,6 +78,8 @@ export default function Home() {
                 <li>{"${aether-white}"} - replaces text with white aether icon</li>
                 <li>{"${newline}"} - replaces text with new line (use for <strong>OR</strong> instructions in your cards)</li>
                 <li>{"${some text|bold}"} - creates bold version of "some text"</li>
+                <li>{"${some text|italic}"} - creates italic version of "some text"</li>
+                <li>{"${some text|color:<color>}"} - creates color version of the passed color (either name or hex)</li>
               </ul>
 
               You can use it like: "Gain 1{"${aether}"}. {"${newline}"} {"${OR|bold}"} {"${newline}"} Gain 1 HP."

@@ -3,7 +3,8 @@ import useCreator from '../common/useCreator';
 import useImageUpload from '../common/useImageUpload';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
-import advancedSettingsComponents from '../common/advancedSettingsComponents';
+
+import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 
 const isMinion = (cardType) => cardType === 'minion'
 
@@ -33,11 +34,13 @@ export default function NemesisCards() {
         <div>
             <h1>Nemesis Card Creation</h1>
             <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", marginBottom: "16px"}}>
-                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "40em"}}>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "50em"}}>
                     <div style={{flexGrow: '3'}}>
-                        <div className={cardType === 'attack' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('attack')}>Attack</div>
-                        <div className={cardType === 'power' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('power')}>Power</div>
-                        <div className={cardType == 'minion' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('minion')}>Minion</div>
+                        <div style={{display: 'flex', width: '80%'}}>
+                            <div className={cardType === 'attack' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('attack')}>Attack</div>
+                            <div className={cardType === 'power' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('power')}>Power</div>
+                            <div className={cardType == 'minion' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('minion')}>Minion</div>
+                        </div>
                     </div>
                     <div style={{flexGrow: '1', marginTop: '-1.5%'}}>
                         <label className="switch-wrapper">
@@ -173,15 +176,9 @@ function NemesisForm({ cardType, form, onSubmit }) {
                 placeholder="Nameless Knowledge"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("name", (isMinion(cardType) ? "65" : "12.5"), "50", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"name"} topPlaceholder={(isMinion(cardType) ? "65" : "12.5")} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
     }
 
     const cardText = () => {
@@ -194,15 +191,10 @@ function NemesisForm({ cardType, form, onSubmit }) {
                 placeholder="Nameless Knowledge"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("text", (isMinion(cardType) ? "77" : "55"), "50", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+
+        return (
+            <AdvancedSettingsComponent input={input} name={"text"} topPlaceholder={(isMinion(cardType) ? "77" : "55")} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
     }
 
     const nemesisName = () => {
@@ -215,15 +207,9 @@ function NemesisForm({ cardType, form, onSubmit }) {
                 placeholder="Ganelon"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("nemesisName", "94.2", "50", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"nemesisName"} topPlaceholder={"94.2"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
     }
 
     const tier = () => {
@@ -239,15 +225,9 @@ function NemesisForm({ cardType, form, onSubmit }) {
                 placeholder="1"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("tier", "95.2", "95", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"tier"} topPlaceholder={"95.2"} leftPlaceholder={"95"} form={form} handleChange={handleChange} />
+        )
     }
 
     const minionHP = () => {
@@ -260,15 +240,9 @@ function NemesisForm({ cardType, form, onSubmit }) {
                 placeholder="1"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("minionHP", "55.5", "91.5", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"minionHP"} topPlaceholder={"55.5"} leftPlaceholder={"91.5"} form={form} handleChange={handleChange} />
+        )
     }
 
     const cardArt = () => {
@@ -285,15 +259,9 @@ function NemesisForm({ cardType, form, onSubmit }) {
             </div>
         )
 
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-3'>
-                    {input}
-                    {advancedSettingsComponents("art", "0", "50", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"art"} topPlaceholder={"0"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
     }
 
     const cardLore = () => {
@@ -306,15 +274,9 @@ function NemesisForm({ cardType, form, onSubmit }) {
                 placeholder="Nameless Knowledge"
                 />
             </div>)
-        if (advancedSettings) {
-            return (
-                <div className='form-grid-4'>
-                    {input}
-                    {advancedSettingsComponents("lore", "98.5", "50", form, handleChange)}
-                </div>
-            )
-        }
-        return input
+        return (
+            <AdvancedSettingsComponent input={input} name={"lore"} topPlaceholder={"98.5"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
     }
 
 
@@ -327,12 +289,6 @@ function NemesisForm({ cardType, form, onSubmit }) {
             {cardLore()}
             {isMinion(cardType) && cardArt()}
             {isMinion(cardType) && minionHP()}
-
-            <div class="switch-wrapper">
-                <input type="checkbox" id="advancedSwitch" class="switch-input" onClick={() => toggleAdvancedSettings(!advancedSettings)} />
-                <label for="advancedSwitch" class="switch" />
-                <span class="switch-text">Advanced Settings</span>
-            </div>
         </form>
     )
 }
