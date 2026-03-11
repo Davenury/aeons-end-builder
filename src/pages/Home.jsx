@@ -80,6 +80,7 @@ export default function Home() {
                 <li>{"${some text|bold}"} - creates bold version of "some text"</li>
                 <li>{"${some text|italic}"} - creates italic version of "some text"</li>
                 <li>{"${some text|color:<color>}"} - creates color version of the passed color (either name or hex)</li>
+                <li>{"${some text|list-item}"} - creates color version of the passed color (either name or hex)</li>
               </ul>
 
               You can use it like: "Gain 1{"${aether}"}. {"${newline}"} {"${OR|bold}"} {"${newline}"} Gain 1 HP."
@@ -133,8 +134,6 @@ export default function Home() {
             
             <p>
               <ul>
-                <li>Adding possbiility to change font sizes of all elements</li>
-                <li>Nemesis mats</li>
                 <li>Treasures</li>
               </ul>
             </p>

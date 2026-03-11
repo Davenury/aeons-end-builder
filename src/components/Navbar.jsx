@@ -34,7 +34,7 @@ export default function Navbar() {
           <Link to="/">Home</Link>
           <Link to="/mage">Mage</Link>
           <Link to="/supply">Supply</Link>
-          {/* <Link to="/nemesis">Nemesis</Link> */}
+          <Link to="/nemesis">Nemesis</Link>
           <Link to="/nemesis-cards">Nemesis Cards</Link>
         </nav>
       </div>

@@ -1,23 +1,24 @@
 import {useState, useRef} from 'react';
-import html2canvas from 'html2canvas';
+import { toPng } from "html-to-image";
 
 export default function useCreator(defaultForm = {}) {
     const [form, setForm] = useState(defaultForm)
 
     const ref = useRef()
 
-    const handleCapture = () => {
-        const element = ref.current
+    const handleCapture = async () => {
+        const element = ref.current;
 
-        html2canvas(element, { useCORS: true, allowTaint: false, backgroundColor: null }).then(canvas => {
-            const imgData = canvas.toDataURL("image/png")
+        const dataUrl = await toPng(element, {
+            pixelRatio: 3,   // 2–4 recommended
+            cacheBust: true
+        });
 
-            const link = document.createElement("a")
-            link.href = imgData
-            link.download = `${form.name}.png`
-            link.click();
-        })
-    }
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = `${form.name}.png`;
+        link.click();
+    };
 
     return {
         form,

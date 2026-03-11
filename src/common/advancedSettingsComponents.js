@@ -1,9 +1,9 @@
 import FieldSettings from "../components/FieldSettings";
 import SliderInput from "../components/SliderInput";
 
-export default function AdvancedSettingsComponent({ input, name, topPlaceholder, leftPlaceholder, form, handleChange, type }) {
+export default function AdvancedSettingsComponent({ input, name, topPlaceholder, leftPlaceholder, form, handleChange, type, showCharLimit }) {
 
-    if (type === "customBackground") {
+    if (type === "customBackground" || type === "nemesisImage") {
         return (
             <FieldSettings
                 type={type}
@@ -63,7 +63,7 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                         )
                     }
                     {
-                        ((name === "lore" || name === "additionalRules" || name === "abilityDesc") && (
+                        ((name === "lore" || name === "additionalRules" || name === "abilityDesc" || showCharLimit) && (
                             <div className="form-row">
                                 <label>Character Limit</label>
                                 <input

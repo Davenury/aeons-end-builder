@@ -67,6 +67,8 @@ function MageCard({ charges, form, ref }) {
         maxWidth: "1200px",     // optional cap
         // aspectRatio: "16 / 9",  // 🔥 key part
         margin: "0",
+        zIndex: -2,
+        background: 'black'
     };
 
     const imageStyle = {
@@ -119,7 +121,6 @@ function MageCard({ charges, form, ref }) {
     }
 
     const sanitizeCustomBackgroundStyle = () => {
-        console.log(form.customBackgroundStyle)
         try {
             return JSON.parse(form.customBackgroundStyle)
         } catch(e) {
@@ -145,7 +146,6 @@ function MageCard({ charges, form, ref }) {
         <div ref={ref}>
             {/*front*/}
             <div style={cardWrapperStyle}>
-                {/* <img src={`${process.env.PUBLIC_URL}/mages/${charges} charge mage.png`} style={imageStyle}/> */}
                 {backgroundFront()}
                 <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach0}.png`} style={innerImageStyle(form.breach0Top || 6.5, form.breach0Left || 7)} width="4%" />
                 <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach1}.png`} style={innerImageStyle(form.breach1Top || 6.5, form.breach1Left || 30)} width="4%" />
@@ -435,8 +435,6 @@ function MageForm({
                 </div>
             </div>
         )
-
-        // return input
 
         return (
             <AdvancedSettingsComponent input={input} name={"customBackground"} type={"customBackground"} form={form} handleChange={handleChange} />
