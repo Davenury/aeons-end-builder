@@ -92,6 +92,7 @@ export default function Home() {
             <p>
               Your progress is saved automatically in your browser.
               Clearing browser data or switching devices will reset your saved content.
+              You can also export forms to persist your data in even safer manner!
             </p>
           </div>
         </div>
@@ -101,7 +102,7 @@ export default function Home() {
             <h3>Noticed any bugs?</h3>
             
             <p>
-              If you've noticed any bugs or have features that we're not planning on doing, feel free to reach out and create a <a href="https://github.com/Davenury/aeons-end-builder/issues/new">Github Issue</a>, where you'll describe
+              If you've noticed any bugs or have features that we're not planning on doing, feel free to reach out and create a <a style={{color: '#0077B6'}} href="https://github.com/Davenury/aeons-end-builder/issues/new" target="_blank">Github Issue</a>, where you'll describe
               what didn't work for you or what you'd like to be added here.
             </p>
           </div>
@@ -125,7 +126,7 @@ export default function Home() {
             </div>
 
             <p class="coming-soon">
-              We’re working on adding export/import soon so you’ll be able to create backups and move your data safely.
+              To be extra sure, you can export your work and then import it.
             </p>
           </div>
 
