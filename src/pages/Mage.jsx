@@ -4,6 +4,7 @@ import useImageUpload from '../common/useImageUpload';
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
+import DataHandler from '../components/DataHandler';
 
 export default function Mage() {
 
@@ -11,7 +12,7 @@ export default function Mage() {
 
     const [mageForm, saveMageForm] = useLocalStorage("mage", {})
 
-    const {form, setForm, captureRef, handleCapture} = useCreator({
+    const {form, setForm, captureRef, handleCapture, importForm, importRef, exportForm} = useCreator({
         name: "Ganelon",
         title: "Knower of The Unknown",
         artImageUrl: "https://i.pinimg.com/1200x/05/e4/f5/05e4f5328d221bbddb6a10fb9523895b.jpg",
@@ -42,9 +43,7 @@ export default function Mage() {
                     <div className={charges == 5 ? "primary-btn" : "secondary-btn"} onClick={() => setCharges(5)}>5 Charge Mage</div>
                     <div className={charges == 6 ? "primary-btn" : "secondary-btn"} onClick={() => setCharges(6)}>6 Charge Mage</div>
                 </div>
-                <div>
-                    <div className="primary-btn" onClick={() => handleCapture()}>Ready!</div>
-                </div>
+                <DataHandler handleCapture={handleCapture} importRef={importRef} importForm={importForm} exportForm={exportForm} />
             </div>
             <div style={{display: "flex", flexDirection: "row", gap: "2em"}}>
                 <div style={{ flex: "0 0 60%" }}>
@@ -161,6 +160,8 @@ function MageCard({ charges, form, ref }) {
                 <img style={innerImageStyle(form.artTop || 60, form.artLeft || 23)} width={form.artWidth} src={form.artImageUrl} />
                 <div style={textStyle(form.additionalRulesTop || 80, form.additionalRulesLeft || 20, form.additionalRulesFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.additionalRules || '')}</div>
             </div>
+
+            <div style={{marginTop: '48px'}}></div>
 
             {/*back*/}
             <div style={cardWrapperStyle}>

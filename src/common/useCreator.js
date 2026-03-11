@@ -6,6 +6,8 @@ export default function useCreator(defaultForm = {}) {
 
     const ref = useRef()
 
+    const importRef = useRef()
+
     const handleCapture = async () => {
         const element = ref.current;
 
@@ -20,10 +22,45 @@ export default function useCreator(defaultForm = {}) {
         link.click();
     };
 
+    const importForm = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+
+                setForm(data); // update your state
+            } catch (err) {
+                alert("Invalid JSON file");
+            }
+        };
+
+        reader.readAsText(file);
+    }
+
+    const exportForm = () => {
+        const formatted = JSON.stringify(form, null, 2)
+        const blob = new Blob([formatted], { type: "application/json" })
+        const url = URL.createObjectURL(blob)
+
+        const link = document.createElement("a")
+        link.href = url
+        link.download = `${form.name.replace(/\s+/g, "_")}.json`
+        link.click()
+
+        URL.revokeObjectURL(url)
+    }
+
     return {
         form,
         setForm,
         captureRef: ref,
-        handleCapture
+        handleCapture,
+        importForm,
+        importRef,
+        exportForm
     }
 }
