@@ -18,7 +18,7 @@ function App() {
           <div class="warning-content">
             <span class="warning-text">
               <strong>Heads up! Progress is now saved locally on your device. </strong> Your data will stay here even if you refresh or leave the page. Clearing browser data, using private mode, or switching devices will reset it.
-              <span class="coming-soon">Export and import features coming soon.</span>
+              <span class="coming-soon">Export your data to be extra safe!</span>
             </span>
           </div>
         </div>

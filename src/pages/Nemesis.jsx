@@ -4,10 +4,11 @@ import useImageUpload from '../common/useImageUpload';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
+import DataHandler from '../components/DataHandler';
 
 export default function Nemesis() {
     const [nemesisForm, saveNemesisForm] = useLocalStorage("nemesis", {})
-    const { form, setForm, captureRef, handleCapture } = useCreator({
+    const { form, setForm, captureRef, handleCapture, importRef, importForm, exportForm } = useCreator({
         name: 'Lord of Chaos',
         text: 'When prepared, no ally can be exhausted and Gravehold cannot be destroyed (always on 1 health)',
         cast: 'Win the fight',
@@ -26,9 +27,7 @@ export default function Nemesis() {
         <div>
             <h1>Nemesis Creation</h1>
             <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", marginBottom: "16px"}}>
-                <div>
-                    <div className="primary-btn" onClick={() => handleCapture()}>Ready!</div>
-                </div>
+                <DataHandler handleCapture={handleCapture} importRef={importRef} importForm={importForm} exportForm={exportForm} />
             </div>
 
             <div style={{display: "flex", flexDirection: "row", gap: "2em"}}>
@@ -44,7 +43,7 @@ export default function Nemesis() {
     )
 }
 
-function NemesisCard({ cardType, form, ref }) {
+function NemesisCard({ form, ref }) {
     const cardWrapperStyle = {
         position: "relative",
         width: "50%",
@@ -112,6 +111,8 @@ function NemesisCard({ cardType, form, ref }) {
                 <div style={textStyleBlack(form.increasedDifficultyTop || 53, form.increasedDifficultyLeft || 75, form.increasedDifficultyFontSize || "0.8vw")}>{form.increasedDifficulty}</div>
                 <div style={textStyleBlack(form.additionalRulesTop || 65, form.additionalRulesLeft || 50, form.additionalRulesFontSize || "0.8vw", {width: '90%', margin: "0 5%", textAlign: 'left'})}>{form.additionalRules}</div>
             </div>
+
+            <div style={{marginTop: '32px'}}></div>
 
             <div style={cardWrapperStyle}>
                 <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomBackgroundStyle())}} src={form.artImageUrl} />

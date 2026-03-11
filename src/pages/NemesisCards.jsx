@@ -3,6 +3,7 @@ import useCreator from '../common/useCreator';
 import useImageUpload from '../common/useImageUpload';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
+import DataHandler from '../components/DataHandler';
 
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 
@@ -10,7 +11,7 @@ const isMinion = (cardType) => cardType === 'minion'
 
 export default function NemesisCards() {
     const [cardForm, saveCardForm] = useLocalStorage("nemesisCard", {})
-    const { form, setForm, captureRef, handleCapture } = useCreator({
+    const { form, setForm, captureRef, handleCapture, importForm, importRef, exportForm } = useCreator({
         name: 'Power of friendship',
         text: 'When prepared, no ally can be exhausted and Gravehold cannot be destroyed (always on 1 health)',
         cast: 'Win the fight',
@@ -55,9 +56,7 @@ export default function NemesisCards() {
                         </label>
                     </div>
                 </div>
-                <div>
-                    <div className="primary-btn" onClick={() => handleCapture()}>Ready!</div>
-                </div>
+                <DataHandler handleCapture={handleCapture} importRef={importRef} importForm={importForm} exportForm={exportForm} />
             </div>
 
             <div style={{display: "flex", flexDirection: "row", gap: "2em"}}>

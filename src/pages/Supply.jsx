@@ -4,10 +4,11 @@ import useImageUpload from '../common/useImageUpload';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
+import DataHandler from '../components/DataHandler';
 
 export default function Supply() {
     const [cardForm, saveCardForm] = useLocalStorage("supplyCard", {})
-    const { form, setForm, captureRef, handleCapture } = useCreator({
+    const { form, setForm, captureRef, handleCapture, importForm, importRef, exportForm } = useCreator({
         name: 'Power of friendship',
         text: 'When prepared, no ally can be exhausted and Gravehold cannot be destroyed (always on 1 health)',
         cast: 'Win the fight',
@@ -32,9 +33,7 @@ export default function Supply() {
                     <div className={cardType === 'gem' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('gem')}>Gem</div>
                     <div className={cardType == 'relic' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('relic')}>Relic</div>
                 </div>
-                <div>
-                    <div className="primary-btn" onClick={() => handleCapture()}>Ready!</div>
-                </div>
+                <DataHandler handleCapture={handleCapture} importRef={importRef} importForm={importForm} exportForm={exportForm} />
             </div>
 
             <div style={{display: "flex", flexDirection: "row", gap: "2em"}}>
