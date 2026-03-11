@@ -20,7 +20,8 @@ const enriches = {
     },
     "color": {
         callStyle: (color) => ({color: `${color}`})
-    }
+    },
+    "list-item": {}
 }
 
 const getHTML = (enrich, key) => {
@@ -36,6 +37,12 @@ const getHTML = (enrich, key) => {
         case "text":
             return (
                 <span style={{display: 'inline', ...(enrich.styles ?? {})}}>{enrich.text}</span>
+            )
+        case "list-item":
+            return (
+                <ul style={{margin: '0'}}>
+                    <li style={{listStyleType: 'circle'}}>{enrich?.text ?? ''}</li>
+                </ul>
             )
         default:
             return (
@@ -58,6 +65,17 @@ export default function enrichText (text) {
   return parts.map((part, index) => {
     if (enriches[part]) {
       return getHTML(enriches[part])
+    }
+
+    if (part.includes('list-item')) {
+        const p = part.split('|')
+        if (p.length < 2) {
+            return part
+        }
+        return getHTML({
+            type: 'list-item',
+            text: p[0]
+        })
     }
 
     const textWithModifiers = part.split('|')

@@ -1,5 +1,4 @@
-import logo from './logo.svg';
-import { HashRouter, Routes, Route, Link } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import Mage from './pages/Mage'
 import Supply from './pages/Supply';
@@ -31,7 +30,7 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/mage" element={<Mage />}></Route>
             <Route path="/supply" element={<Supply />}></Route>
-            {/* <Route path="/nemesis" element={<Nemesis />}></Route> */}
+            <Route path="/nemesis" element={<Nemesis />}></Route>
             <Route path="/nemesis-cards" element={<NemesisCards />}></Route>
           </Routes>
         </main>
