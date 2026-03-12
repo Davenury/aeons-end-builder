@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/aeons-end-builder/static/css/main.891a4537.css",
-    "main.js": "/aeons-end-builder/static/js/main.c0b8ae1b.js",
+    "main.css": "/aeons-end-builder/static/css/main.996f9795.css",
+    "main.js": "/aeons-end-builder/static/js/main.9a3250c8.js",
     "static/js/453.76052532.chunk.js": "/aeons-end-builder/static/js/453.76052532.chunk.js",
     "static/media/Kefa-Regular.TTF": "/aeons-end-builder/static/media/Kefa-Regular.b056e2ae836c503e2a49.TTF",
     "static/media/kefa-bold.ttf": "/aeons-end-builder/static/media/kefa-bold.c8ae7962fd7684169f45.ttf",
     "static/media/kefa-bold-italic.ttf": "/aeons-end-builder/static/media/kefa-bold-italic.676e84109fe57247ecfb.ttf",
     "static/media/kefa-italic.ttf": "/aeons-end-builder/static/media/kefa-italic.9cc27a249979fb1d2f58.ttf",
     "index.html": "/aeons-end-builder/index.html",
-    "main.891a4537.css.map": "/aeons-end-builder/static/css/main.891a4537.css.map",
-    "main.c0b8ae1b.js.map": "/aeons-end-builder/static/js/main.c0b8ae1b.js.map",
+    "main.996f9795.css.map": "/aeons-end-builder/static/css/main.996f9795.css.map",
+    "main.9a3250c8.js.map": "/aeons-end-builder/static/js/main.9a3250c8.js.map",
     "453.76052532.chunk.js.map": "/aeons-end-builder/static/js/453.76052532.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.891a4537.css",
-    "static/js/main.c0b8ae1b.js"
+    "static/css/main.996f9795.css",
+    "static/js/main.9a3250c8.js"
   ]
 }
