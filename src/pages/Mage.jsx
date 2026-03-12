@@ -159,6 +159,7 @@ function MageCard({ charges, form, ref }) {
                 <div style={textStyle(form.abilityDescTop || 73, form.abilityDescLeft || 71, form.abilityDescFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.abilityDesc || '')}</div>
                 <img style={innerImageStyle(form.artTop || 60, form.artLeft || 23)} width={form.artWidth} src={form.artImageUrl} />
                 <div style={textStyle(form.additionalRulesTop || 80, form.additionalRulesLeft || 20, form.additionalRulesFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.additionalRules || '')}</div>
+                <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
             </div>
 
             <div style={{marginTop: '48px'}}></div>
@@ -442,6 +443,21 @@ function MageForm({
         )
     }
 
+    const credits = () => {
+        const input = (<div className="form-row">
+                <label>Credits</label>
+                <input
+                name="credits"
+                value={form.credits}
+                onChange={handleChange}
+                rows={4}
+                />
+            </div>)
+        return (
+            <AdvancedSettingsComponent input={input} name={"credits"} topPlaceholder={"95"} leftPlaceholder={"10"} form={form} handleChange={handleChange} />
+        )
+    }
+
     return (
         <form className="mage-form" onSubmit={handleSubmit} style={{width: "100%"}}>
             
@@ -468,6 +484,7 @@ function MageForm({
             {lore()}
 
             {customBackground()}
+            {credits()}
         </form>
     )
 }

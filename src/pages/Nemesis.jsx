@@ -110,6 +110,7 @@ function NemesisCard({ form, ref }) {
                 <div style={textStyleBlack(form.unleashTop || 53, form.unleashLeft || 25, form.unleashFontSize || "0.8vw")}>{form.unleash}</div>
                 <div style={textStyleBlack(form.increasedDifficultyTop || 53, form.increasedDifficultyLeft || 75, form.increasedDifficultyFontSize || "0.8vw")}>{form.increasedDifficulty}</div>
                 <div style={textStyleBlack(form.additionalRulesTop || 65, form.additionalRulesLeft || 50, form.additionalRulesFontSize || "0.8vw", {width: '90%', margin: "0 5%", textAlign: 'left'})}>{form.additionalRules}</div>
+                <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
             </div>
 
             <div style={{marginTop: '32px'}}></div>
@@ -304,6 +305,21 @@ function NemesisForm({ cardType, form, onSubmit }) {
         )
     }
 
+    const credits = () => {
+        const input = (<div className="form-row">
+                <label>Credits</label>
+                <input
+                name="credits"
+                value={form.credits}
+                onChange={handleChange}
+                rows={4}
+                />
+            </div>)
+        return (
+            <AdvancedSettingsComponent input={input} name={"credits"} topPlaceholder={"95"} leftPlaceholder={"10"} form={form} handleChange={handleChange} />
+        )
+    }
+
 
     return (
         <form className="mage-form" onSubmit={handleSubmit} style={{width: "100%"}}>
@@ -316,6 +332,7 @@ function NemesisForm({ cardType, form, onSubmit }) {
             {difficulty()}
             {setup()}
             {lore()}
+            {credits()}
         </form>
     )
 }
