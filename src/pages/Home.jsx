@@ -1,6 +1,7 @@
 export default function Home() {
     return (
     <div className="home">
+
       <h2>Create your own Aeon's End cards</h2>
       <p>
         With this creator you can more-or-less easily design mages and supply cards (spells, relics, and gems).

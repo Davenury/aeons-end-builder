@@ -128,6 +128,7 @@ function NemesisCard({ cardType, form, ref, isBase }) {
             <div style={textStyleBlack(form.nemesisNameTop || 94.2, form.nemesisNameLeft || 50, form.nemesisNameFontSize || "1vw", {fontWeight: 'bold'})}>{form.nemesisName}</div>
             <div style={textStyleBlack(form.tierTop || 95.2, form.tierLeft || 95, form.tierFontSize || "0.9vw", {fontWeight: 'bold'})}>{form.tier}</div>
             <div style={textStyleLore(form.loreTop || 98.5, form.loreLeft || 50, form.loreFontSize || "0.6vw")}>{form.lore}</div>
+            <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
         </div>
     )
 }
@@ -278,6 +279,21 @@ function NemesisForm({ cardType, form, onSubmit }) {
         )
     }
 
+    const credits = () => {
+        const input = (<div className="form-row">
+                <label>Credits</label>
+                <input
+                name="credits"
+                value={form.credits}
+                onChange={handleChange}
+                rows={4}
+                />
+            </div>)
+        return (
+            <AdvancedSettingsComponent input={input} name={"credits"} topPlaceholder={"95"} leftPlaceholder={"10"} form={form} handleChange={handleChange} />
+        )
+    }
+
 
     return (
         <form className="mage-form" onSubmit={handleSubmit} style={{width: "100%"}}>
@@ -288,6 +304,7 @@ function NemesisForm({ cardType, form, onSubmit }) {
             {cardLore()}
             {isMinion(cardType) && cardArt()}
             {isMinion(cardType) && minionHP()}
+            {credits()}
         </form>
     )
 }

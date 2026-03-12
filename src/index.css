@@ -550,3 +550,7 @@ input[type="file"]::file-selector-button:hover {
 .slider-number {
   width: 60px;
 }
+
+.recolor {
+  filter: url(#gold-recolor);
+}

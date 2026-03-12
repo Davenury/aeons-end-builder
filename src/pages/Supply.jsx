@@ -114,13 +114,12 @@ function SupplyCard({ cardType, form, ref }) {
             <div style={textStyleLore(form.loreTop || 96, form.loreLeft || 50, form.loreFontSize || "0.8vw")}>{form.lore}</div>
             <img style={costStyle(0, 100)} src={`${process.env.PUBLIC_URL}/supply/cost.png`}/>
             <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw")}>{form.cost}</div>
+            <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
         </div>
     )
 }
 
 function SupplyForm({ cardType, form, onSubmit }) {
-    const [advancedSettings, toggleAdvancedSettings] = useState(false)
-    
     useEffect(() => {
         onSubmit?.(form)
     }, [])
@@ -244,6 +243,20 @@ function SupplyForm({ cardType, form, onSubmit }) {
         )
     }
 
+    const credits = () => {
+        const input = (<div className="form-row">
+                <label>Credits</label>
+                <input
+                name="credits"
+                value={form.credits}
+                onChange={handleChange}
+                rows={4}
+                />
+            </div>)
+        return (
+            <AdvancedSettingsComponent input={input} name={"credits"} topPlaceholder={"95"} leftPlaceholder={"10"} form={form} handleChange={handleChange} />
+        )
+    }
 
     return (
         <form className="mage-form" onSubmit={handleSubmit} style={{width: "100%"}}>
@@ -253,6 +266,7 @@ function SupplyForm({ cardType, form, onSubmit }) {
             {cardCost()}
             {cardArt()}
             {cardLore()}
+            {credits()}
         </form>
     )
 }

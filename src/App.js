@@ -6,6 +6,7 @@ import Nemesis from './pages/Nemesis';
 import NemesisCards from './pages/NemesisCards';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
+import Breach from "./pages/Breach";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/mage" element={<Mage />}></Route>
+            <Route path="/breach" element={<Breach />}></Route>
             <Route path="/supply" element={<Supply />}></Route>
             <Route path="/nemesis" element={<Nemesis />}></Route>
             <Route path="/nemesis-cards" element={<NemesisCards />}></Route>
