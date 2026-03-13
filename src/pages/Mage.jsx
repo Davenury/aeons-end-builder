@@ -64,10 +64,11 @@ function MageCard({ charges, form, ref }) {
         position: "relative",
         width: "100%",
         maxWidth: "1200px",     // optional cap
-        // aspectRatio: "16 / 9",  // 🔥 key part
+        aspectRatio: "512 / 365",  // 🔥 key part
         margin: "0",
-        zIndex: -2,
-        background: 'black'
+        // zIndex: -2,
+        background: 'black',
+        overflow: 'hidden'
     };
 
     const imageStyle = {
@@ -91,17 +92,43 @@ function MageCard({ charges, form, ref }) {
         ...additional
     })
 
-    const innerImageStyle = (top, left, additional = {}) => ({
+    const breachImageStyle = (top, left, additional = {}) => ({
         position: "absolute",
         top: `${top}%`,
         left: `${left}%`,
         transform: "translate(-50%, -50%)",
     })
 
+    const innerImageStyle = (top, left, scaleValue = 0, additional = {}) => {
+        const scale = 1 + scaleValue / 100;
+        return {
+            position: "absolute",
+            top: `${top}%`,
+            left: `${left}%`,
+            transform: `scale(${scale})`,
+            ...additional,
+        }
+    }
+
+    const backgroundImageStyle = (top, left, scaleValue = 0, additional = {}) => {
+        const scale = 1 + scaleValue / 100;
+        return {
+            position: "absolute",
+            top: `${top}%`,
+            left: `${left}%`,
+            transform: `translate(-50%, -50%) scale(${scale})`,
+            objectFit: 'cover',
+            maxWidth: 'none',
+            width: "auto",
+            height: "auto",
+            ...additional,
+        }
+    }
+
     const textStyleGold = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'gold', ...additional })
     const textStyleStarting = (top, left, fontSize) => textStyle(top, left, fontSize)
 
-    const customBackgroundStyle = (additional) => ({...imageStyle, ...additional})
+    const customBackgroundStyle = (additional) => ({...additional})
 
     const backgroundFront = () => {
         if (!form.customBackground) {
@@ -113,15 +140,15 @@ function MageCard({ charges, form, ref }) {
         }
         return (
             <>
-                <img src={form.customBackground} style={customBackgroundStyle(sanitizeCustomBackgroundStyle())}/>
+                <img src={form.customBackground} style={{...backgroundImageStyle(form.customBackgroundTop || 50, form.customBackgroundLeft || 50, form.customBackgroundScale || 0), ...customBackgroundStyle(sanitizeCustomStyle(form.customBackgroundCustomStyle))}}/>
                 <img src={`${process.env.PUBLIC_URL}/mages/empty-layout-${charges}-charges.png`} style={{...imageStyle, position: 'absolute', top: 0, left: 0, objectFit: 'fill'}} />
             </>
         )
     }
 
-    const sanitizeCustomBackgroundStyle = () => {
+    const sanitizeCustomStyle = (customStyle) => {
         try {
-            return JSON.parse(form.customBackgroundStyle)
+            return JSON.parse(customStyle)
         } catch(e) {
             console.log(e)
             return {}
@@ -136,7 +163,7 @@ function MageCard({ charges, form, ref }) {
         }
         return (
             <>
-                <img src={form.customBackground} style={customBackgroundStyle(sanitizeCustomBackgroundStyle())}/>
+                <img src={form.customBackground} style={{...backgroundImageStyle(form.customBackgroundTop || 50, form.customBackgroundLeft || 50, form.customBackgroundScale || 0), ...customBackgroundStyle(sanitizeCustomStyle(form.customBackgroundCustomStyle))}}/>
             </>
         )
     }
@@ -146,10 +173,10 @@ function MageCard({ charges, form, ref }) {
             {/*front*/}
             <div style={cardWrapperStyle}>
                 {backgroundFront()}
-                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach0}.png`} style={innerImageStyle(form.breach0Top || 6.5, form.breach0Left || 7)} width="4%" />
-                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach1}.png`} style={innerImageStyle(form.breach1Top || 6.5, form.breach1Left || 30)} width="4%" />
-                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach2}.png`} style={innerImageStyle(form.breach2Top || 6.5, form.breach2Left || 72)} width="4%" />
-                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach3}.png`} style={innerImageStyle(form.breach3Top || 6.5, form.breach3Left || 97)} width="4%" />
+                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach0}.png`} style={breachImageStyle(form.breach0Top || 6.5, form.breach0Left || 7)} width="4%" />
+                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach1}.png`} style={breachImageStyle(form.breach1Top || 6.5, form.breach1Left || 30)} width="4%" />
+                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach2}.png`} style={breachImageStyle(form.breach2Top || 6.5, form.breach2Left || 72)} width="4%" />
+                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach3}.png`} style={breachImageStyle(form.breach3Top || 6.5, form.breach3Left || 97)} width="4%" />
                 <div style={textStyle(form.nameTop || 12, form.nameLeft || 71, form.nameFontSize || "1.5vw", {fontWeight: 'bold'})}>{enrichText(form.name || '')}</div>
                 <div style={textStyleGold(form.titleTop || 17, form.titleLeft || 71, form.titleFontSize || "1.5vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.title || '')}</div>
                 <div style={textStyleStarting(form.handTop || 42.5, form.handLeft || 71, form.handFontSize || "0.75vw", {whiteSpace: 'nowrap'})}>{enrichText(form.startingHand || '')}</div>
@@ -157,7 +184,9 @@ function MageCard({ charges, form, ref }) {
                 <div style={textStyleGold(form.abilityNameTop || 54, form.abilityNameLeft || 71, form.abilityNameFontSize || "1.5vw", { fontWeight: 'bold', whiteSpace: 'nowrap' })}>{enrichText(form.abilityName || '')}</div>
                 <div style={textStyle(form.abilityUsageTop || 59, form.abilityUsageLeft || 71, form.abilityUsageFontSize || "clamp(12px, 100%, 18px)", {fontWeight: "bold", whiteSpace: 'nowrap'})}>{enrichText(form.abilityUsage || '')}</div>
                 <div style={textStyle(form.abilityDescTop || 73, form.abilityDescLeft || 71, form.abilityDescFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.abilityDesc || '')}</div>
-                <img style={innerImageStyle(form.artTop || 60, form.artLeft || 23)} width={form.artWidth} src={form.artImageUrl} />
+                
+                <img style={{...innerImageStyle(form.artTop || 60, form.artLeft || 23, form.artScale || 0), ...sanitizeCustomStyle(form.artCustomStyle)}} width={form.artWidth} src={form.artImageUrl} />
+                
                 <div style={textStyle(form.additionalRulesTop || 80, form.additionalRulesLeft || 20, form.additionalRulesFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.additionalRules || '')}</div>
                 <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
             </div>
@@ -167,7 +196,7 @@ function MageCard({ charges, form, ref }) {
             {/*back*/}
             <div style={cardWrapperStyle}>
                 {backgroundBack()}
-                <img style={innerImageStyle(form.artTop || 60, form.artLeft || 23)} width={form.artWidth} src={form.artImageUrl} />
+                <img style={{...innerImageStyle(form.artTop || 60, form.artLeft || 23, form.artScale || 0), ...sanitizeCustomStyle(form.artCustomStyle)}} width={form.artWidth} src={form.artImageUrl} />
                 <div style={textStyle(form.loreTop || 59, form.loreLeft || 71, form.loreFontSize || "clamp(12px, 100%, 18px)")}>{enrichText(form.lore || '')}</div>
             </div>
         </div>

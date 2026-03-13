@@ -51,7 +51,8 @@ function NemesisCard({ form, ref }) {
         margin: "0",
         border: '5px solid white',
         zIndex: -2,
-        background: 'black'
+        background: 'black',
+        overflow: 'hidden'
     };
 
     const imageStyle = {
@@ -72,22 +73,23 @@ function NemesisCard({ form, ref }) {
         ...additional
     })
 
-    const innerImageStyle = (top, left, additional = {}) => ({
-        position: "absolute",
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: "translate(-50%)",
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        ...additional,
-    })
+    const innerImageStyle = (top, left, scaleValue = 0, additional = {}) => {
+        const scale = 1 + scaleValue / 100;
+        return {
+            position: "absolute",
+            top: `${top}%`,
+            left: `${left}%`,
+            transform: `translate(-50%) scale(${scale})`,
+            objectFit: 'cover',
+            ...additional,
+        }
+    }
 
     const customBackgroundStyle = (additional) => ({...imageStyle, ...additional})
 
     const sanitizeCustomBackgroundStyle = () => {
         try {
-            return JSON.parse(form.customBackgroundStyle)
+            return JSON.parse(form.artCustomStyle)
         } catch(e) {
             console.log(e)
             return {}
@@ -101,7 +103,7 @@ function NemesisCard({ form, ref }) {
     return (
         <div ref={ref}>
             <div style={cardWrapperStyle}>
-                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomBackgroundStyle())}} src={form.artImageUrl} />
+                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomBackgroundStyle())}} src={form.artImageUrl} />
                 <img src={`${process.env.PUBLIC_URL}/nemesis-page/Nememplate.png`} style={imageStyle} />
                 <div style={textStyleWhite(form.nameTop || 40, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.name || '')}</div>
                 <div style={textStyleWhite(form.nemesisHPTop || 46.5, form.nemesisHPLeft || 49.5, form.nemesisHPFontSize || "0.8vw", {display: "flex", flexDirection: 'column'})}>
@@ -116,7 +118,7 @@ function NemesisCard({ form, ref }) {
             <div style={{marginTop: '32px'}}></div>
 
             <div style={cardWrapperStyle}>
-                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomBackgroundStyle())}} src={form.artImageUrl} />
+                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomBackgroundStyle())}} src={form.artImageUrl} />
                 <img src={`${process.env.PUBLIC_URL}/nemesis-page/NememplateBack.png`} style={imageStyle} />
                 <div style={textStyleBlack(form.difficultyTop || 37.2, form.difficultyLeft || 49.5, form.difficultyFontSize || "0.8vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.difficulty || '')}</div>
                 <div style={textStyleBlack(form.setupTop || 47, form.setupLeft || 50, form.setupFontSize || "0.9vw", {display: "flex", flexDirection: 'column', textAlign: 'left'})}>

@@ -96,7 +96,7 @@ function BreachView({ form, ref }) {
 
     const sanitizeCustomBackgroundStyle = () => {
         try {
-            return JSON.parse(form.customBackgroundStyle)
+            return JSON.parse(form.breachArtCustomStyle)
         } catch(e) {
             console.log(e)
             return {}

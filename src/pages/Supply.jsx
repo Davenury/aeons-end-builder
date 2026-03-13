@@ -55,7 +55,8 @@ function SupplyCard({ cardType, form, ref }) {
         width: "50%",
         maxWidth: "1200px",
         margin: "0",
-        border: '5px solid white'
+        border: '5px solid white',
+        overflow: 'hidden'
     };
 
     const imageStyle = {
@@ -77,16 +78,17 @@ function SupplyCard({ cardType, form, ref }) {
         ...additional
     })
 
-    const innerImageStyle = (top, left, additional = {}) => ({
-        position: "absolute",
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: "translate(-50%)",
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        ...additional,
-    })
+    const innerImageStyle = (top, left, scaleValue = 0, additional = {}) => {
+        const scale = 1 + scaleValue / 100;
+        return {
+            position: "absolute",
+            top: `${top}%`,
+            left: `${left}%`,
+            transform: `scale(${scale})`,
+            objectFit: 'cover',
+            ...additional,
+        }
+    }
 
     const costStyle = (top, left, fontSize, additional = {}) => ({
         position: "absolute",
@@ -102,9 +104,18 @@ function SupplyCard({ cardType, form, ref }) {
     const textStyleWhite = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'white', ...additional })
     const textStyleLore = (top, left, fontSize) => textStyle(top, left, fontSize, {})
 
+    const sanitizeCustomBackgroundStyle = () => {
+        try {
+            return JSON.parse(form.artCustomStyle)
+        } catch(e) {
+            console.log(e)
+            return {}
+        }
+    }
+
     return (
         <div style={cardWrapperStyle} ref={ref}>
-            <img style={innerImageStyle(form.artTop || 0, form.artLeft || 50, {zIndex: -1})} src={form.artImageUrl} />
+            <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...sanitizeCustomBackgroundStyle()}} src={form.artImageUrl} />
             <img src={`${process.env.PUBLIC_URL}/supply/${cardType}.png`} style={imageStyle} />
             <div style={textStyleBlack(form.nameTop || 63, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.name || '')}</div>
             <div style={textStyleBlack(form.textTop || 77, form.textLeft || 50, form.textFontSize || "1.3vw", {display: "flex", flexDirection: 'column'})}>
