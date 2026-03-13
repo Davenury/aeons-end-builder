@@ -7,8 +7,8 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
         <div className="form-row">
             <label style={{fontSize: '14px'}}>Custom CSS (write custtom css in React style to be passed to the image)</label>
             <textarea
-                name="customBackgroundStyle"
-                value={form.customBackgroundStyle}
+                name={`${name}CustomStyle`}
+                value={form?.[`${name}CustomStyle`]}
                 onChange={handleChange}
                 rows={4}
                 placeholder={`e.g. {"opacity": "50%"} to reduce brigthness of the background`}
@@ -79,19 +79,6 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
         )
     }
 
-    if (type === "customBackground" || type === "nemesisImage") {
-        return (
-            <FieldSettings
-                type={type}
-                panel={
-                    customCss
-                }
-            >
-                {input}
-            </FieldSettings>
-        )
-    }
-
     return (
         <FieldSettings
             type={type}
@@ -100,7 +87,7 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                     <SliderInput
                         name={`${name}Top`}
                         label="Top"
-                        min={0}
+                        min={-100}
                         max={100}
                         step={0.1}
                         value={form?.[`${name}Top`] || +topPlaceholder}
@@ -110,14 +97,14 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                     <SliderInput
                         name={`${name}Left`}
                         label="Left"
-                        min={0}
+                        min={-100}
                         max={100}
                         step={0.1}
                         value={form?.[`${name}Left`] || +leftPlaceholder}
                         onChange={handleChange}
                         placeholder={+leftPlaceholder}
                     />
-                    { (name != "art" && type !== "breach") && (
+                    { (name != "art" && type !== "breach" && type === "customBackground" && type === "nemesisImage") && (
                             <div className="form-row">
                                 <label>Font Size</label>
                                 <input
@@ -125,8 +112,26 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                                     name={`${name}FontSize`}
                                     value={form?.[`${name}FontSize`]}
                                     onChange={handleChange}
+                                    placeholder="You have to include css unit, like 12px or 1em"
                                 />
                             </div>
+                        )
+                    }
+                    {
+                        (name === "art" || type === "customBackground" || type === "nemesisImage") && (
+                            <>
+                                <SliderInput
+                                    name={`${name}Scale`}
+                                    label="Scale"
+                                    min={-100}
+                                    max={100}
+                                    step={0.1}
+                                    value={form?.[`${name}Scale`] || 0}
+                                    onChange={handleChange}
+                                    placeholder={"0"}
+                                />
+                                {customCss}
+                            </>
                         )
                     }
                     {

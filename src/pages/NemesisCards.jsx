@@ -78,7 +78,8 @@ function NemesisCard({ cardType, form, ref, isBase }) {
         width: "50%",
         maxWidth: "1200px",
         margin: "0",
-        border: '5px solid white'
+        border: '5px solid white',
+        overflow: 'hidden',
     };
 
     const imageStyle = {
@@ -99,16 +100,16 @@ function NemesisCard({ cardType, form, ref, isBase }) {
         ...additional
     })
 
-    const innerImageStyle = (top, left, additional = {}) => ({
-        position: "absolute",
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: "translate(-50%)",
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        ...additional,
-    })
+    const innerImageStyle = (top, left, scaleValue = 0, additional = {}) => {
+        const scale = 1 + scaleValue / 100;
+        return {
+            position: "absolute",
+            top: `${top}%`,
+            left: `${left}%`,
+            transform: `scale(${scale})`,
+            ...additional,
+        }
+    }
 
     const textStyleBlack = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'black', ...additional })
     const textStyleWhite = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'white', ...additional })
@@ -116,18 +117,27 @@ function NemesisCard({ cardType, form, ref, isBase }) {
 
     const textColor = isMinion(cardType) ? 'black' : 'white' 
 
+    const sanitizeCustomBackgroundStyle = () => {
+        try {
+            return JSON.parse(form.artCustomStyle)
+        } catch(e) {
+            console.log(e)
+            return {}
+        }
+    }
+
     return (
         <div style={cardWrapperStyle} ref={ref}>
-            { isMinion(cardType) && <img style={innerImageStyle(form.artTop || 0, form.artLeft || 50, {zIndex: -1})} src={form.artImageUrl} />}
+            { isMinion(cardType) && <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...sanitizeCustomBackgroundStyle()}} src={form.artImageUrl} />}
             <img src={`${process.env.PUBLIC_URL}/nemesis-${isBase ? 'base' : 'upgrade'}/${cardType}.png`} style={imageStyle} />
             <div style={textStyle(form.nameTop || (isMinion(cardType) ? 65 : 12.5), form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', color: textColor})}>{enrichText(form.name || '')}</div>
             <div style={textStyleBlack(form.textTop || (isMinion(cardType) ? 77 : 55), form.textLeft || 50, form.textFontSize || "1.3vw")}>
                 {enrichText(form.text || '')}
             </div>
-            {isMinion(cardType) && <div style={textStyle(form.minionHPTop || 55.5, form.minionHPLeft || 91.5, form.minionHPFontSize || "2vw", {fontWeight: 'bold'})}>{form.minionHP}</div>}
-            <div style={textStyleBlack(form.nemesisNameTop || 94.2, form.nemesisNameLeft || 50, form.nemesisNameFontSize || "1vw", {fontWeight: 'bold'})}>{form.nemesisName}</div>
-            <div style={textStyleBlack(form.tierTop || 95.2, form.tierLeft || 95, form.tierFontSize || "0.9vw", {fontWeight: 'bold'})}>{form.tier}</div>
-            <div style={textStyleLore(form.loreTop || 98.5, form.loreLeft || 50, form.loreFontSize || "0.6vw")}>{form.lore}</div>
+            {isMinion(cardType) && <div style={textStyle(form.minionHPTop || 55.5, form.minionHPLeft || 91.5, form.minionHPFontSize || "2vw", {fontWeight: 'bold'})}>{enrichText(form.minionHP || '')}</div>}
+            <div style={textStyleBlack(form.nemesisNameTop || 94.2, form.nemesisNameLeft || 50, form.nemesisNameFontSize || "1vw", {fontWeight: 'bold'})}>{enrichText(form.nemesisName || '')}</div>
+            <div style={textStyleBlack(form.tierTop || 95.2, form.tierLeft || 95, form.tierFontSize || "0.9vw", {fontWeight: 'bold'})}>{enrichText(form.tier || '')}</div>
+            <div style={textStyleLore(form.loreTop || 98.5, form.loreLeft || 50, form.loreFontSize || "0.6vw")}>{enrichText(form.lore || '')}</div>
             <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
         </div>
     )
