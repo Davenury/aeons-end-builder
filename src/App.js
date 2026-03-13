@@ -7,6 +7,8 @@ import NemesisCards from './pages/NemesisCards';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Breach from "./pages/Breach";
+import FriendFoe from "./pages/Friend-Foe-Card";
+import FriendFoeCards from "./pages/FriendFoeCards";
 
 function App() {
 
@@ -30,6 +32,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/mage" element={<Mage />}></Route>
+            <Route path="/friend-foe" element={<FriendFoe />}></Route>
+            <Route path="/friend-foe-cards" element={<FriendFoeCards />}></Route>
             <Route path="/breach" element={<Breach />}></Route>
             <Route path="/supply" element={<Supply />}></Route>
             <Route path="/nemesis" element={<Nemesis />}></Route>

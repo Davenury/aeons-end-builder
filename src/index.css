@@ -554,3 +554,85 @@ input[type="file"]::file-selector-button:hover {
 .recolor {
   filter: url(#gold-recolor);
 }
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button (same feel as nav links) */
+.dropdown-button {
+  margin-left: 24px;
+  font-weight: 600;
+  font-family: inherit;
+  font-size: 1rem;
+
+  color: #e6d3a3;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.dropdown-button:hover {
+  color: #ffd86b;
+}
+
+/* Dropdown menu panel */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 24px;
+
+  min-width: 180px;
+  padding: 8px 0;
+
+  background: linear-gradient(180deg, #2d1e2f, #1a1a2b);
+  border: 1px solid #c9a44b;
+  border-radius: 8px;
+
+  box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+
+  display: flex;
+  flex-direction: column;
+
+  z-index: 1000;
+
+  animation: dropdownFade 0.18s ease;
+}
+
+/* Dropdown links */
+.dropdown-menu a {
+  padding: 10px 16px;
+  color: #e6d3a3;
+  font-weight: 500;
+
+  transition: all 0.15s ease;
+}
+
+/* Hover effect */
+.dropdown-menu a:hover {
+  background: rgba(255, 216, 107, 0.08);
+  color: #ffd86b;
+}
+
+/* small divider option if you want groups */
+.dropdown-divider {
+  height: 1px;
+  margin: 6px 10px;
+  background: rgba(255,215,140,0.2);
+}
+
+/* subtle dropdown animation */
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
