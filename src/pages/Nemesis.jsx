@@ -109,9 +109,9 @@ function NemesisCard({ form, ref }) {
                 <div style={textStyleWhite(form.nemesisHPTop || 46.5, form.nemesisHPLeft || 49.5, form.nemesisHPFontSize || "0.8vw", {display: "flex", flexDirection: 'column'})}>
                     <div>{enrichText(form.nemesisHP || '')}</div>
                 </div>
-                <div style={textStyleBlack(form.unleashTop || 53, form.unleashLeft || 25, form.unleashFontSize || "0.8vw")}>{form.unleash}</div>
-                <div style={textStyleBlack(form.increasedDifficultyTop || 53, form.increasedDifficultyLeft || 75, form.increasedDifficultyFontSize || "0.8vw")}>{form.increasedDifficulty}</div>
-                <div style={textStyleBlack(form.additionalRulesTop || 65, form.additionalRulesLeft || 50, form.additionalRulesFontSize || "0.8vw", {width: '90%', margin: "0 5%", textAlign: 'left'})}>{form.additionalRules}</div>
+                <div style={textStyleBlack(form.unleashTop || 53, form.unleashLeft || 25, form.unleashFontSize || "0.8vw")}>{enrichText(form.unleash || '')}</div>
+                <div style={textStyleBlack(form.increasedDifficultyTop || 53, form.increasedDifficultyLeft || 75, form.increasedDifficultyFontSize || "0.8vw")}>{enrichText(form.increasedDifficulty || '')}</div>
+                <div style={textStyleBlack(form.additionalRulesTop || 65, form.additionalRulesLeft || 50, form.additionalRulesFontSize || "0.8vw", {width: '90%', margin: "0 5%", textAlign: 'left'})}>{enrichText(form.additionalRules || '')}</div>
                 <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
             </div>
 

@@ -134,10 +134,10 @@ function NemesisCard({ cardType, form, ref, isBase }) {
             <div style={textStyleBlack(form.textTop || (isMinion(cardType) ? 77 : 55), form.textLeft || 50, form.textFontSize || "1.3vw")}>
                 {enrichText(form.text || '')}
             </div>
-            {isMinion(cardType) && <div style={textStyle(form.minionHPTop || 55.5, form.minionHPLeft || 91.5, form.minionHPFontSize || "2vw", {fontWeight: 'bold'})}>{form.minionHP}</div>}
-            <div style={textStyleBlack(form.nemesisNameTop || 94.2, form.nemesisNameLeft || 50, form.nemesisNameFontSize || "1vw", {fontWeight: 'bold'})}>{form.nemesisName}</div>
-            <div style={textStyleBlack(form.tierTop || 95.2, form.tierLeft || 95, form.tierFontSize || "0.9vw", {fontWeight: 'bold'})}>{form.tier}</div>
-            <div style={textStyleLore(form.loreTop || 98.5, form.loreLeft || 50, form.loreFontSize || "0.6vw")}>{form.lore}</div>
+            {isMinion(cardType) && <div style={textStyle(form.minionHPTop || 55.5, form.minionHPLeft || 91.5, form.minionHPFontSize || "2vw", {fontWeight: 'bold'})}>{enrichText(form.minionHP || '')}</div>}
+            <div style={textStyleBlack(form.nemesisNameTop || 94.2, form.nemesisNameLeft || 50, form.nemesisNameFontSize || "1vw", {fontWeight: 'bold'})}>{enrichText(form.nemesisName || '')}</div>
+            <div style={textStyleBlack(form.tierTop || 95.2, form.tierLeft || 95, form.tierFontSize || "0.9vw", {fontWeight: 'bold'})}>{enrichText(form.tier || '')}</div>
+            <div style={textStyleLore(form.loreTop || 98.5, form.loreLeft || 50, form.loreFontSize || "0.6vw")}>{enrichText(form.lore || '')}</div>
             <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
         </div>
     )

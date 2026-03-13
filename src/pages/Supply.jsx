@@ -122,9 +122,9 @@ function SupplyCard({ cardType, form, ref }) {
                 <div>{enrichText(form.text || '')}</div>
                 {cardType === 'spell' && <div><span style={{fontWeight: 'bold'}}>Cast: </span>{enrichText(form.cast || '')}</div>}
             </div>
-            <div style={textStyleLore(form.loreTop || 96, form.loreLeft || 50, form.loreFontSize || "0.8vw")}>{form.lore}</div>
+            <div style={textStyleLore(form.loreTop || 96, form.loreLeft || 50, form.loreFontSize || "0.8vw")}>{enrichText(form.lore || '')}</div>
             <img style={costStyle(0, 100)} src={`${process.env.PUBLIC_URL}/supply/cost.png`}/>
-            <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw")}>{form.cost}</div>
+            <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw")}>{enrichText(form.cost || '')}</div>
             <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
         </div>
     )
