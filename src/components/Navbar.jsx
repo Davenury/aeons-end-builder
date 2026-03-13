@@ -33,6 +33,7 @@ export default function Navbar() {
         <nav>
           <Link to="/">Home</Link>
           <Link to="/mage">Mage</Link>
+          <Link to="/friend-foe">Friend/Foe</Link>
           <Link to="/breach">Breach</Link>
           <Link to="/supply">Supply</Link>
           <Link to="/nemesis">Nemesis</Link>

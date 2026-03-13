@@ -104,7 +104,7 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                         onChange={handleChange}
                         placeholder={+leftPlaceholder}
                     />
-                    { (name != "art" && type !== "breach" && type === "customBackground" && type === "nemesisImage") && (
+                    { (name != "art" && type !== "breach" && type !== "customBackground" && type !== "nemesisImage") && (
                             <div className="form-row">
                                 <label>Font Size</label>
                                 <input
