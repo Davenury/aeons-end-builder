@@ -126,6 +126,11 @@ function NemesisCard({ cardType, form, ref, isBase }) {
         }
     }
 
+    const withShadow = (style) => ({
+        textShadow: "2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000",
+        ...style
+    })
+
     return (
         <div style={cardWrapperStyle} ref={ref}>
             { isMinion(cardType) && <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...sanitizeCustomBackgroundStyle()}} src={form.artImageUrl} />}
@@ -135,6 +140,14 @@ function NemesisCard({ cardType, form, ref, isBase }) {
                 {enrichText(form.text || '')}
             </div>
             {isMinion(cardType) && <div style={textStyle(form.minionHPTop || 55.5, form.minionHPLeft || 91.5, form.minionHPFontSize || "2vw", {fontWeight: 'bold'})}>{enrichText(form.minionHP || '')}</div>}
+            {
+                isMinion(cardType) && (form.shieldTokens || 0) > 0 && (
+                    <div style={innerImageStyle(form.shieldTokensTop || 51, form.shieldTokensLeft || 2, 0)}>
+                        <img src={`${process.env.PUBLIC_URL}/symbols/shield-token.webp`} style={{width: '30%'}} />
+                        <div style={withShadow(textStyleWhite(50, 15, form.shieldTokensFontSize || "2vw"))}>{form.shieldTokens}</div>
+                    </div>
+                )
+            }
             <div style={textStyleBlack(form.nemesisNameTop || 94.2, form.nemesisNameLeft || 50, form.nemesisNameFontSize || "1vw", {fontWeight: 'bold'})}>{enrichText(form.nemesisName || '')}</div>
             <div style={textStyleBlack(form.tierTop || 95.2, form.tierLeft || 95, form.tierFontSize || "0.9vw", {fontWeight: 'bold'})}>{enrichText(form.tier || '')}</div>
             <div style={textStyleLore(form.loreTop || 98.5, form.loreLeft || 50, form.loreFontSize || "0.6vw")}>{enrichText(form.lore || '')}</div>
@@ -255,6 +268,21 @@ function NemesisForm({ cardType, form, onSubmit }) {
         )
     }
 
+    const shieldTokens = () => {
+        const input = (<div className="form-row">
+                <label>Shield Tokens</label>
+                <input
+                name="shieldTokens"
+                value={form.shieldTokens}
+                onChange={handleChange}
+                placeholder="1"
+                />
+            </div>)
+        return (
+            <AdvancedSettingsComponent input={input} name={"shieldTokens"} topPlaceholder={"55.5"} leftPlaceholder={"91.5"} form={form} handleChange={handleChange} />
+        )
+    }
+
     const cardArt = () => {
         const input = (
             <div>
@@ -314,6 +342,7 @@ function NemesisForm({ cardType, form, onSubmit }) {
             {cardLore()}
             {isMinion(cardType) && cardArt()}
             {isMinion(cardType) && minionHP()}
+            {isMinion(cardType) && shieldTokens()}
             {credits()}
         </form>
     )
