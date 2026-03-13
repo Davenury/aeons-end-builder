@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import Dropdown from "./Dropdown";
 
 export default function Navbar() {
 
@@ -32,12 +33,19 @@ export default function Navbar() {
 
         <nav>
           <Link to="/">Home</Link>
-          <Link to="/mage">Mage</Link>
-          <Link to="/friend-foe">Friend/Foe</Link>
-          <Link to="/breach">Breach</Link>
+          <Dropdown label="Mage">
+            <Link to="/mage">Character</Link>
+            <Link to="/breach">Breach</Link>
+          </Dropdown>
+          <Dropdown label="Friend / Foe">
+            <Link to="/friend-foe">Character</Link>
+            <Link to="/friend-foe-cards">Cards</Link>
+          </Dropdown>
           <Link to="/supply">Supply</Link>
-          <Link to="/nemesis">Nemesis</Link>
-          <Link to="/nemesis-cards">Nemesis Cards</Link>
+          <Dropdown label="Nemesis">
+            <Link to="/nemesis">Nemesis</Link>
+            <Link to="/nemesis-cards">Cards</Link>
+          </Dropdown>
         </nav>
       </div>
     </header>
