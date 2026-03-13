@@ -112,6 +112,7 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                                     name={`${name}FontSize`}
                                     value={form?.[`${name}FontSize`]}
                                     onChange={handleChange}
+                                    placeholder="You have to include css unit, like 12px or 1em"
                                 />
                             </div>
                         )
