@@ -59,7 +59,8 @@ function BreachView({ form, ref }) {
         maxWidth: "1200px",
         margin: "0",
         border: '5px solid white',
-        aspectRatio: '1 / 1'
+        aspectRatio: '1 / 1',
+        background: 'black'
     };
 
     const imageStyle = {
