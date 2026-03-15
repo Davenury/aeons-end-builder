@@ -1,10 +1,11 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import useCreator from '../common/useCreator';
 import useImageUpload from '../common/useImageUpload';
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import DataHandler from '../components/DataHandler';
+import VortexImage from "../components/VortexImage";
 
 export default function Mage() {
 
@@ -58,6 +59,95 @@ export default function Mage() {
     )
 }
 
+const getBreachLeft = (breachNumber) => {
+    switch(breachNumber) {
+        case 0:
+            return 7
+        case 1:
+            return 31
+        case 2:
+            return 71.5
+        case 3:
+            return 96.5
+        default:
+            console.log(`unknown breach number ${breachNumber}`)
+            return 0
+    }
+}
+
+function Breach({ breachForm }) {
+    const [image, setImage] = useState('')
+    const imageRef = useRef(null);
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        if (!breachForm.image) return;
+        const img = new Image();
+        img.onload = () => setImage(img);
+        img.src = breachForm.image;
+    }, [breachForm.image])
+
+    const openedBreachImageStyle = (top, left, additional = {}) => ({
+        position: "absolute",
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: "translate(-50%, -50%)",
+        ...additional
+    })
+
+    const containerStyle = (top, left) => ({
+        position: 'absolute',
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: 'translate(-50%, -50%)',
+        aspectRatio: '1 / 1',
+        overflow: 'hidden'
+    })
+
+    const breachFileName = `breach-${breachForm.state}`
+
+    const breach = () => {
+        if (!breachForm.image || breachForm.state === "no") {
+            return (<img src={`${process.env.PUBLIC_URL}/mages/${breachFileName}.png`} style={openedBreachImageStyle(breachForm.top || 6.5, breachForm.left || getBreachLeft(breachForm.number))} width="4%" />)
+        }
+
+        const rect = containerRef?.current?.getBoundingClientRect()
+        if (breachForm.state === "open") {
+            return (
+                <div ref={containerRef} style={{width: "4%", ...containerStyle(breachForm.top, breachForm.left), borderRadius: '50%'}}>
+                    <VortexImage image={image} imageRef={imageRef} top={0} left={0} swirl={+breachForm.swirl} x={+breachForm.x} y={+breachForm.y} maxHeight={rect?.height || 10} maxWidth={rect?.width || 10} />
+                </div>
+            )
+        } else {
+            return (
+                <div ref={containerRef} style={{width: "4%", ...containerStyle(breachForm.top, breachForm.left)}}>
+                    <img src="https://petapixel.com/assets/uploads/2024/01/The-Star-of-System-Sol-Rectangle-640x800.jpg" style={{width: rect?.width || 10, height: rect?.height || 10}} />
+                    <VortexImage image={image} imageRef={imageRef} top={0} left={0} swirl={+breachForm.swirl} x={+breachForm.x} y={+breachForm.y} maxHeight={rect?.height || 100} maxWidth={rect?.width || 100} />
+                    <img src={`${process.env.PUBLIC_URL}/mages/${breachFileName}-custom.png`} style={{position: 'absolute', top: 0, left: 0}} width={rect?.width || 100} height={rect?.height || 100} />
+                </div>
+            )
+        }
+    }
+
+    return breach()
+}
+
+const createBreachForm = (form, breachNumber) => {
+    const keyName = `breach${breachNumber}`
+
+    return {
+        number: breachNumber,
+        state: form[`${keyName}`],
+        top: form[`${keyName}Top`],
+        left: form[`${keyName}Left`],
+        image: form[`${keyName}ImageUrl`],
+        swirl: form[`${keyName}Swirl`],
+        x: form[`${keyName}X`],
+        y: form[`${keyName}Y`]
+    }
+}
+
+
 function MageCard({ charges, form, ref }) {
 
     const cardWrapperStyle = {
@@ -90,13 +180,6 @@ function MageCard({ charges, form, ref }) {
         color: "white",
         fontFamily: 'kefa',
         ...additional
-    })
-
-    const breachImageStyle = (top, left, additional = {}) => ({
-        position: "absolute",
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: "translate(-50%, -50%)",
     })
 
     const innerImageStyle = (top, left, scaleValue = 0, additional = {}) => {
@@ -150,7 +233,6 @@ function MageCard({ charges, form, ref }) {
         try {
             return JSON.parse(customStyle)
         } catch(e) {
-            console.log(e)
             return {}
         }
     }
@@ -168,15 +250,20 @@ function MageCard({ charges, form, ref }) {
         )
     }
 
+    const breach = (breachNumber) => {
+        const breachForm = createBreachForm(form, breachNumber)
+        return <Breach breachForm={breachForm}/>
+    }
+
+
     return (
         <div ref={ref}>
             {/*front*/}
             <div style={cardWrapperStyle}>
                 {backgroundFront()}
-                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach0}.png`} style={breachImageStyle(form.breach0Top || 6.5, form.breach0Left || 7)} width="4%" />
-                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach1}.png`} style={breachImageStyle(form.breach1Top || 6.5, form.breach1Left || 30)} width="4%" />
-                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach2}.png`} style={breachImageStyle(form.breach2Top || 6.5, form.breach2Left || 72)} width="4%" />
-                <img src={`${process.env.PUBLIC_URL}/mages/breach-${form.breach3}.png`} style={breachImageStyle(form.breach3Top || 6.5, form.breach3Left || 97)} width="4%" />
+                {
+                    [...Array(4).keys()].map(it => breach(it))
+                }
                 <div style={textStyle(form.nameTop || 12, form.nameLeft || 71, form.nameFontSize || "1.5vw", {fontWeight: 'bold'})}>{enrichText(form.name || '')}</div>
                 <div style={textStyleGold(form.titleTop || 17, form.titleLeft || 71, form.titleFontSize || "1.5vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.title || '')}</div>
                 <div style={textStyleStarting(form.handTop || 42.5, form.handLeft || 71, form.handFontSize || "0.75vw", {whiteSpace: 'nowrap'})}>{enrichText(form.startingHand || '')}</div>
@@ -231,6 +318,8 @@ function MageForm({
         if (!file) return
         const base64 = await handleFileUpload(file)
         handleSetForm(e.target.name, base64)
+        e.stopPropagation()
+        e.preventDefault()
     }
 
     function handleSubmit(e) {
@@ -437,7 +526,7 @@ function MageForm({
             <div className="form-grid-4">
                 {
                     [...Array(4).keys()].map(it => (
-                        <AdvancedSettingsComponent type={"breach"} input={breachOption(it)} name={`breach${it}`} topPlaceholder={"73"} leftPlaceholder={"71"} form={form} handleChange={handleChange} />
+                        <AdvancedSettingsComponent type={"breach"} input={breachOption(it)} name={`breach${it}`} topPlaceholder={"73"} leftPlaceholder={"71"} form={form} handleChange={handleChange} handleFileUpload={handleFileChange} />
                     ))
                 }
             </div>
