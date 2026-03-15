@@ -5,6 +5,7 @@ import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 import DataHandler from '../components/DataHandler';
+import sanitizeCustomStyle from '../common/sanitize';
 
 export default function Supply() {
     const [cardForm, saveCardForm] = useLocalStorage("supplyCard", {})
@@ -116,31 +117,22 @@ function SupplyCard({ cardType, isRandomizer, form, ref }) {
 
     const textStyleBlack = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'black', ...additional })
     const textStyleWhite = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'white', ...additional })
-    const textStyleLore = (top, left, fontSize) => textStyle(top, left, fontSize, {})
-
-    const sanitizeCustomBackgroundStyle = () => {
-        try {
-            return JSON.parse(form.artCustomStyle)
-        } catch(e) {
-            console.log(e)
-            return {}
-        }
-    }
+    const textStyleLore = (top, left, fontSize, additional) => textStyle(top, left, fontSize, additional)
 
     return (
         <div style={{...cardWrapperStyle}} ref={ref}>
             { isRandomizer && (<img src={`${process.env.PUBLIC_URL}/supply/randomizer.png`} style={innerImageStyle(0, 0, 0, {transform: 'scale(1, 1.03)', marginTop: '2%'})} />)}
-            <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...sanitizeCustomBackgroundStyle()}} src={form.artImageUrl} />
+            <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...sanitizeCustomStyle(form.artCustomStyle)}} src={form.artImageUrl} />
             <img src={`${process.env.PUBLIC_URL}/supply/${cardType}.png`} style={{...imageStyle}} />
-            <div style={textStyleBlack(form.nameTop || 63, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.name || '')}</div>
-            <div style={textStyleBlack(form.textTop || 77, form.textLeft || 50, form.textFontSize || "1.3vw", {display: "flex", flexDirection: 'column'})}>
+            <div style={textStyleBlack(form.nameTop || 63, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.nameCustomStyle)})}>{enrichText(form.name || '')}</div>
+            <div style={textStyleBlack(form.textTop || 77, form.textLeft || 50, form.textFontSize || "1.3vw", {display: "flex", flexDirection: 'column', ...sanitizeCustomStyle(form.textCustomStyle)})}>
                 <div>{enrichText(form.text || '')}</div>
                 {cardType === 'spell' && <div><span style={{fontWeight: 'bold'}}>Cast: </span>{enrichText(form.cast || '')}</div>}
             </div>
-            <div style={textStyleLore(form.loreTop || 96, form.loreLeft || 50, form.loreFontSize || "0.8vw")}>{enrichText(form.lore || '')}</div>
+            <div style={textStyleLore(form.loreTop || 96, form.loreLeft || 50, form.loreFontSize || "0.8vw", {...sanitizeCustomStyle(form.loreCustomStyle)})}>{enrichText(form.lore || '')}</div>
             <img style={costStyle(0, 100)} src={`${process.env.PUBLIC_URL}/supply/cost.png`}/>
-            <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw")}>{enrichText(form.cost || '')}</div>
-            <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
+            <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw", {...sanitizeCustomStyle(form.costCustomStyle)})}>{enrichText(form.cost || '')}</div>
+            <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
         </div>
     )
 }

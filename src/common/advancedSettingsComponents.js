@@ -1,7 +1,7 @@
 import FieldSettings from "../components/FieldSettings";
 import SliderInput from "../components/SliderInput";
 
-export default function AdvancedSettingsComponent({ input, name, topPlaceholder, leftPlaceholder, form, handleChange, type, showCharLimit, handleFileUpload }) {
+export default function AdvancedSettingsComponent({ input, name, topPlaceholder, leftPlaceholder, form, handleChange, type, showCharLimit, handleFileUpload, showFontSize = true }) {
 
     const customCss = (
         <div className="form-row">
@@ -112,7 +112,7 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                         onChange={handleChange}
                         placeholder={+leftPlaceholder}
                     />
-                    { (name != "art" && type !== "breach" && type !== "customBackground" && type !== "nemesisImage") && (
+                    { (name != "art" && type !== "breach" && type !== "customBackground" && type !== "nemesisImage" && showFontSize) && (
                             <div className="form-row">
                                 <label>Font Size</label>
                                 <input
@@ -138,7 +138,6 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                                     onChange={handleChange}
                                     placeholder={"0"}
                                 />
-                                {customCss}
                             </>
                         )
                     }
@@ -177,6 +176,7 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                             </>
                         )
                     }
+                    {customCss}
                 </>
             }
         >

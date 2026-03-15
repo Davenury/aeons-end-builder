@@ -5,6 +5,7 @@ import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 import DataHandler from '../components/DataHandler';
+import sanitizeCustomStyle from '../common/sanitize'
 
 export default function Nemesis() {
     const [nemesisForm, saveNemesisForm] = useLocalStorage("nemesis", {})
@@ -87,44 +88,35 @@ function NemesisCard({ form, ref }) {
 
     const customBackgroundStyle = (additional) => ({...imageStyle, ...additional})
 
-    const sanitizeCustomBackgroundStyle = () => {
-        try {
-            return JSON.parse(form.artCustomStyle)
-        } catch(e) {
-            console.log(e)
-            return {}
-        }
-    }
-
     const textStyleBlack = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'black', ...additional })
     const textStyleWhite = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'white', ...additional })
-    const textStyleLore = (top, left, fontSize, additional) => textStyle(top, left, fontSize, {...additional})
+    const textStyleLore = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, {...additional})
 
     return (
         <div ref={ref}>
             <div style={cardWrapperStyle}>
-                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomBackgroundStyle())}} src={form.artImageUrl} />
+                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomStyle())}} src={form.artImageUrl} />
                 <img src={`${process.env.PUBLIC_URL}/nemesis-page/Nememplate.png`} style={imageStyle} />
-                <div style={textStyleWhite(form.nameTop || 40, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.name || '')}</div>
-                <div style={textStyleWhite(form.nemesisHPTop || 46.5, form.nemesisHPLeft || 49.5, form.nemesisHPFontSize || "0.8vw", {display: "flex", flexDirection: 'column'})}>
+                <div style={textStyleWhite(form.nameTop || 40, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.nameCustomStyle)})}>{enrichText(form.name || '')}</div>
+                <div style={textStyleWhite(form.nemesisHPTop || 46.5, form.nemesisHPLeft || 49.5, form.nemesisHPFontSize || "0.8vw", {display: "flex", flexDirection: 'column', ...sanitizeCustomStyle(form.nemesisHPCustomStyle)})}>
                     <div>{enrichText(form.nemesisHP || '')}</div>
                 </div>
-                <div style={textStyleBlack(form.unleashTop || 53, form.unleashLeft || 25, form.unleashFontSize || "0.8vw")}>{enrichText(form.unleash || '')}</div>
-                <div style={textStyleBlack(form.increasedDifficultyTop || 53, form.increasedDifficultyLeft || 75, form.increasedDifficultyFontSize || "0.8vw")}>{enrichText(form.increasedDifficulty || '')}</div>
-                <div style={textStyleBlack(form.additionalRulesTop || 65, form.additionalRulesLeft || 50, form.additionalRulesFontSize || "0.8vw", {width: '90%', margin: "0 5%", textAlign: 'left'})}>{enrichText(form.additionalRules || '')}</div>
-                <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
+                <div style={textStyleBlack(form.unleashTop || 53, form.unleashLeft || 25, form.unleashFontSize || "0.8vw", {...sanitizeCustomStyle(form.unleashCustomStyle)})}>{enrichText(form.unleash || '')}</div>
+                <div style={textStyleBlack(form.increasedDifficultyTop || 53, form.increasedDifficultyLeft || 75, form.increasedDifficultyFontSize || "0.8vw", {...sanitizeCustomStyle(form.increasedDifficultyCustomStyle)})}>{enrichText(form.increasedDifficulty || '')}</div>
+                <div style={textStyleBlack(form.additionalRulesTop || 65, form.additionalRulesLeft || 50, form.additionalRulesFontSize || "0.8vw", {width: '90%', margin: "0 5%", textAlign: 'left', ...sanitizeCustomStyle(form.additionalRulesCustomStyle)})}>{enrichText(form.additionalRules || '')}</div>
             </div>
 
             <div style={{marginTop: '32px'}}></div>
 
             <div style={cardWrapperStyle}>
-                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomBackgroundStyle())}} src={form.artImageUrl} />
+                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomStyle())}} src={form.artImageUrl} />
                 <img src={`${process.env.PUBLIC_URL}/nemesis-page/NememplateBack.png`} style={imageStyle} />
-                <div style={textStyleBlack(form.difficultyTop || 37.2, form.difficultyLeft || 49.5, form.difficultyFontSize || "0.8vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.difficulty || '')}</div>
-                <div style={textStyleBlack(form.setupTop || 47, form.setupLeft || 50, form.setupFontSize || "0.9vw", {display: "flex", flexDirection: 'column', textAlign: 'left'})}>
+                <div style={textStyleBlack(form.difficultyTop || 37.2, form.difficultyLeft || 49.5, form.difficultyFontSize || "0.8vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.difficultyCustomStyle)})}>{enrichText(form.difficulty || '')}</div>
+                <div style={textStyleBlack(form.setupTop || 47, form.setupLeft || 50, form.setupFontSize || "0.9vw", {display: "flex", flexDirection: 'column', textAlign: 'left', ...sanitizeCustomStyle(form.setupCustomStyle)})}>
                     <div>{enrichText(form.setup || '')}</div>
                 </div>
-                <div style={textStyleLore(form.loreTop || 80, form.loreLeft || 50, form.loreFontSize || "0.8vw")}>{form.lore}</div>
+                <div style={textStyleLore(form.loreTop || 80, form.loreLeft || 50, form.loreFontSize || "0.8vw", {...sanitizeCustomStyle(form.loreCustomStyle)})}>{form.lore}</div>
+                <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
             </div>
         </div>
     )

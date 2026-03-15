@@ -5,6 +5,7 @@ import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 import DataHandler from '../components/DataHandler';
+import sanitizeCustomStyle from '../common/sanitize';
 
 export default function FriendFoeCards() {
     const [cardForm, saveCardForm] = useLocalStorage("friendCard", {})
@@ -78,28 +79,6 @@ function FriendFoeCard({ cardType, form, ref }) {
         ...additional
     })
 
-    const innerImageStyle = (top, left, scaleValue = 0, additional = {}) => {
-        const scale = 1 + scaleValue / 100;
-        return {
-            position: "absolute",
-            top: `${top}%`,
-            left: `${left}%`,
-            transform: `scale(${scale})`,
-            objectFit: 'cover',
-            ...additional,
-        }
-    }
-
-    const costStyle = (top, left, fontSize, additional = {}) => ({
-        position: "absolute",
-        transform: "translate(-100%)",
-        top: `${top}%`,
-        left: `${left}%`,
-        width: "80%",
-        fontSize,
-        ...additional,
-    })
-
     const withShadow = (style) => ({
         textShadow: "2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000",
         ...style
@@ -111,17 +90,17 @@ function FriendFoeCard({ cardType, form, ref }) {
     return (
         <div style={cardWrapperStyle} ref={ref}>
             <img src={`${process.env.PUBLIC_URL}/friends-and-foes/${cardType}.jpg`} style={imageStyle} />
-            <div style={withShadow(textStyleWhite(form.nameTop || 7.5, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap'}))}>{enrichText(form.name || '')}</div>
-            <div style={textStyleBlack(form.textTop || 55, form.textLeft || 50, form.textFontSize || "1.3vw", {display: "flex", flexDirection: 'column'})}>
+            <div style={withShadow(textStyleWhite(form.nameTop || 7.5, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.nameCustomStyle)}))}>{enrichText(form.name || '')}</div>
+            <div style={textStyleBlack(form.textTop || 55, form.textLeft || 50, form.textFontSize || "1.3vw", {display: "flex", flexDirection: 'column', ...sanitizeCustomStyle(form.textCustomStyle)})}>
                 <div>{enrichText(form.text || '')}</div>
             </div>
-            <div style={textStyleBlack(form.ownerTop || 95.5, form.ownerLeft || 50, form.ownerFontSize || "1vw", {fontWeight: 'bold'})}>{enrichText(form.owner || '')}</div>
-            <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
+            <div style={textStyleBlack(form.ownerTop || 95.5, form.ownerLeft || 50, form.ownerFontSize || "1vw", {fontWeight: 'bold', ...sanitizeCustomStyle(form.ownerCustomStyle)})}>{enrichText(form.owner || '')}</div>
+            <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
         </div>
     )
 }
 
-function FriendFoeForm({ cardType, form, onSubmit }) {
+function FriendFoeForm({ form, onSubmit }) {
     useEffect(() => {
         onSubmit?.(form)
     }, [])

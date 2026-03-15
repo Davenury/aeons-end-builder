@@ -6,6 +6,7 @@ import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import DataHandler from '../components/DataHandler';
 import VortexImage from "../components/VortexImage";
+import sanitizeCustomStyle from '../common/sanitize';
 
 export default function Mage() {
 
@@ -209,7 +210,7 @@ function MageCard({ charges, form, ref }) {
     }
 
     const textStyleGold = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'gold', ...additional })
-    const textStyleStarting = (top, left, fontSize) => textStyle(top, left, fontSize)
+    const textStyleStarting = (top, left, fontSize, additional) => textStyle(top, left, fontSize, additional)
 
     const customBackgroundStyle = (additional) => ({...additional})
 
@@ -227,14 +228,6 @@ function MageCard({ charges, form, ref }) {
                 <img src={`${process.env.PUBLIC_URL}/mages/empty-layout-${charges}-charges.png`} style={{...imageStyle, position: 'absolute', top: 0, left: 0, objectFit: 'fill'}} />
             </>
         )
-    }
-
-    const sanitizeCustomStyle = (customStyle) => {
-        try {
-            return JSON.parse(customStyle)
-        } catch(e) {
-            return {}
-        }
     }
 
     const backgroundBack = () => {
@@ -255,6 +248,7 @@ function MageCard({ charges, form, ref }) {
         return <Breach breachForm={breachForm}/>
     }
 
+    console.log(form)
 
     return (
         <div ref={ref}>
@@ -264,18 +258,18 @@ function MageCard({ charges, form, ref }) {
                 {
                     [...Array(4).keys()].map(it => breach(it))
                 }
-                <div style={textStyle(form.nameTop || 12, form.nameLeft || 71, form.nameFontSize || "1.5vw", {fontWeight: 'bold'})}>{enrichText(form.name || '')}</div>
-                <div style={textStyleGold(form.titleTop || 17, form.titleLeft || 71, form.titleFontSize || "1.5vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.title || '')}</div>
-                <div style={textStyleStarting(form.handTop || 42.5, form.handLeft || 71, form.handFontSize || "0.75vw", {whiteSpace: 'nowrap'})}>{enrichText(form.startingHand || '')}</div>
-                <div style={textStyleStarting(form.deckTop || 49, form.deckLeft || 71, form.deckFontSize || "0.75vw", {whiteSpace: 'nowrap'})}>{enrichText(form.startingDeck || '')}</div>
-                <div style={textStyleGold(form.abilityNameTop || 54, form.abilityNameLeft || 71, form.abilityNameFontSize || "1.5vw", { fontWeight: 'bold', whiteSpace: 'nowrap' })}>{enrichText(form.abilityName || '')}</div>
-                <div style={textStyle(form.abilityUsageTop || 59, form.abilityUsageLeft || 71, form.abilityUsageFontSize || "clamp(12px, 100%, 18px)", {fontWeight: "bold", whiteSpace: 'nowrap'})}>{enrichText(form.abilityUsage || '')}</div>
-                <div style={textStyle(form.abilityDescTop || 73, form.abilityDescLeft || 71, form.abilityDescFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.abilityDesc || '')}</div>
+                <div style={textStyle(form.nameTop || 12, form.nameLeft || 71, form.nameFontSize || "1.5vw", {fontWeight: 'bold', ...sanitizeCustomStyle(form.nameCustomStyle || {})})}>{enrichText(form.name || '')}</div>
+                <div style={textStyleGold(form.titleTop || 17, form.titleLeft || 71, form.titleFontSize || "1.5vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.titleCustomStyle || {})})}>{enrichText(form.title || '')}</div>
+                <div style={textStyleStarting(form.handTop || 42.5, form.handLeft || 71, form.handFontSize || "0.75vw", {whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.handCustomStyle || {})})}>{enrichText(form.startingHand || '')}</div>
+                <div style={textStyleStarting(form.deckTop || 49, form.deckLeft || 71, form.deckFontSize || "0.75vw", {whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.deckCustomStyle || {})})}>{enrichText(form.startingDeck || '')}</div>
+                <div style={textStyleGold(form.abilityNameTop || 54, form.abilityNameLeft || 71, form.abilityNameFontSize || "1.5vw", { fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.abilityNameCustomStyle || {}) })}>{enrichText(form.abilityName || '')}</div>
+                <div style={textStyle(form.abilityUsageTop || 59, form.abilityUsageLeft || 71, form.abilityUsageFontSize || "clamp(12px, 100%, 18px)", {fontWeight: "bold", whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.abilityUsageCustomStyle || {})})}>{enrichText(form.abilityUsage || '')}</div>
+                <div style={textStyle(form.abilityDescTop || 73, form.abilityDescLeft || 71, form.abilityDescFontSize || "clamp(12px, 100%, 18px)", {...sanitizeCustomStyle(form.abilityDescCustomStyle || {})})}>{enrichText(form.abilityDesc || '')}</div>
                 
                 <img style={{...innerImageStyle(form.artTop || 60, form.artLeft || 23, form.artScale || 0), ...sanitizeCustomStyle(form.artCustomStyle)}} width={form.artWidth} src={form.artImageUrl} />
                 
-                <div style={textStyle(form.additionalRulesTop || 80, form.additionalRulesLeft || 20, form.additionalRulesFontSize || "clamp(12px, 100%, 18px)", {})}>{enrichText(form.additionalRules || '')}</div>
-                <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
+                <div style={textStyle(form.additionalRulesTop || 80, form.additionalRulesLeft || 20, form.additionalRulesFontSize || "clamp(12px, 100%, 18px)", {...sanitizeCustomStyle(form.additionalRulesCustomStyle)})}>{enrichText(form.additionalRules || '')}</div>
+                <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
             </div>
 
             <div style={{marginTop: '48px'}}></div>
@@ -284,7 +278,7 @@ function MageCard({ charges, form, ref }) {
             <div style={cardWrapperStyle}>
                 {backgroundBack()}
                 <img style={{...innerImageStyle(form.artTop || 60, form.artLeft || 23, form.artScale || 0), ...sanitizeCustomStyle(form.artCustomStyle)}} width={form.artWidth} src={form.artImageUrl} />
-                <div style={textStyle(form.loreTop || 59, form.loreLeft || 71, form.loreFontSize || "clamp(12px, 100%, 18px)")}>{enrichText(form.lore || '')}</div>
+                <div style={textStyle(form.loreTop || 59, form.loreLeft || 71, form.loreFontSize || "clamp(12px, 100%, 18px)", {...sanitizeCustomStyle(form.loreCustomStyle)})}>{enrichText(form.lore || '')}</div>
             </div>
         </div>
     )
@@ -471,7 +465,7 @@ function MageForm({
         const input = (<div className="form-row">
                 <label>Ability Description</label>
                 <textarea
-                maxLength={form.abilityDescCharLimit || "200"}
+                maxLength={form.abilityDescCharLimit || "1000"}
                 name="abilityDesc"
                 value={form.abilityDesc}
                 onChange={handleChange}
@@ -487,7 +481,7 @@ function MageForm({
         const input = (<div className="form-row">
                 <label>Additional Rules</label>
                 <textarea
-                    maxLength={form.additionalRulesCharLimit || "200"}
+                    maxLength={form.additionalRulesCharLimit || "500"}
                     name="additionalRules"
                     value={form.additionalRules}
                     onChange={handleChange}
@@ -503,7 +497,7 @@ function MageForm({
         const input = (<div className="form-row">
                 <label>Lore</label>
                 <textarea
-                maxLength={form.loreCharLimit || "200"}
+                maxLength={form.loreCharLimit || "500"}
                 name="lore"
                 value={form.lore}
                 onChange={handleChange}
