@@ -5,6 +5,7 @@ import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import DataHandler from '../components/DataHandler';
+import sanitizeCustomStyle from '../common/sanitize';
 
 export default function FriendFoe() {
 
@@ -88,13 +89,6 @@ function FriendFoeCard({ charges, form, ref, type }) {
         ...style
     })
 
-    const breachImageStyle = (top, left, additional = {}) => ({
-        position: "absolute",
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: "translate(-50%, -50%)",
-    })
-
     const innerImageStyle = (top, left, scaleValue = 0, additional = {}) => {
         const scale = 1 + scaleValue / 100;
         return {
@@ -111,24 +105,15 @@ function FriendFoeCard({ charges, form, ref, type }) {
     const textStyleBlack = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'black', ...additional })
     const textStyleStarting = (top, left, fontSize) => textStyle(top, left, fontSize)
 
-    const sanitizeCustomStyle = (customStyle) => {
-        try {
-            return JSON.parse(customStyle)
-        } catch(e) {
-            console.log(e)
-            return {}
-        }
-    }
-
     return (
         <div ref={ref} style={{display: 'flex', flexDirection: 'row', gap: '1em'}}>
             {/*front*/}
             <div style={cardWrapperStyle}>
                 <img src={`${process.env.PUBLIC_URL}/friends-and-foes/${type}-${charges}-charges.png`} style={imageStyle} />
-                <div style={withShadow(textStyle(form.nameTop || 69, form.nameLeft || 50, form.nameFontSize || "1.5vw", {fontWeight: 'bold'}))}>{enrichText(form.name || '')}</div>
-                <div style={withShadow(textStyleGold(form.abilityNameTop || 74, form.abilityNameLeft || 50, form.abilityNameFontSize || "1.2vw", { fontWeight: 'bold', whiteSpace: 'nowrap' }))}>{enrichText(form.abilityName || '')}</div>
-                <div style={withShadow(textStyle(form.abilityDescTop || 80, form.abilityDescLeft || 50, form.abilityDescFontSize || "0.8vw", {}))}>{enrichText(form.abilityDesc || '')}</div>
-                <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
+                <div style={withShadow(textStyle(form.nameTop || 69, form.nameLeft || 50, form.nameFontSize || "1.5vw", {fontWeight: 'bold', ...sanitizeCustomStyle(form.nameCustomStyle)}))}>{enrichText(form.name || '')}</div>
+                <div style={withShadow(textStyleGold(form.abilityNameTop || 74, form.abilityNameLeft || 50, form.abilityNameFontSize || "1.2vw", { fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.abilityNameCustomStyle)}))}>{enrichText(form.abilityName || '')}</div>
+                <div style={withShadow(textStyle(form.abilityDescTop || 80, form.abilityDescLeft || 50, form.abilityDescFontSize || "0.8vw", {...sanitizeCustomStyle(form.abilityDescCustomStyle)}))}>{enrichText(form.abilityDesc || '')}</div>
+                <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
             
                  <img style={{...innerImageStyle(form.artTop || 60, form.artLeft || 23, form.artScale || 0), ...sanitizeCustomStyle(form.artCustomStyle)}} width={form.artWidth} src={form.artImageUrl} />
                
@@ -139,10 +124,10 @@ function FriendFoeCard({ charges, form, ref, type }) {
             {/*back*/}
             <div style={cardWrapperStyle}>
                 <img style={imageStyle} src={`${process.env.PUBLIC_URL}/friends-and-foes/${type}-back.jpg`} />
-                <div style={textStyleBlack(form.loreTop || 20, form.loreLeft || 50, form.loreFontSize || "1vw")}>{enrichText(form.lore || '')}</div>
+                <div style={textStyleBlack(form.loreTop || 20, form.loreLeft || 50, form.loreFontSize || "1vw", {...sanitizeCustomStyle(form.loreCustomStyle)})}>{enrichText(form.lore || '')}</div>
 
                 <div style={textStyleBlack(form.setupTop || 58, form.setupLeft || 50, form.seupFontSize || "1.2vm", {fontWeight: 'bold'})}>SETUP</div>
-                <div style={textStyleBlack(form.setupTop || 65, form.setupLeft || 50, form.seupFontSize || "0.8vw")}>{enrichText(form.setup || '')}</div>
+                <div style={textStyleBlack(form.setupTop || 65, form.setupLeft || 50, form.seupFontSize || "0.8vw", {...sanitizeCustomStyle(form.setupCustomStyle)})}>{enrichText(form.setup || '')}</div>
             </div>
         </div>
     )
@@ -248,7 +233,7 @@ function FriendFoeFrom({
         const input = (<div className="form-row">
                 <label>Ability Description</label>
                 <textarea
-                maxLength={form.abilityDescCharLimit || "200"}
+                maxLength={form.abilityDescCharLimit || "500"}
                 name="abilityDesc"
                 value={form.abilityDesc}
                 onChange={handleChange}
@@ -264,7 +249,7 @@ function FriendFoeFrom({
         const input = (<div className="form-row">
                 <label>Lore</label>
                 <textarea
-                maxLength={form.loreCharLimit || "200"}
+                maxLength={form.loreCharLimit || "500"}
                 name="lore"
                 value={form.lore}
                 onChange={handleChange}
@@ -280,7 +265,7 @@ function FriendFoeFrom({
         const input = (<div className="form-row">
                 <label>Setup</label>
                 <textarea
-                maxLength={form.setupCharLimit || "200"}
+                maxLength={form.setupCharLimit || "500"}
                 name="setup"
                 value={form.setup}
                 onChange={handleChange}

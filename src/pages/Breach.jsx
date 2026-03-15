@@ -6,6 +6,7 @@ import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 import DataHandler from '../components/DataHandler';
+import sanitizeCustomStyle from "../common/sanitize";
 
 export default function Breach() {
     const [breachForm, saveBreachForm] = useLocalStorage("breach", {})
@@ -59,7 +60,8 @@ function BreachView({ form, ref }) {
         maxWidth: "1200px",
         margin: "0",
         border: '5px solid white',
-        aspectRatio: '1 / 1'
+        aspectRatio: '1 / 1',
+        background: 'black'
     };
 
     const imageStyle = {
@@ -94,35 +96,26 @@ function BreachView({ form, ref }) {
         position: "relative"
     }
 
-    const sanitizeCustomBackgroundStyle = () => {
-        try {
-            return JSON.parse(form.breachArtCustomStyle)
-        } catch(e) {
-            console.log(e)
-            return {}
-        }
-    }
-
     const textStyleBlack = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'black', ...additional })
 
     const isAdditional = () => !!form.breachAdditionalEffect
 
     return (
         <div style={{...cardWrapperStyle}} ref={ref}>
-            <div style={{...vortexStyle, ...sanitizeCustomBackgroundStyle()}} ref={imageRef}>
+            <div style={{...vortexStyle, ...sanitizeCustomStyle(form.breachArtCustomStyle)}} ref={imageRef}>
                 <VortexImage image={image} imageRef={imageRef} top={+form.breachArtTop} left={+form.breachArtLeft} swirl={+form.breachArtSwirl} x={+form.breachArtX} y={+form.breachArtY} />
             </div>
             <div>
-                <img src={`${process.env.PUBLIC_URL}/breach/${form.breachNumber}.png`} style={innerImageStyle(form.breachNumberTop || 10, form.breachNumberLeft || 53, {width: form.breachNumberWidth || '10%'})} />
+                <img src={`${process.env.PUBLIC_URL}/breach/${form.breachNumber}.png`} style={innerImageStyle(form.breachNumberTop || 10, form.breachNumberLeft || 53, {width: form.breachNumberWidth || '10%', ...sanitizeCustomStyle(form.breachNumberCustomStyle)})} />
             </div>
             <div>
-                <img src={`${process.env.PUBLIC_URL}/breach/text${form.breachAdditionalEffect ? '-plus' : ''}.png`} style={innerImageStyle(85, 50, {width: '100%'})} />
+                <img src={`${process.env.PUBLIC_URL}/breach/text${form.breachAdditionalEffect ? '-plus' : ''}.png`} style={{...innerImageStyle(85, 50, {width: '100%'})}} />
             </div>
-            <div style={{...textStyleBlack(form.breachTextTop || isAdditional() ? 81 : 84, form.breachTextLeft || 50, form.breachTextFontSize || "1.5vw", {fontWeight: 'bold'})}}>
+            <div style={{...textStyleBlack(form.breachTextTop || isAdditional() ? 81 : 84, form.breachTextLeft || 50, form.breachTextFontSize || "1.5vw", {fontWeight: 'bold', ...sanitizeCustomStyle(form.breachTextCustomStyle)})}}>
                 {enrichText(form.breachText || "OPENED BREACH")}
             </div>
             { isAdditional() &&
-                (<div style={{...textStyleBlack(form.breachAdditionalEffectTop || 89, form.breachAdditionalEffectLeft || 50, form.breachAdditionalEffectFontSize || "1.5vw", {fontWeight: 'bold'})}}>
+                (<div style={{...textStyleBlack(form.breachAdditionalEffectTop || 89, form.breachAdditionalEffectLeft || 50, form.breachAdditionalEffectFontSize || "1.5vw", {fontWeight: 'bold', ...sanitizeCustomStyle(form.breachAdditionalEffectCustomStyle)})}}>
                     {enrichText(form.breachAdditionalEffect || "OPENED BREACH")}
                 </div>)
             }
@@ -237,7 +230,7 @@ function BreachForm({ form, onSubmit }) {
                 </div>
             </div>)
         return (
-            <AdvancedSettingsComponent input={input} type="breach" name={"breachNumber"} topPlaceholder={"96"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+            <AdvancedSettingsComponent input={input} showFontSize={false} name={"breachNumber"} topPlaceholder={"96"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
         )
     }
 

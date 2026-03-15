@@ -7,7 +7,7 @@ import NemesisCards from './pages/NemesisCards';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Breach from "./pages/Breach";
-import FriendFoe from "./pages/Friend-Foe-Card";
+import FriendFoe from "./pages/Friend-Foe";
 import FriendFoeCards from "./pages/FriendFoeCards";
 
 function App() {

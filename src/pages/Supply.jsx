@@ -5,6 +5,7 @@ import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 import DataHandler from '../components/DataHandler';
+import sanitizeCustomStyle from '../common/sanitize';
 
 export default function Supply() {
     const [cardForm, saveCardForm] = useLocalStorage("supplyCard", {})
@@ -18,6 +19,7 @@ export default function Supply() {
         ...cardForm
     });
     const [cardType, setCardType] = useState('spell');
+    const [isRandomizer, setIsRandomizer] = useState(true)
 
     const handleSetForm = (form) => {
         setForm(form)
@@ -29,16 +31,30 @@ export default function Supply() {
             <h1>Supply Card Creation</h1>
             <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", marginBottom: "16px"}}>
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "30em"}}>
-                    <div className={cardType === 'spell' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('spell')}>Spell</div>
-                    <div className={cardType === 'gem' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('gem')}>Gem</div>
-                    <div className={cardType == 'relic' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('relic')}>Relic</div>
+                    <div style={{flexGrow: '3', display: 'flex', width: '80%'}}>
+                        <div className={cardType === 'spell' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('spell')}>Spell</div>
+                        <div className={cardType === 'gem' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('gem')}>Gem</div>
+                        <div className={cardType == 'relic' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('relic')}>Relic</div>
+                    </div>
+                    <div style={{flexGrow: '1', marginTop: '-1.5%'}}>
+                        <label className="switch-wrapper">
+                            <input
+                                type="checkbox"
+                                className="switch-input"
+                                checked={isRandomizer}
+                                onChange={() => setIsRandomizer(!isRandomizer)}
+                            />
+                            <span className="switch"></span>
+                            <span className="switch-text" style={{textWrap: 'nowrap'}}>Randomizer</span>
+                        </label>
+                    </div>
                 </div>
                 <DataHandler handleCapture={handleCapture} importRef={importRef} importForm={importForm} exportForm={exportForm} />
             </div>
 
             <div style={{display: "flex", flexDirection: "row", gap: "2em"}}>
                 <div style={{ flex: "0 0 60%" }}>
-                    <SupplyCard cardType={cardType} form={form} ref={captureRef} />
+                    <SupplyCard cardType={cardType} isRandomizer={isRandomizer} form={form} ref={captureRef} />
                 </div>
 
                 <div style={{ flex: "1" }}>
@@ -49,21 +65,20 @@ export default function Supply() {
     )
 }
 
-function SupplyCard({ cardType, form, ref }) {
+function SupplyCard({ cardType, isRandomizer, form, ref }) {
     const cardWrapperStyle = {
         position: "relative",
         width: "50%",
         maxWidth: "1200px",
         margin: "0",
-        border: '5px solid white',
+        border: isRandomizer ? '' : '2px solid white',
         overflow: 'hidden'
     };
 
     const imageStyle = {
         width: "100%",
         height: "100%",
-        marginTop: "70%",
-        marginBottom: "-1%"
+        marginTop: "70%"
     };
 
     const textStyle = (top, left, fontSize, additional = {}) => ({
@@ -102,30 +117,22 @@ function SupplyCard({ cardType, form, ref }) {
 
     const textStyleBlack = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'black', ...additional })
     const textStyleWhite = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'white', ...additional })
-    const textStyleLore = (top, left, fontSize) => textStyle(top, left, fontSize, {})
-
-    const sanitizeCustomBackgroundStyle = () => {
-        try {
-            return JSON.parse(form.artCustomStyle)
-        } catch(e) {
-            console.log(e)
-            return {}
-        }
-    }
+    const textStyleLore = (top, left, fontSize, additional) => textStyle(top, left, fontSize, additional)
 
     return (
-        <div style={cardWrapperStyle} ref={ref}>
-            <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...sanitizeCustomBackgroundStyle()}} src={form.artImageUrl} />
-            <img src={`${process.env.PUBLIC_URL}/supply/${cardType}.png`} style={imageStyle} />
-            <div style={textStyleBlack(form.nameTop || 63, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap'})}>{enrichText(form.name || '')}</div>
-            <div style={textStyleBlack(form.textTop || 77, form.textLeft || 50, form.textFontSize || "1.3vw", {display: "flex", flexDirection: 'column'})}>
+        <div style={{...cardWrapperStyle}} ref={ref}>
+            { isRandomizer && (<img src={`${process.env.PUBLIC_URL}/supply/randomizer.png`} style={innerImageStyle(0, 0, 0, {transform: 'scale(1, 1.03)', marginTop: '2%'})} />)}
+            <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...sanitizeCustomStyle(form.artCustomStyle)}} src={form.artImageUrl} />
+            <img src={`${process.env.PUBLIC_URL}/supply/${cardType}.png`} style={{...imageStyle}} />
+            <div style={textStyleBlack(form.nameTop || 63, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.nameCustomStyle)})}>{enrichText(form.name || '')}</div>
+            <div style={textStyleBlack(form.textTop || 77, form.textLeft || 50, form.textFontSize || "1.3vw", {display: "flex", flexDirection: 'column', ...sanitizeCustomStyle(form.textCustomStyle)})}>
                 <div>{enrichText(form.text || '')}</div>
                 {cardType === 'spell' && <div><span style={{fontWeight: 'bold'}}>Cast: </span>{enrichText(form.cast || '')}</div>}
             </div>
-            <div style={textStyleLore(form.loreTop || 96, form.loreLeft || 50, form.loreFontSize || "0.8vw")}>{enrichText(form.lore || '')}</div>
+            <div style={textStyleLore(form.loreTop || 96, form.loreLeft || 50, form.loreFontSize || "0.8vw", {...sanitizeCustomStyle(form.loreCustomStyle)})}>{enrichText(form.lore || '')}</div>
             <img style={costStyle(0, 100)} src={`${process.env.PUBLIC_URL}/supply/cost.png`}/>
-            <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw")}>{enrichText(form.cost || '')}</div>
-            <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px")}>{enrichText(form.credits || '')}</div>
+            <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw", {...sanitizeCustomStyle(form.costCustomStyle)})}>{enrichText(form.cost || '')}</div>
+            <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
         </div>
     )
 }
