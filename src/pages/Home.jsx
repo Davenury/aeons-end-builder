@@ -100,6 +100,15 @@ export default function Home() {
 
         <div>
           <div class="storage-info">
+            <h3>Custom CSS</h3>
+            
+            <p>
+              Most of the fields that you can modify have <code>Custom CSS</code> option you can use. You can use <a style={{color: '#0077B6'}} href="https://www.w3schools.com/react/react_css.asp" target="_blank">React style CSS</a> in form of JSON object. The object is then sanitized and passed directly to the <code>style</code> property.
+              Notice that we've been using some CSS already to position or style objects. If you opt to use your custom CSS in this field, some styling might break (e.g. using <code>top</code> and <code>left</code> properties might break positioning).
+            </p>
+          </div>
+
+          <div class="storage-info">
             <h3>Noticed any bugs?</h3>
             
             <p>
