@@ -106,6 +106,16 @@ export default function Home() {
               Most of the fields that you can modify have <code>Custom CSS</code> option you can use. You can use <a style={{color: '#0077B6'}} href="https://www.w3schools.com/react/react_css.asp" target="_blank">React style CSS</a> in form of JSON object. The object is then sanitized and passed directly to the <code>style</code> property.
               Notice that we've been using some CSS already to position or style objects. If you opt to use your custom CSS in this field, some styling might break (e.g. using <code>top</code> and <code>left</code> properties might break positioning).
             </p>
+            <p>
+              For example, you can include this custom css to create a shadowed text:
+              <pre><code>
+                {`{"textShadow": "2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000"}`}
+              </code></pre>
+              or such a css for a glassy background effect (I used <a href="https://css.glass/" target="_blank" style={{color: '#0077B6'}}>this site to generate the css</a>):
+              <pre><code>
+              {`{"background": "rgba(255, 255, 255, 0.2)", "borderRadius": "16px", "boxShadow": "0 4px 30px rgba(0, 0, 0, 0.1)", "backdropFilter": "blur(5px)", "WebkitBackdropFilter": "blur(5px)", "border": "1px solid rgba(255, 255, 255, 0.3)", "padding": "8px"}`}
+              </code></pre>
+            </p>
           </div>
 
           <div class="storage-info">
