@@ -126,8 +126,8 @@ function FriendFoeCard({ charges, form, ref, type }) {
                 <img style={imageStyle} src={`${process.env.PUBLIC_URL}/friends-and-foes/${type}-back.jpg`} />
                 <div style={textStyleBlack(form.loreTop || 20, form.loreLeft || 50, form.loreFontSize || "1vw", {...sanitizeCustomStyle(form.loreCustomStyle)})}>{enrichText(form.lore || '')}</div>
 
-                <div style={textStyleBlack(form.setupTop || 58, form.setupLeft || 50, form.seupFontSize || "1.2vm", {fontWeight: 'bold'})}>SETUP</div>
-                <div style={textStyleBlack(form.setupTop || 65, form.setupLeft || 50, form.seupFontSize || "0.8vw", {...sanitizeCustomStyle(form.setupCustomStyle)})}>{enrichText(form.setup || '')}</div>
+                <div style={textStyleBlack(58, 50, "1.2vm", {fontWeight: 'bold'})}>SETUP</div>
+                <div style={textStyleBlack(form.setupTop || 65, form.setupLeft || 50, form.setupFontSize || "0.8vw", {...sanitizeCustomStyle(form.setupCustomStyle)})}>{enrichText(form.setup || '')}</div>
             </div>
         </div>
     )

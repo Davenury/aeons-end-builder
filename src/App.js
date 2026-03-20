@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import Breach from "./pages/Breach";
 import FriendFoe from "./pages/Friend-Foe";
 import FriendFoeCards from "./pages/FriendFoeCards";
+import Lore from "./pages/Lore";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
             <Route path="/supply" element={<Supply />}></Route>
             <Route path="/nemesis" element={<Nemesis />}></Route>
             <Route path="/nemesis-cards" element={<NemesisCards />}></Route>
+            <Route path="/lore" element={<Lore />}></Route>
           </Routes>
         </main>
       </div>
