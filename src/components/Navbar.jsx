@@ -46,6 +46,9 @@ export default function Navbar() {
             <Link to="/nemesis">Nemesis</Link>
             <Link to="/nemesis-cards">Cards</Link>
           </Dropdown>
+          <Dropdown label="Other">
+            <Link to="/lore">Lore</Link>
+          </Dropdown>
         </nav>
       </div>
     </header>

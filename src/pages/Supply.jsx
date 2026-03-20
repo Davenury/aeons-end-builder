@@ -19,7 +19,7 @@ export default function Supply() {
         ...cardForm
     });
     const [cardType, setCardType] = useState('spell');
-    const [isRandomizer, setIsRandomizer] = useState(true)
+    const [isRandomizer, setIsRandomizer] = useState(false)
 
     const handleSetForm = (form) => {
         setForm(form)
@@ -121,7 +121,7 @@ function SupplyCard({ cardType, isRandomizer, form, ref }) {
 
     return (
         <div style={{...cardWrapperStyle}} ref={ref}>
-            { isRandomizer && (<img src={`${process.env.PUBLIC_URL}/supply/randomizer.png`} style={innerImageStyle(0, 0, 0, {transform: 'scale(1, 1.03)', marginTop: '2%'})} />)}
+            { isRandomizer && (<img src={`${process.env.PUBLIC_URL}/supply/randomizer.png`} style={innerImageStyle(0, 0, 0, {width: '100%', height: '100%'})} />)}
             <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...sanitizeCustomStyle(form.artCustomStyle)}} src={form.artImageUrl} />
             <img src={`${process.env.PUBLIC_URL}/supply/${cardType}.png`} style={{...imageStyle}} />
             <div style={textStyleBlack(form.nameTop || 63, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.nameCustomStyle)})}>{enrichText(form.name || '')}</div>
