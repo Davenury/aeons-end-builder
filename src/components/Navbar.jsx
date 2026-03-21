@@ -48,6 +48,7 @@ export default function Navbar() {
           </Dropdown>
           <Dropdown label="Other">
             <Link to="/lore">Lore</Link>
+            <Link to="/treasure">Treasure</Link>
           </Dropdown>
         </nav>
       </div>
