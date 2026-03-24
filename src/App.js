@@ -11,6 +11,7 @@ import FriendFoe from "./pages/Friend-Foe";
 import FriendFoeCards from "./pages/FriendFoeCards";
 import Lore from "./pages/Lore";
 import Treasure from "./pages/Treasure";
+import CustomContent from "./pages/Custom";
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
             <Route path="/nemesis-cards" element={<NemesisCards />}></Route>
             <Route path="/lore" element={<Lore />}></Route>
             <Route path="/treasure" element={<Treasure />}></Route>
+            <Route path="/custom" element={<CustomContent />}></Route>
           </Routes>
         </main>
       </div>

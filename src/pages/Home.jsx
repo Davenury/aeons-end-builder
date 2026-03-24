@@ -100,6 +100,16 @@ export default function Home() {
 
         <div>
           <div class="storage-info">
+            <h3>Lack of category?</h3>
+            
+            <p>
+              If you lack a category or need a custom card creator, you can visit <code>Other</code> tab and go to the <code>Custom</code> creator, where you can input your custom background and play with adding the fields yourself.
+              Notice that this feature is considered <strong>Advanced</strong> and requires you to more or less know what you're doing. <strong>Especially do not repeat keys of the fields as it might lead to unexpected behavior!</strong>
+              Remember that on this page, the changes are not persisted, so refreshing the page or going into another page in this creator will result in you loosing all your progress.
+            </p>
+          </div>
+
+          <div class="storage-info">
             <h3>Custom CSS</h3>
             
             <p>
@@ -147,16 +157,6 @@ export default function Home() {
 
             <p class="coming-soon">
               To be extra sure, you can export your work and then import it.
-            </p>
-          </div>
-
-          <div class="storage-info">
-            <h3>What we're working on?</h3>
-            
-            <p>
-              <ul>
-                <li>Treasures</li>
-              </ul>
             </p>
           </div>
         </div>
