@@ -284,9 +284,6 @@ const displayFunction = (fieldType, fieldName, form) => {
         }
     }
 
-    console.log(fieldType)
-    console.log(fieldName, form)
-
     switch(fieldType) {
         case 'text':
             return (
