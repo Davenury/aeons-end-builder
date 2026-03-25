@@ -81,7 +81,10 @@ function NemesisCard({ form, ref }) {
             top: `${top}%`,
             left: `${left}%`,
             transform: `translate(-50%) scale(${scale})`,
-            objectFit: 'cover',
+            objectFit: 'contain',
+            maxWidth: 'none',
+            width: '100%',
+            height: '100%',
             ...additional,
         }
     }
@@ -95,7 +98,7 @@ function NemesisCard({ form, ref }) {
     return (
         <div ref={ref}>
             <div style={cardWrapperStyle}>
-                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomStyle())}} src={form.artImageUrl} />
+                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomStyle(form.artImageUrlCustomStyle))}} src={form.artImageUrl} />
                 <img src={`${process.env.PUBLIC_URL}/nemesis-page/Nememplate.png`} style={imageStyle} />
                 <div style={textStyleWhite(form.nameTop || 40, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.nameCustomStyle)})}>{enrichText(form.name || '')}</div>
                 <div style={textStyleWhite(form.nemesisHPTop || 46.5, form.nemesisHPLeft || 49.5, form.nemesisHPFontSize || "0.8vw", {display: "flex", flexDirection: 'column', ...sanitizeCustomStyle(form.nemesisHPCustomStyle)})}>
@@ -109,7 +112,7 @@ function NemesisCard({ form, ref }) {
             <div style={{marginTop: '32px'}}></div>
 
             <div style={cardWrapperStyle}>
-                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomStyle())}} src={form.artImageUrl} />
+                <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...customBackgroundStyle(sanitizeCustomStyle(form.artImageUrlCustomStyle))}} src={form.artImageUrl} />
                 <img src={`${process.env.PUBLIC_URL}/nemesis-page/NememplateBack.png`} style={imageStyle} />
                 <div style={textStyleBlack(form.difficultyTop || 37.2, form.difficultyLeft || 49.5, form.difficultyFontSize || "0.8vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.difficultyCustomStyle)})}>{enrichText(form.difficulty || '')}</div>
                 <div style={textStyleBlack(form.setupTop || 47, form.setupLeft || 50, form.setupFontSize || "0.9vw", {display: "flex", flexDirection: 'column', textAlign: 'left', ...sanitizeCustomStyle(form.setupCustomStyle)})}>
