@@ -118,7 +118,7 @@ function NemesisCard({ form, ref }) {
                 <div style={textStyleBlack(form.setupTop || 47, form.setupLeft || 50, form.setupFontSize || "0.9vw", {display: "flex", flexDirection: 'column', textAlign: 'left', ...sanitizeCustomStyle(form.setupCustomStyle)})}>
                     <div>{enrichText(form.setup || '')}</div>
                 </div>
-                <div style={textStyleLore(form.loreTop || 80, form.loreLeft || 50, form.loreFontSize || "0.8vw", {...sanitizeCustomStyle(form.loreCustomStyle)})}>{form.lore}</div>
+                <div style={textStyleLore(form.loreTop || 80, form.loreLeft || 50, form.loreFontSize || "0.8vw", {...sanitizeCustomStyle(form.loreCustomStyle)})}>{enrichText(form.lore)}</div>
                 <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
             </div>
         </div>
