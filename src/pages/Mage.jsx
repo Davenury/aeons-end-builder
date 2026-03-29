@@ -465,7 +465,7 @@ function MageForm({
         const input = (<div className="form-row">
                 <label>Ability Description</label>
                 <textarea
-                maxLength={form.abilityDescCharLimit || "1000"}
+                maxLength={form.abilityDescCharLimit || "2000"}
                 name="abilityDesc"
                 value={form.abilityDesc}
                 onChange={handleChange}
@@ -481,7 +481,7 @@ function MageForm({
         const input = (<div className="form-row">
                 <label>Additional Rules</label>
                 <textarea
-                    maxLength={form.additionalRulesCharLimit || "500"}
+                    maxLength={form.additionalRulesCharLimit || "2000"}
                     name="additionalRules"
                     value={form.additionalRules}
                     onChange={handleChange}
@@ -497,7 +497,7 @@ function MageForm({
         const input = (<div className="form-row">
                 <label>Lore</label>
                 <textarea
-                maxLength={form.loreCharLimit || "500"}
+                maxLength={form.loreCharLimit || "2000"}
                 name="lore"
                 value={form.lore}
                 onChange={handleChange}

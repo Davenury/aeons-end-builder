@@ -233,7 +233,7 @@ function FriendFoeFrom({
         const input = (<div className="form-row">
                 <label>Ability Description</label>
                 <textarea
-                maxLength={form.abilityDescCharLimit || "500"}
+                maxLength={form.abilityDescCharLimit || "5000"}
                 name="abilityDesc"
                 value={form.abilityDesc}
                 onChange={handleChange}
@@ -249,7 +249,7 @@ function FriendFoeFrom({
         const input = (<div className="form-row">
                 <label>Lore</label>
                 <textarea
-                maxLength={form.loreCharLimit || "500"}
+                maxLength={form.loreCharLimit || "5000"}
                 name="lore"
                 value={form.lore}
                 onChange={handleChange}
@@ -265,7 +265,7 @@ function FriendFoeFrom({
         const input = (<div className="form-row">
                 <label>Setup</label>
                 <textarea
-                maxLength={form.setupCharLimit || "500"}
+                maxLength={form.setupCharLimit || "5000"}
                 name="setup"
                 value={form.setup}
                 onChange={handleChange}
