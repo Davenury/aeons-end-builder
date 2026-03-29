@@ -241,7 +241,7 @@ function NemesisForm({ cardType, form, onSubmit }) {
         const input = (<div className="form-row">
                 <label>Additional Rules</label>
                 <textarea
-                maxLength={form.additionalRulesCharLimit || "200"}
+                maxLength={form.additionalRulesCharLimit || "2000"}
                 name="additionalRules"
                 value={form.additionalRules}
                 onChange={handleChange}
@@ -290,7 +290,7 @@ function NemesisForm({ cardType, form, onSubmit }) {
         const input = (<div className="form-row">
                 <label>Lore</label>
                 <textarea
-                maxLength={form.loreCharLimit || "200"}
+                maxLength={form.loreCharLimit || "2000"}
                 name="lore"
                 value={form.lore}
                 onChange={handleChange}

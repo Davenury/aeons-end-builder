@@ -22,6 +22,7 @@ export default function Supply() {
     const [cardType, setCardType] = useState('spell');
     const [isRandomizer, setIsRandomizer] = useState(false)
     const [isTreasure, setIsTreasure] = useState(false)
+    const [isCursed, setIsCursed] = useState(false)
 
     const handleSetForm = (form) => {
         setForm(form)
@@ -32,7 +33,7 @@ export default function Supply() {
         <div>
             <h1>Supply Card Creation</h1>
             <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", marginBottom: "16px"}}>
-                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "40em"}}>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "50em"}}>
                     <div style={{flexGrow: '3', display: 'flex', width: '80%'}}>
                         <div className={cardType === 'spell' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('spell')}>Spell</div>
                         <div className={cardType === 'gem' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('gem')}>Gem</div>
@@ -62,24 +63,36 @@ export default function Supply() {
                             <span className="switch-text" style={{textWrap: 'nowrap'}}>Treasure</span>
                         </label>
                     </div>
+                    <div style={{flexGrow: '1', marginTop: '-1.5%', marginLeft: '2%'}}>
+                        <label className="switch-wrapper">
+                            <input
+                                type="checkbox"
+                                className="switch-input"
+                                checked={isCursed}
+                                onChange={() => setIsCursed(!isCursed)}
+                            />
+                            <span className="switch"></span>
+                            <span className="switch-text" style={{textWrap: 'nowrap'}}>Cursed</span>
+                        </label>
+                    </div>
                 </div>
                 <DataHandler handleCapture={handleCapture} importRef={importRef} importForm={importForm} exportForm={exportForm} />
             </div>
 
             <div style={{display: "flex", flexDirection: "row", gap: "2em"}}>
                 <div style={{ flex: "0 0 60%" }}>
-                    <SupplyCard cardType={cardType} isRandomizer={isRandomizer} isTreasure={isTreasure} form={form} ref={captureRef} />
+                    <SupplyCard cardType={cardType} isRandomizer={isRandomizer} isTreasure={isTreasure} form={form} ref={captureRef} isCursed={isCursed} />
                 </div>
 
                 <div style={{ flex: "1" }}>
-                    <SupplyForm cardType={cardType} form={form} onSubmit={handleSetForm} />
+                    <SupplyForm cardType={cardType} form={form} onSubmit={handleSetForm} isCursed={isCursed} />
                 </div>
             </div>
         </div>
     )
 }
 
-function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref }) {
+function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref, isCursed }) {
     const cardWrapperStyle = {
         position: "relative",
         width: "50%",
@@ -92,7 +105,7 @@ function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref }) {
     const imageStyle = {
         width: "100%",
         height: "100%",
-        marginTop: isTreasure ? "0%" : "70%"
+        marginTop: isTreasure || isCursed ? "0%" : "70%"
     };
 
     const textStyle = (top, left, fontSize, additional = {}) => ({
@@ -134,7 +147,7 @@ function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref }) {
     const textStyleWhite = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'white', ...additional })
     const textStyleLore = (top, left, fontSize, additional) => textStyle(top, left, fontSize, additional)
 
-    const imagePath = isTreasure ? `${process.env.PUBLIC_URL}/supply/treasure1${cardType}.png` : `${process.env.PUBLIC_URL}/supply/${cardType}.png`
+    const imagePath = isTreasure ? `${process.env.PUBLIC_URL}/supply/treasure1${cardType}.png` : isCursed ? `${process.env.PUBLIC_URL}/supply/${cardType}-cursed.png` : `${process.env.PUBLIC_URL}/supply/${cardType}.png`
 
     return (
         <div style={{...cardWrapperStyle}} ref={ref}>
@@ -150,11 +163,12 @@ function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref }) {
             <img style={costStyle(0, 100)} src={`${process.env.PUBLIC_URL}/supply/cost.png`}/>
             <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw", {...sanitizeCustomStyle(form.costCustomStyle)})}>{enrichText(form.cost || '')}</div>
             <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
+            { isCursed && (<div style={textStyleBlack(form.curseTop || 94, form.curseLeft || 50, form.curseFontSize || "16px", {fontWeight: 'bold', ...sanitizeCustomStyle(form.curstCustomStyle)})}>{enrichText(form.curse || '')}</div>) }
         </div>
     )
 }
 
-function SupplyForm({ cardType, form, onSubmit }) {
+function SupplyForm({ cardType, isCursed, form, onSubmit }) {
     useEffect(() => {
         onSubmit?.(form)
     }, [])
@@ -278,6 +292,21 @@ function SupplyForm({ cardType, form, onSubmit }) {
         )
     }
 
+    const curse = () => {
+        const input = (<div className="form-row">
+                <label>Curse Label</label>
+                <input
+                name="curse"
+                value={form.curse}
+                onChange={handleChange}
+                placeholder="Base"
+                />
+            </div>)
+        return (
+            <AdvancedSettingsComponent input={input} name={"curse"} topPlaceholder={"94"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
+    }
+
     const credits = () => {
         const input = (<div className="form-row">
                 <label>Credits</label>
@@ -305,6 +334,7 @@ function SupplyForm({ cardType, form, onSubmit }) {
             </div>
             {cardLore()}
             {credits()}
+            {curse()}
         </form>
     )
 }

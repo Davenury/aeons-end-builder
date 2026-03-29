@@ -151,15 +151,16 @@ function LoreForm({ form, onSubmit }) {
     const cardText = () => {
         const input = (<div className="form-row">
                 <label>Card Text</label>
-                <input
+                <textarea 
                 name="text"
                 value={form.text}
                 onChange={handleChange}
                 placeholder="Nameless Knowledge"
+                maxLength={form.additionalRulesCharLimit || "2000"}
                 />
             </div>)
         return (
-            <AdvancedSettingsComponent input={input} name={"text"} topPlaceholder={"50"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+            <AdvancedSettingsComponent showCharLimit={true} input={input} name={"text"} topPlaceholder={"50"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
         )
     }
 
