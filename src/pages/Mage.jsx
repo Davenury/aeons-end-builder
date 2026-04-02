@@ -248,8 +248,6 @@ function MageCard({ charges, form, ref }) {
         return <Breach breachForm={breachForm}/>
     }
 
-    console.log(form)
-
     return (
         <div ref={ref}>
             {/*front*/}

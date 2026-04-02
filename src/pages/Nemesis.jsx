@@ -31,8 +31,8 @@ export default function Nemesis() {
                 <DataHandler handleCapture={handleCapture} importRef={importRef} importForm={importForm} exportForm={exportForm} />
             </div>
 
-            <div style={{display: "flex", flexDirection: "row", gap: "2em"}}>
-                <div style={{ flex: "0 0 60%" }}>
+            <div style={{display: "flex", flexDirection: "row", gap: "20%"}}>
+                <div style={{ flex: "0 0 35%" }}>
                     <NemesisCard form={form} ref={captureRef} />
                 </div>
 
@@ -47,7 +47,6 @@ export default function Nemesis() {
 function NemesisCard({ form, ref }) {
     const cardWrapperStyle = {
         position: "relative",
-        width: "50%",
         maxWidth: "1200px",
         margin: "0",
         border: '5px solid white',
@@ -104,9 +103,9 @@ function NemesisCard({ form, ref }) {
                 <div style={textStyleWhite(form.nemesisHPTop || 46.5, form.nemesisHPLeft || 49.5, form.nemesisHPFontSize || "0.8vw", {display: "flex", flexDirection: 'column', ...sanitizeCustomStyle(form.nemesisHPCustomStyle)})}>
                     <div>{enrichText(form.nemesisHP || '')}</div>
                 </div>
-                <div style={textStyleBlack(form.unleashTop || 53, form.unleashLeft || 25, form.unleashFontSize || "0.8vw", {...sanitizeCustomStyle(form.unleashCustomStyle)})}>{enrichText(form.unleash || '')}</div>
-                <div style={textStyleBlack(form.increasedDifficultyTop || 53, form.increasedDifficultyLeft || 75, form.increasedDifficultyFontSize || "0.8vw", {...sanitizeCustomStyle(form.increasedDifficultyCustomStyle)})}>{enrichText(form.increasedDifficulty || '')}</div>
-                <div style={textStyleBlack(form.additionalRulesTop || 65, form.additionalRulesLeft || 50, form.additionalRulesFontSize || "0.8vw", {width: '90%', margin: "0 5%", textAlign: 'left', ...sanitizeCustomStyle(form.additionalRulesCustomStyle)})}>{enrichText(form.additionalRules || '')}</div>
+                <div style={textStyleBlack(form.unleashTop || 53, form.unleashLeft || 25, form.unleashFontSize || "0.8vw", {width: '45%', ...sanitizeCustomStyle(form.unleashCustomStyle)})}>{enrichText(form.unleash || '')}</div>
+                <div style={textStyleBlack(form.increasedDifficultyTop || 53, form.increasedDifficultyLeft || 75, form.increasedDifficultyFontSize || "0.8vw", { width: '40%', ...sanitizeCustomStyle(form.increasedDifficultyCustomStyle)})}>{enrichText(form.increasedDifficulty || '')}</div>
+                <div style={textStyleBlack(form.additionalRulesTop || 65, form.additionalRulesLeft || 50, form.additionalRulesFontSize || "0.8vw", {width: '80%', textAlign: 'left', ...sanitizeCustomStyle(form.additionalRulesCustomStyle)})}>{enrichText(form.additionalRules || '')}</div>
             </div>
 
             <div style={{marginTop: '32px'}}></div>
