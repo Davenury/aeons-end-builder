@@ -126,7 +126,7 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                         )
                     }
                     {
-                        (name === "art" || type === "customBackground" || type === "nemesisImage") && (
+                        (name === "art" || type === "customBackground" || type === "nemesisImage" || name === "backgroundArt") && (
                             <>
                                 <SliderInput
                                     name={`${name}Scale`}
