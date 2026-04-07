@@ -112,6 +112,11 @@ function NemesisCard({ cardType, form, ref, isBase }) {
         }
     }
 
+    const silhouetteStyle = () => ({
+        opacity: 0.15,
+        filter: "blur(1px)"
+    })
+
     const textStyleBlack = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'black', ...additional })
     const textStyleWhite = (top, left, fontSize, additional = {}) => textStyle(top, left, fontSize, { color: 'white', ...additional })
     const textStyleLore = (top, left, fontSize, additional) => textStyle(top, left, fontSize, additional)
@@ -127,6 +132,12 @@ function NemesisCard({ cardType, form, ref, isBase }) {
         <div style={cardWrapperStyle} ref={ref}>
             { isMinion(cardType) && <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...sanitizeCustomStyle(form.artCustomStyle)}} src={form.artImageUrl} />}
             <img src={`${process.env.PUBLIC_URL}/nemesis-${isBase ? 'base' : 'upgrade'}/${cardType}.png`} style={imageStyle} />
+            { !isMinion(cardType) && 
+                <>
+                    <img style={{...innerImageStyle(form.backgroundArtTop || 0, form.backgroundArtLeft || 50, form.backgroundArtScale || 0), ...silhouetteStyle(), ...sanitizeCustomStyle(form.backgroundArtCustomStyle)}} src={form.backgroundArt} /> 
+                    <div style={{...innerImageStyle(form.backgroundArtTop || 0, form.backgroundArtLeft || 50, form.backgroundArtScale || 0), background: "radial-gradient(circle at center, transparent 60%, #e8d98a 100%)"}} />
+                </>
+            }
             <div style={textStyle(form.nameTop || (isMinion(cardType) ? 65 : 12.5), form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', color: textColor, ...sanitizeCustomStyle(form.nameCustomStyle)})}>{enrichText(form.name || '')}</div>
             <div style={textStyleBlack(form.textTop || (isMinion(cardType) ? 77 : 55), form.textLeft || 50, form.textFontSize || "1.3vw", {...sanitizeCustomStyle(form.textCustomStyle)})}>
                 {enrichText(form.text || '')}
@@ -324,6 +335,25 @@ function NemesisForm({ cardType, form, onSubmit }) {
         )
     }
 
+    const backgroundArt = () => {
+        const input = (
+            <div>
+                <div className="form-row">
+                    <label>BackgroundArt</label>
+                    <input
+                    type="file"
+                    name="backgroundArt"
+                    onChange={handleFileChange}
+                    />
+                </div>
+            </div>
+        )
+
+        return (
+            <AdvancedSettingsComponent input={input} name={"backgroundArt"} topPlaceholder={"0"} leftPlaceholder={"50"} form={form} handleChange={handleChange} showFontSize={false} />
+        )
+    }
+
 
     return (
         <form className="mage-form" onSubmit={handleSubmit} style={{width: "100%"}}>
@@ -336,6 +366,7 @@ function NemesisForm({ cardType, form, onSubmit }) {
             {isMinion(cardType) && minionHP()}
             {isMinion(cardType) && shieldTokens()}
             {credits()}
+            {!isMinion(cardType) && backgroundArt()}
         </form>
     )
 }
