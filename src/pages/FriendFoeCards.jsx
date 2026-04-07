@@ -96,6 +96,7 @@ function FriendFoeCard({ cardType, form, ref }) {
             </div>
             <div style={textStyleBlack(form.ownerTop || 95.5, form.ownerLeft || 50, form.ownerFontSize || "1vw", {fontWeight: 'bold', ...sanitizeCustomStyle(form.ownerCustomStyle)})}>{enrichText(form.owner || '')}</div>
             <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
+            <div style={textStyleBlack(form.loreTop || 96, form.loreLeft || 50, form.loreFontSize || "12px", {...sanitizeCustomStyle(form.loreCustomStyle)})}>{enrichText(form.lore || '')}</div>
         </div>
     )
 }
@@ -191,12 +192,28 @@ function FriendFoeForm({ form, onSubmit }) {
         )
     }
 
+    const lore = () => {
+        const input = (<div className="form-row">
+                <label>Lore</label>
+                <input
+                name="lore"
+                value={form.lore}
+                onChange={handleChange}
+                rows={4}
+                />
+            </div>)
+        return (
+            <AdvancedSettingsComponent input={input} name={"lore"} topPlaceholder={"95"} leftPlaceholder={"50"} form={form} handleChange={handleChange} />
+        )
+    }
+
     return (
         <form className="mage-form" onSubmit={handleSubmit} style={{width: "100%"}}>
             {cardName()}
             {cardText()}
             {owner()}
             {credits()}
+            {lore()}
         </form>
     )
 }
