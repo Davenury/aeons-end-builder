@@ -164,6 +164,16 @@ function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref, isCursed })
             <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw", {...sanitizeCustomStyle(form.costCustomStyle)})}>{enrichText(form.cost || '')}</div>
             <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
             { isCursed && (<div style={textStyleBlack(form.curseTop || 94, form.curseLeft || 50, form.curseFontSize || "16px", {fontWeight: 'bold', ...sanitizeCustomStyle(form.curstCustomStyle)})}>{enrichText(form.curse || '')}</div>) }
+            {
+                form.durability && 
+                <>
+                    <img src={`${process.env.PUBLIC_URL}/supply/durability.png`} style={{position: 'absolute', top: '0', left: '0', width: '100%'}} />
+                    <div style={textStyle(form.durabilityTop || 7, form.durabilityLeft || 10, form.fontSize || "2vw", { width: '8%', height: '6%'})}>
+                        <span>{form.durability}</span>
+                        <img src={`${process.env.PUBLIC_URL}/supply/durability_back.png`} style={{width: '150%', position: 'absolute', top: '0', left: '-25%', zIndex: -1}} />
+                    </div>
+                </>
+            }
         </div>
     )
 }
@@ -307,6 +317,22 @@ function SupplyForm({ cardType, isCursed, form, onSubmit }) {
         )
     }
 
+    const durability = () => {
+        const input = (<div className="form-row">
+                <label>Durability</label>
+                <input
+                type="number"
+                name="durability"
+                value={form.durability}
+                onChange={handleChange}
+                placeholder="3"
+                />
+            </div>)
+        return (
+            <AdvancedSettingsComponent input={input} name={"durability"} topPlaceholder={"5"} leftPlaceholder={"5"} form={form} handleChange={handleChange} />
+        )
+    }
+
     const credits = () => {
         const input = (<div className="form-row">
                 <label>Credits</label>
@@ -334,7 +360,8 @@ function SupplyForm({ cardType, isCursed, form, onSubmit }) {
             </div>
             {cardLore()}
             {credits()}
-            {curse()}
+            {isCursed && curse()}
+            {durability()}
         </form>
     )
 }
