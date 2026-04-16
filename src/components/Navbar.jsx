@@ -36,6 +36,7 @@ export default function Navbar() {
           <Dropdown label="Mage">
             <Link to="/mage">Character</Link>
             <Link to="/breach">Breach</Link>
+            <Link to="/mage-randomizer">Randomizer</Link>
           </Dropdown>
           <Dropdown label="Friend / Foe">
             <Link to="/friend-foe">Character</Link>
@@ -45,6 +46,7 @@ export default function Navbar() {
           <Dropdown label="Nemesis">
             <Link to="/nemesis">Nemesis</Link>
             <Link to="/nemesis-cards">Cards</Link>
+            <Link to="/nemesis-randomizer">Randomizer</Link>
           </Dropdown>
           <Dropdown label="Other">
             <Link to="/lore">Lore</Link>

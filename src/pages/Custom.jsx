@@ -6,7 +6,7 @@ import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 import DataHandler from '../components/DataHandler';
 import sanitizeCustomStyle from '../common/sanitize';
 
-export default function CustomContent() {
+export default function CustomContent({}) {
     const { form, setForm, captureRef, handleCapture, importForm, importRef, exportForm } = useCreator({});
 
     const [formFields, setFormFields] = useState([]);
