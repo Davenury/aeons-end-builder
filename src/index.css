@@ -24,6 +24,18 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: 'Cinzel';
+  src: url('./assets/fonts/cinzel-normal.woff2') format('woff2');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  src: url('./assets/fonts/cinzel-bold.woff2') format('woff2');
+  font-weight: 700;
+}
+
 body {
   margin: 0;
   font-family: "Kefa";
@@ -684,4 +696,83 @@ pre::-webkit-scrollbar {
 pre::-webkit-scrollbar-thumb {
   background: #c9a44b;
   border-radius: 4px;
+}
+
+/* Main popup */
+.swal2-popup {
+  background: linear-gradient(180deg, #2d1e2f, #1a1a2b) !important;
+  color: #f5e6c8 !important;
+  border: 2px solid #c9a44b !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.65) !important;
+  font-family: "Kefa", serif !important;
+  padding: 1.5rem !important;
+}
+
+/* Title */
+.swal2-title {
+  color: #ffe7a3 !important;
+  font-size: 1.8rem !important;
+  letter-spacing: 0.5px;
+}
+
+/* Content text */
+.swal2-html-container {
+  color: #e6d9b8 !important;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Confirm button */
+.swal2-confirm {
+  background: linear-gradient(180deg, #d4af37, #9c7a1c) !important;
+  color: #1a1a1a !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  padding: 10px 18px !important;
+  font-family: inherit !important;
+}
+
+.swal2-confirm:hover {
+  filter: brightness(1.08);
+}
+
+/* Cancel button */
+.swal2-cancel {
+  background: transparent !important;
+  border: 1px solid #c9a44b !important;
+  color: #f0d78c !important;
+  border-radius: 8px !important;
+  font-family: inherit !important;
+}
+
+.swal2-cancel:hover {
+  background: rgba(255,216,107,0.08) !important;
+}
+
+/* Input fields */
+.swal2-input,
+.swal2-textarea,
+.swal2-select {
+  background: #1a1a2b !important;
+  color: #f5e6c8 !important;
+  border: 1px solid #6b5a2b !important;
+  border-radius: 8px !important;
+  font-family: inherit !important;
+}
+
+/* close X */
+.swal2-close {
+  color: #f0d78c !important;
+}
+
+.swal2-close:hover {
+  color: #ffd86b !important;
+}
+
+/* Backdrop */
+.swal2-backdrop-show {
+  background: rgba(0,0,0,0.72) !important;
+  backdrop-filter: blur(4px);
 }

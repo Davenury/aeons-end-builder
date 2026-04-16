@@ -106,8 +106,6 @@ function FriendFoeForm({ form, onSubmit }) {
         onSubmit?.(form)
     }, [])
 
-     const { handleFileUpload } = useImageUpload()
-
     const handleSetForm = (name, value) => {
         onSubmit?.(({
             ...form,
@@ -118,13 +116,6 @@ function FriendFoeForm({ form, onSubmit }) {
     function handleChange(e) {
         const { name, value } = e.target;
         handleSetForm(name, value)
-    }
-
-    const handleFileChange = async (e) => {
-        const file = e.target.files[0]
-        if (!file) return
-        const base64 = await handleFileUpload(file)
-        handleSetForm(e.target.name, base64)
     }
 
     function handleSubmit(e) {

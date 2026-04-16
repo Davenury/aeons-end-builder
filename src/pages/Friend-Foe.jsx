@@ -15,6 +15,7 @@ export default function FriendFoe() {
     const [mageForm, saveMageForm] = useLocalStorage("friend", {})
 
     const {form, setForm, captureRef, handleCapture, importForm, importRef, exportForm} = useCreator({
+        artImageUrl: `${process.env.PUBLIC_URL}/default_art.png`,
         ...mageForm
     })
 

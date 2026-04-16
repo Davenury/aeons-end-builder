@@ -4,7 +4,7 @@ import useImageUpload from '../common/useImageUpload';
 import enrichText from '../common/enriches'
 import { useLocalStorage } from "@uidotdev/usehooks";
 import DataHandler from '../components/DataHandler';
-import sanitizeCustomStyle from '../common/sanitize'
+import sanitizeCustomStyle from '../common/sanitize';
 
 import AdvancedSettingsComponent from '../common/advancedSettingsComponents';
 
@@ -18,7 +18,8 @@ export default function NemesisCards() {
         cast: 'Win the fight',
         lore: 'This is bullshit ~ Nemesis',
         cost: 0,
-        artImageUrl: 'https://m.media-amazon.com/images/I/81luD-FbWEL._AC_UF1000,1000_QL80_.jpg',
+        artImageUrl: `${process.env.PUBLIC_URL}/default_art.png`,
+        backgroundArt: `${process.env.PUBLIC_URL}/default_art.png`,
         nemesisName: 'Ganelon',
         tier: '1',
         minionHP: 1,
@@ -142,7 +143,7 @@ function NemesisCard({ cardType, form, ref, isBase }) {
             <div style={textStyleBlack(form.textTop || (isMinion(cardType) ? 77 : 55), form.textLeft || 50, form.textFontSize || "1.3vw", {...sanitizeCustomStyle(form.textCustomStyle)})}>
                 {enrichText(form.text || '')}
             </div>
-            {isMinion(cardType) && <div style={textStyle(form.minionHPTop || 55.5, form.minionHPLeft || 91.5, form.minionHPFontSize || "2vw", {fontWeight: 'bold', ...sanitizeCustomStyle(form.minionHPCustomStyle)})}>{enrichText(form.minionHP || '')}</div>}
+            {isMinion(cardType) && <div style={textStyle(form.minionHPTop || 55.5, form.minionHPLeft || 91.5, form.minionHPFontSize || "2vw", {fontWeight: 'bold', ...sanitizeCustomStyle(form.minionHPCustomStyle)})}>{form.minionHP}</div>}
             {
                 isMinion(cardType) && (form.shieldTokens || 0) > 0 && (
                     <div style={innerImageStyle(form.shieldTokensTop || 51, form.shieldTokensLeft || 2, 0)}>

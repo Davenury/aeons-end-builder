@@ -14,6 +14,7 @@ export default function Breach() {
         number: 1,
         mainText: 'OPENED BREACH',
         additionalText: null,
+        breachArt: `${process.env.PUBLIC_URL}/default_art.png`,
         ...breachForm
     });
 

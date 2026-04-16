@@ -17,7 +17,8 @@ export default function Mage() {
     const {form, setForm, captureRef, handleCapture, importForm, importRef, exportForm} = useCreator({
         name: "Ganelon",
         title: "Knower of The Unknown",
-        artImageUrl: "https://i.pinimg.com/1200x/05/e4/f5/05e4f5328d221bbddb6a10fb9523895b.jpg",
+        artImageUrl: `${process.env.PUBLIC_URL}/default_art.png`,
+        customBackground: `${process.env.PUBLIC_URL}/default_art.png`,
         startingDeck: "4x Crystal, 1x Spark",
         startingHand: "1x Nameless Knowledge, 3x Crystal, 1x Spark",
         abilityName: "Last-Ditch Effort",
@@ -141,7 +142,7 @@ const createBreachForm = (form, breachNumber) => {
         state: form[`${keyName}`],
         top: form[`${keyName}Top`],
         left: form[`${keyName}Left`],
-        image: form[`${keyName}ImageUrl`],
+        image: form[`${keyName}ImageUrl`] ?? `${process.env.PUBLIC_URL}/default_art.png`,
         swirl: form[`${keyName}Swirl`],
         x: form[`${keyName}X`],
         y: form[`${keyName}Y`]

@@ -16,7 +16,7 @@ export default function Supply() {
         cast: 'Win the fight',
         lore: 'This is bullshit ~ Nemesis',
         cost: 0,
-        artImageUrl: 'https://m.media-amazon.com/images/I/81luD-FbWEL._AC_UF1000,1000_QL80_.jpg',
+        artImageUrl: `${process.env.PUBLIC_URL}/default_art.png`,
         ...cardForm
     });
     const [cardType, setCardType] = useState('spell');
