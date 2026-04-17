@@ -18,7 +18,6 @@ export default function Mage() {
         name: "Ganelon",
         title: "Knower of The Unknown",
         artImageUrl: `${process.env.PUBLIC_URL}/default_art.png`,
-        customBackground: `${process.env.PUBLIC_URL}/default_art.png`,
         startingDeck: "4x Crystal, 1x Spark",
         startingHand: "1x Nameless Knowledge, 3x Crystal, 1x Spark",
         abilityName: "Last-Ditch Effort",

@@ -9,7 +9,11 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 
 export default function MageRandomizer() {
     const [randomizerForm, saveRandomizerForm] = useLocalStorage("mageRandomizer", {})
-    const { form, setForm, captureRef, handleCapture, importForm, importRef, exportForm } = useCreator(randomizerForm);
+    const { form, setForm, captureRef, handleCapture, importForm, importRef, exportForm } = useCreator({
+        mageArt: `${process.env.PUBLIC_URL}/default_art.png`,
+        setArt: `${process.env.PUBLIC_URL}/default_art.png`,
+        ...randomizerForm
+    });
 
     const handleSetForm = (form) => {
         setForm(form)
