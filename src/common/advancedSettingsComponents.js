@@ -61,8 +61,8 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                             <SliderInput
                                 name={`${name}Top`}
                                 label="Top"
-                                min={-100}
-                                max={100}
+                                min={-1000}
+                                max={1000}
                                 step={1}
                                 value={form?.[`${name}Top`] || +topPlaceholder}
                                 onChange={handleChange}
@@ -71,8 +71,8 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                             <SliderInput
                                 name={`${name}Left`}
                                 label="Left"
-                                min={-100}
-                                max={100}
+                                min={-1000}
+                                max={1000}
                                 step={1}
                                 value={form?.[`${name}Left`] || +leftPlaceholder}
                                 onChange={handleChange}
@@ -95,8 +95,8 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                     <SliderInput
                         name={`${name}Top`}
                         label="Top"
-                        min={-100}
-                        max={100}
+                        min={-200}
+                        max={200}
                         step={0.1}
                         value={form?.[`${name}Top`] || +topPlaceholder}
                         onChange={handleChange}
@@ -105,8 +105,8 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                     <SliderInput
                         name={`${name}Left`}
                         label="Left"
-                        min={-100}
-                        max={100}
+                        min={-200}
+                        max={200}
                         step={0.1}
                         value={form?.[`${name}Left`] || +leftPlaceholder}
                         onChange={handleChange}
@@ -126,7 +126,7 @@ export default function AdvancedSettingsComponent({ input, name, topPlaceholder,
                         )
                     }
                     {
-                        (name === "art" || type === "customBackground" || type === "nemesisImage" || name === "backgroundArt") && (
+                        (name === "art" || type === "customBackground" || type === "nemesisImage" || name === "backgroundArt" || type === "art") && (
                             <>
                                 <SliderInput
                                     name={`${name}Scale`}
