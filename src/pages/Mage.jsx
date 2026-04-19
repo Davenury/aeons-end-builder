@@ -25,9 +25,17 @@ export default function Mage() {
         abilityDesc: "Deal 4 damage...",
         artWidth: '30%',
         breach0: 'open',
+        breach0Top: 5,
+        breach0Left: 6,
         breach1: 'left',
+        breach1Top: 5,
+        breach1Left: 29,
         breach2: 'bottom',
+        breach2Top: 5,
+        breach2Left: 72,
         breach3: 'right',
+        breach3Top: 5,
+        breach3Left: 96.5,
         ...mageForm
     })
 
@@ -116,7 +124,7 @@ function Breach({ breachForm }) {
         if (breachForm.state === "open") {
             return (
                 <div ref={containerRef} style={{width: "4%", ...containerStyle(breachForm.top, breachForm.left), borderRadius: '50%'}}>
-                    <VortexImage image={image} imageRef={imageRef} top={0} left={0} swirl={+breachForm.swirl} x={+breachForm.x} y={+breachForm.y} maxHeight={rect?.height || 10} maxWidth={rect?.width || 10} />
+                    <VortexImage image={image} imageRef={imageRef} top={0} left={0} swirl={+breachForm.swirl || 0} x={+breachForm.x} y={+breachForm.y} maxHeight={rect?.height || 10} maxWidth={rect?.width || 10} />
                 </div>
             )
         } else {
@@ -141,7 +149,7 @@ const createBreachForm = (form, breachNumber) => {
         state: form[`${keyName}`],
         top: form[`${keyName}Top`],
         left: form[`${keyName}Left`],
-        image: form[`${keyName}ImageUrl`] ?? `${process.env.PUBLIC_URL}/default_art.png`,
+        image: form[`${keyName}ImageUrl`],
         swirl: form[`${keyName}Swirl`],
         x: form[`${keyName}X`],
         y: form[`${keyName}Y`]
