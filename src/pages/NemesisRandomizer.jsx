@@ -82,10 +82,13 @@ function RandomizerCard({form, ref}) {
 
     return (
         <div style={{...cardWrapperStyle}} ref={ref}>
-            <img src={`${process.env.PUBLIC_URL}/nemesis-page/randomizer.png`} style={{...imageStyle}} />
-            <img src={form.mageArt} style={{...innerImageStyle(form.mageArtTop || 50, form.mageArtLeft || 50, form.mageArtScale || 1, {zIndex: -1})}} />
-            <div style={textStyle(form.nameTop || 80, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.nameCustomStyle)})}>{enrichText(form.name || '')}</div>
-            <img src={form.setArt} style={{...innerImageStyle(form.setArtTop || 90, form.setArtLeft || 50, form.setArtScale || 1)}} />
+            <div>
+                <img src={form.backArt ?? `${process.env.PUBLIC_URL}/mages/randomizer-default.png`} style={{...imageStyle, position: 'absolute', top: 0, left: 0}} />
+                <img src={`${process.env.PUBLIC_URL}/nemesis-page/randomizer.png`} style={{...imageStyle, position: 'absolute', top: 0, left: 0, zIndex: 1}} />
+            </div>
+            <img src={form.mageArt} style={{...innerImageStyle(form.mageArtTop || 50, form.mageArtLeft || 50, form.mageArtScale || 1, {})}} />
+            <div style={textStyle(form.nameTop || 80, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', zIndex: 2, ...sanitizeCustomStyle(form.nameCustomStyle)})}>{enrichText(form.name || '')}</div>
+            <img src={form.setArt} style={{...innerImageStyle(form.setArtTop || 90, form.setArtLeft || 50, form.setArtScale || 1, {zIndex: 2})}} />
         </div>
     )
 }
@@ -155,6 +158,25 @@ function RandomizerForm({form, onSubmit}) {
         )
     }
 
+    const backArt = () => {
+        const input = (
+            <div>
+                <div className="form-row">
+                    <label>Background Art</label>
+                    <input
+                    type="file"
+                    name="backArt"
+                    onChange={handleFileChange}
+                    />
+                </div>
+            </div>
+        )
+
+        return (
+            <AdvancedSettingsComponent input={input} name={"backArt"} topPlaceholder={"0"} leftPlaceholder={"50"} form={form} handleChange={handleChange} type={"art"} />
+        )
+    }
+
     const setArt = () => {
         const input = (
             <div>
@@ -178,6 +200,7 @@ function RandomizerForm({form, onSubmit}) {
         <form className="mage-form" onSubmit={handleSubmit} style={{width: "100%"}}>
             {cardName()}
             {mageArt()}
+            {backArt()}
             {setArt()}
         </form>
     )
