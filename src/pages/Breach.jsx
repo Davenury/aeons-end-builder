@@ -192,7 +192,7 @@ function BreachForm({ form, onSubmit, breachType }) {
         const input = (<div className="form-row">
                 <label>Breach Text</label>
                 <input
-                name="text"
+                name="breachText"
                 value={form.breachText}
                 onChange={handleChange}
                 placeholder="OPENED BREACH"
