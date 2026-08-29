@@ -149,6 +149,8 @@ function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref, isCursed })
 
     const imagePath = isTreasure ? `${process.env.PUBLIC_URL}/supply/treasure1${cardType}.png` : isCursed ? `${process.env.PUBLIC_URL}/supply/${cardType}-cursed.png` : `${process.env.PUBLIC_URL}/supply/${cardType}.png`
 
+    const costImage = form.developCost > 0 ? `${process.env.PUBLIC_URL}/supply/cost_with_develop.png` : `${process.env.PUBLIC_URL}/supply/cost.png`
+
     return (
         <div style={{...cardWrapperStyle}} ref={ref}>
             { isRandomizer && (<img src={`${process.env.PUBLIC_URL}/supply/randomizer.png`} style={innerImageStyle(0, 0, 0, {width: '100%', height: '100%'})} />)}
@@ -160,8 +162,9 @@ function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref, isCursed })
                 {cardType === 'spell' && <div><span style={{fontWeight: 'bold'}}>Cast: </span>{enrichText(form.cast || '')}</div>}
             </div>
             <div style={textStyleLore(form.loreTop || 96, form.loreLeft || 50, form.loreFontSize || "0.8vw", {...sanitizeCustomStyle(form.loreCustomStyle)})}>{enrichText(form.lore || '')}</div>
-            <img style={costStyle(0, 100)} src={`${process.env.PUBLIC_URL}/supply/cost.png`}/>
+            <img style={costStyle(0, 100)} src={`${costImage}`}/>
             <div style={textStyleWhite(form.costTop || 6.5, form.costLeft || 91.5, form.costFontSize || "1.5vw", {...sanitizeCustomStyle(form.costCustomStyle)})}>{enrichText(form.cost || '')}</div>
+            <div style={textStyleWhite(form.developCostTop || 14.5, form.developCostLeft || 91.5, form.developCostFontSize || "1.5vw", {...sanitizeCustomStyle(form.developCostCustomStyle)})}>{enrichText(form.developCost || '')}</div>
             <div style={textStyle(form.creditsTop || 96, form.creditsLeft || 5, form.creditsFontSize || "12px", {...sanitizeCustomStyle(form.creditsCustomStyle)})}>{enrichText(form.credits || '')}</div>
             { isCursed && (<div style={textStyleBlack(form.curseTop || 94, form.curseLeft || 50, form.curseFontSize || "16px", {fontWeight: 'bold', ...sanitizeCustomStyle(form.curstCustomStyle)})}>{enrichText(form.curse || '')}</div>) }
             {
@@ -302,6 +305,23 @@ function SupplyForm({ cardType, isCursed, form, onSubmit }) {
         )
     }
 
+
+    const develop = () => {
+         const input = (<div className="form-row">
+                <label>Develop Cost</label>
+                <input
+                type="number"
+                name="developCost"
+                value={form.developCost}
+                onChange={handleChange}
+                placeholder="0"
+                />
+            </div>)
+        return (
+            <AdvancedSettingsComponent input={input} name={"developCost"} topPlaceholder={"14.5"} leftPlaceholder={"91.5"} form={form} handleChange={handleChange} />
+        )
+    }
+
     const curse = () => {
         const input = (<div className="form-row">
                 <label>Curse Label</label>
@@ -360,6 +380,7 @@ function SupplyForm({ cardType, isCursed, form, onSubmit }) {
             </div>
             {cardLore()}
             {credits()}
+            {develop()}
             {isCursed && curse()}
             {durability()}
         </form>
