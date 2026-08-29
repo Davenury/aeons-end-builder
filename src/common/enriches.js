@@ -25,6 +25,11 @@ const enriches = {
     "solid-line": {
         type: "solid-line",
         style: {height: "2px", background: 'black', border: 'none'}
+    },
+    "recall": {
+        type: "image",
+        src: `${process.env.PUBLIC_URL}/supply/recall.png`,
+        style: {height: "1em", verticalAlign: "middle"}
     }
 }
 

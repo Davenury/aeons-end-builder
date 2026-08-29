@@ -23,6 +23,7 @@ export default function Supply() {
     const [isRandomizer, setIsRandomizer] = useState(false)
     const [isTreasure, setIsTreasure] = useState(false)
     const [isCursed, setIsCursed] = useState(false)
+    const [isRecall, setIsRecall] = useState(false)
 
     const handleSetForm = (form) => {
         setForm(form)
@@ -33,7 +34,7 @@ export default function Supply() {
         <div>
             <h1>Supply Card Creation</h1>
             <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", marginBottom: "16px"}}>
-                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "50em"}}>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "60em"}}>
                     <div style={{flexGrow: '3', display: 'flex', width: '80%'}}>
                         <div className={cardType === 'spell' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('spell')}>Spell</div>
                         <div className={cardType === 'gem' ? "primary-btn" : "secondary-btn"} onClick={() => setCardType('gem')}>Gem</div>
@@ -75,13 +76,25 @@ export default function Supply() {
                             <span className="switch-text" style={{textWrap: 'nowrap'}}>Cursed</span>
                         </label>
                     </div>
+                    <div style={{flexGrow: '1', marginTop: '-1.5%', marginLeft: '2%'}}>
+                        <label className="switch-wrapper">
+                            <input
+                                type="checkbox"
+                                className="switch-input"
+                                checked={isRecall}
+                                onChange={() => setIsRecall(!isRecall)}
+                            />
+                            <span className="switch"></span>
+                            <span className="switch-text" style={{textWrap: 'nowrap'}}>Recall</span>
+                        </label>
+                    </div>
                 </div>
                 <DataHandler handleCapture={handleCapture} importRef={importRef} importForm={importForm} exportForm={exportForm} />
             </div>
 
             <div style={{display: "flex", flexDirection: "row", gap: "2em"}}>
                 <div style={{ flex: "0 0 60%" }}>
-                    <SupplyCard cardType={cardType} isRandomizer={isRandomizer} isTreasure={isTreasure} form={form} ref={captureRef} isCursed={isCursed} />
+                    <SupplyCard cardType={cardType} isRandomizer={isRandomizer} isTreasure={isTreasure} form={form} ref={captureRef} isCursed={isCursed} isRecall={isRecall} />
                 </div>
 
                 <div style={{ flex: "1" }}>
@@ -92,7 +105,7 @@ export default function Supply() {
     )
 }
 
-function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref, isCursed }) {
+function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref, isCursed, isRecall }) {
     const cardWrapperStyle = {
         position: "relative",
         width: "50%",
@@ -155,6 +168,7 @@ function SupplyCard({ cardType, isRandomizer, isTreasure, form, ref, isCursed })
         <div style={{...cardWrapperStyle}} ref={ref}>
             { isRandomizer && (<img src={`${process.env.PUBLIC_URL}/supply/randomizer.png`} style={innerImageStyle(0, 0, 0, {width: '100%', height: '100%'})} />)}
             <img style={{...innerImageStyle(form.artTop || 0, form.artLeft || 50, form.artScale || 0, {zIndex: -1}), ...sanitizeCustomStyle(form.artCustomStyle)}} src={form.artImageUrl} />
+            { isRecall && (<img src={`${process.env.PUBLIC_URL}/supply/recall.png`} style={innerImageStyle(3, 3, 0, {width: '7%', height: '7%'})} />) }
             <img src={imagePath} style={{...imageStyle}} />
             <div style={textStyleBlack(form.nameTop || 63, form.nameLeft || 50, form.nameFontSize || "1.7vw", {fontWeight: 'bold', whiteSpace: 'nowrap', ...sanitizeCustomStyle(form.nameCustomStyle)})}>{enrichText(form.name || '')}</div>
             <div style={textStyleBlack(form.textTop || 77, form.textLeft || 50, form.textFontSize || "1.3vw", {display: "flex", flexDirection: 'column', ...sanitizeCustomStyle(form.textCustomStyle)})}>
