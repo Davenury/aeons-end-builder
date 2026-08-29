@@ -82,6 +82,8 @@ export default function Home() {
                 <li>{"${some text|italic}"} - creates italic version of "some text"</li>
                 <li>{"${some text|color:<color>}"} - creates color version of the passed color (either name or hex)</li>
                 <li>{"${some text|list-item}"} - creates color version of the passed color (either name or hex)</li>
+                <li>{"${recall}"} - replcaes text with recall icon (for the supply cards remember to toggle recall toggle to also include the Recall icon on the art)</li>
+                <li>{"${solid-line}"} - adds a solid line on the card</li>
               </ul>
 
               You can use it like: "Gain 1{"${aether}"}. {"${newline}"} {"${OR|bold}"} {"${newline}"} Gain 1 HP."

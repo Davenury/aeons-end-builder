@@ -21,7 +21,16 @@ const enriches = {
     "color": {
         callStyle: (color) => ({color: `${color}`})
     },
-    "list-item": {}
+    "list-item": {},
+    "solid-line": {
+        type: "solid-line",
+        style: {height: "2px", background: 'black', border: 'none'}
+    },
+    "recall": {
+        type: "image",
+        src: `${process.env.PUBLIC_URL}/supply/recall.png`,
+        style: {height: "1em", verticalAlign: "middle"}
+    }
 }
 
 const getHTML = (enrich, key) => {
@@ -43,6 +52,10 @@ const getHTML = (enrich, key) => {
                 <ul style={{margin: '0'}}>
                     <li style={{listStyleType: 'circle'}}>{enrich?.text ?? ''}</li>
                 </ul>
+            )
+        case "solid-line":
+            return(
+                <hr style={enrich.style} />
             )
         default:
             return (
