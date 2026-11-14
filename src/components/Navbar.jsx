@@ -41,6 +41,7 @@ export default function Navbar() {
           <Dropdown label="Friend / Foe">
             <Link to="/friend-foe">Character</Link>
             <Link to="/friend-foe-cards">Cards</Link>
+            <Link to="/friend-foe-randomizer">Randomizer</Link>
           </Dropdown>
           <Link to="/supply">Supply</Link>
           <Dropdown label="Nemesis">
