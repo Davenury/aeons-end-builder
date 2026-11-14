@@ -14,6 +14,7 @@ import Treasure from "./pages/Treasure";
 import CustomContent from "./pages/Custom";
 import MageRandomizer from "./pages/MageRandomizer";
 import NemesisRandomizer from "./pages/NemesisRandomizer";
+import FriendFoeRandomizer from "./pages/FriendFoeRandomizer";
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
             <Route path="/custom" element={<CustomContent />}></Route>
             <Route path="/mage-randomizer" element={<MageRandomizer />}></Route>
             <Route path="/nemesis-randomizer" element={<NemesisRandomizer />}></Route>
+            <Route path="/friend-foe-randomizer" element={<FriendFoeRandomizer />}></Route>
           </Routes>
         </main>
       </div>
